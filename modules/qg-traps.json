@@ -1,0 +1,161 @@
+{
+  "id": "qg-traps",
+  "type": "opening",
+  "title": "Queen's Gambit Traps",
+  "description": "Twelve trap lines from the Queen's Gambit, Accepted and Declined, for both colours.",
+  "source": "Based on the Lichess study \"Queen's Gambit Traps\" by opdzs",
+  "lines": [
+    {
+      "id": "qga-1",
+      "name": "QGA Trap 1: ...a6 loses the rook",
+      "side": "white",
+      "moves": "d4 d5 c4 dxc4 e3 b5 a4 a6 axb5 axb5 Rxa8 Nd7 b3",
+      "idea": "5...axb5?? opens the a-file while the a8 rook has no defender. 6.Rxa8 wins a full rook, and 7.b3 breaks up the b5-c4 pawn chain."
+    },
+    {
+      "id": "qga-2",
+      "name": "QGA Trap 2: Qf3 hits a8",
+      "side": "white",
+      "moves": "d4 d5 c4 dxc4 e3 b5 a4 c6 axb5 cxb5 Qf3 Nc6 Qxc6+ Bd7 Qa6",
+      "idea": "5...cxb5?? opens the long light-square diagonal. 6.Qf3 attacks a8, and after 6...Nc6 7.Qxc6+ Bd7 8.Qa6 White is a piece up."
+    },
+    {
+      "id": "qga-3",
+      "name": "QGA Trap 3: Bxf7+ wins the queen",
+      "side": "white",
+      "moves": "d4 d5 c4 dxc4 Nf3 c5 e3 cxd4 Bxc4 dxe3 Bxf7+ Kxf7 Qxd8",
+      "idea": "5...dxe3?? forgets that only the king guards the d8 queen. 6.Bxf7+ pulls the king away and 7.Qxd8 wins the queen."
+    },
+    {
+      "id": "qga-fianchetto",
+      "name": "QGA Fianchetto Trap",
+      "side": "white",
+      "moves": "d4 d5 c4 dxc4 e3 Nf6 Bxc4 g6 Nf3 Bg7 Qa4+ Bd7 Qb3",
+      "idea": "After 6.Qa4+ Bd7, the d7 bishop no longer covers b7. 7.Qb3 hits b7 and f7 together and Black can't hold both."
+    },
+    {
+      "id": "qga-mate",
+      "name": "Stunning Mate: Bxd1?? Bxf7#",
+      "side": "white",
+      "moves": "d4 d5 c4 dxc4 e3 Nf6 Bxc4 c5 Nf3 Bg4 Ne5 Bxd1 Bxf7#",
+      "idea": "6.Ne5! ignores the pin. If 6...Bxd1?? then 7.Bxf7# is mate: the e5 knight protects the bishop and the king has no squares."
+    },
+    {
+      "id": "qga-mate-be6",
+      "name": "Stunning Mate: 6...Be6 line",
+      "side": "white",
+      "moves": "d4 d5 c4 dxc4 e3 Nf6 Bxc4 c5 Nf3 Bg4 Ne5 Be6 Qa4+ Nbd7 Bxe6 fxe6 O-O",
+      "idea": "6...Be6 is Black's best try. 7.Qa4+ Nbd7 8.Bxe6 fxe6 9.O-O leaves Black with broken pawns and an exposed king."
+    },
+    {
+      "id": "rubinstein-a",
+      "name": "QGD Rubinstein Trap: 12...cxd5",
+      "side": "white",
+      "moves": "d4 d5 c4 e6 Nc3 Nf6 cxd5 exd5 Bg5 Be7 e3 O-O Bd3 c6 Qc2 Nbd7 Nf3 Re8 O-O h6 Bf4 Nh5 Nxd5 cxd5 Bc7 Qxc7 Qxc7",
+      "idea": "11...Nh5 takes a defender off d5. 12.Nxd5! cxd5?? 13.Bc7 traps the queen, and Black has to give it up for a bishop."
+    },
+    {
+      "id": "rubinstein-b",
+      "name": "QGD Rubinstein Trap: 12...Nxf4",
+      "side": "white",
+      "moves": "d4 d5 c4 e6 Nc3 Nf6 cxd5 exd5 Bg5 Be7 e3 O-O Bd3 c6 Qc2 Nbd7 Nf3 Re8 O-O h6 Bf4 Nh5 Nxd5 Nxf4 Nxf4",
+      "idea": "12...Nxf4 is Black's best answer to 12.Nxd5, but after 13.Nxf4 White is simply a pawn up."
+    },
+    {
+      "id": "elephant-qxb4",
+      "name": "QGD Elephant Trap: 9.Qxb4",
+      "side": "black",
+      "moves": "d4 d5 c4 e6 Nc3 Nf6 Bg5 Nbd7 cxd5 exd5 Nxd5 Nxd5 Bxd8 Bb4+ Qd2 Kxd8 Qxb4 Nxb4 O-O-O Nxa2+",
+      "idea": "6.Nxd5?? falls for the Elephant Trap. 6...Nxd5! 7.Bxd8 Bb4+ 8.Qd2 Kxd8 wins a piece, and after 9.Qxb4 Nxb4 10.O-O-O Nxa2+ Black also grabs a pawn."
+    },
+    {
+      "id": "elephant-e4",
+      "name": "QGD Elephant Trap: 9.e4",
+      "side": "black",
+      "moves": "d4 d5 c4 e6 Nc3 Nf6 Bg5 Nbd7 cxd5 exd5 Nxd5 Nxd5 Bxd8 Bb4+ Qd2 Kxd8 e4 Re8 Bd3 Nf4 Kd1 Bxd2 Kxd2 Nxd3 Kxd3",
+      "idea": "9.e4 tries to save material, but 9...Re8 10.Bd3 Nf4 11.Kd1 Bxd2 12.Kxd2 Nxd3 13.Kxd3 still leaves Black a piece up."
+    },
+    {
+      "id": "cambridge-springs",
+      "name": "QGD Cambridge Springs Trap",
+      "side": "black",
+      "moves": "d4 d5 c4 e6 Nc3 Nf6 Bg5 Nbd7 Nf3 c6 e3 Qa5 Bd3 dxc4 Bxc4 Ne4",
+      "idea": "6...Qa5 pins the c3 knight. After 7.Bd3? dxc4 8.Bxc4 Ne4 Black hits the pinned knight and the g5 bishop, and White loses a piece."
+    },
+    {
+      "id": "albin-lasker",
+      "name": "Albin Countergambit: Lasker Trap",
+      "side": "black",
+      "moves": "d4 d5 c4 e5 dxe5 d4 e3 Bb4+ Bd2 dxe3 Bxb4 exf2+ Ke2 fxg1=N+ Rxg1 Bg4+",
+      "idea": "6.Bxb4?? exf2+ 7.Ke2 fxg1=N+! promotes to a knight with check, then 8.Rxg1 Bg4+ skewers the king and wins White's queen."
+    }
+  ],
+  "explain": {
+    "|d4": "Every line here starts by taking the centre with the queen's pawn two squares.",
+    "d4 d5|c4": "Offer the c-pawn now. The Queen's Gambit tempts Black to give up the centre by taking it.",
+    "d4 d5 c4 dxc4|e3": "Black grabbed c4. Open the diagonal for your f1 bishop so it can win that pawn back.",
+    "d4 d5 c4 dxc4|Nf3": "In this line, develop the king's knight first. It keeps d4 protected and stops ...e5 before you go after the c4 pawn.",
+    "d4 d5 c4 dxc4|*": "Black grabbed c4. Prepare to win it back with a developing move: either open the f1 bishop's diagonal or bring out the king's knight.",
+    "d4 d5 c4 dxc4 e3 b5|a4": "Black is propping up c4 with ...b5. Attack that b5 pawn from the side with your a-pawn to break the chain.",
+    "d4 d5 c4 dxc4 e3 b5 a4 a6|axb5": "Capture on b5. If Black recaptures with the a-pawn, the a-file opens straight to the rook on a8.",
+    "d4 d5 c4 dxc4 e3 b5 a4 a6 axb5 axb5|Rxa8": "The a-file is open and the a8 rook has no defender. Check what your a1 rook can capture.",
+    "d4 d5 c4 dxc4 e3 b5 a4 a6 axb5 axb5 Rxa8 Nd7|b3": "You are a whole rook up. Now break the b5-c4 pawn chain by attacking c4 with your b-pawn.",
+    "d4 d5 c4 dxc4 e3 b5 a4 c6|axb5": "Capture on b5. If Black recaptures with the c-pawn, the long light-square diagonal to a8 opens.",
+    "d4 d5 c4 dxc4 e3 b5 a4 c6 axb5 cxb5|Qf3": "Black's c-pawn left c6, so the long diagonal runs straight to the a8 rook. Find a queen move that attacks it.",
+    "d4 d5 c4 dxc4 e3 b5 a4 c6 axb5 cxb5 Qf3 Nc6|Qxc6+": "The c6 knight is only a blocker and nothing defends it properly. Take it, with check.",
+    "d4 d5 c4 dxc4 e3 b5 a4 c6 axb5 cxb5 Qf3 Nc6 Qxc6+ Bd7|Qa6": "You are a piece up and your queen is attacked. Retreat it to a safe square on the queenside where it stays active.",
+    "d4 d5 c4 dxc4 Nf3 c5|e3": "Black is hitting d4. Support the centre and open the f1 bishop's diagonal toward c4.",
+    "d4 d5 c4 dxc4 Nf3 c5 e3 cxd4|Bxc4": "Don't recapture on d4 yet. Win back the c4 pawn while developing, with your bishop aiming at f7.",
+    "d4 d5 c4 dxc4 Nf3 c5 e3 cxd4 Bxc4 dxe3|Bxf7+": "Black's queen on d8 faces yours on the open d-file and only the king guards it. Lure the king away with a sacrifice that gives check.",
+    "d4 d5 c4 dxc4 Nf3 c5 e3 cxd4 Bxc4 dxe3 Bxf7+ Kxf7|Qxd8": "The king left d8 undefended. Take the queen.",
+    "d4 d5 c4 dxc4 e3 Nf6|Bxc4": "Win back the gambit pawn on c4 with your bishop right now.",
+    "d4 d5 c4 dxc4 e3 Nf6 Bxc4 g6|Nf3": "Develop the king's knight and get ready to castle.",
+    "d4 d5 c4 dxc4 e3 Nf6 Bxc4 g6 Nf3 Bg7|Qa4+": "Black's queenside is loose: b7 and the c8 bishop are not well covered. Give a queen check that sets up a double attack next move.",
+    "d4 d5 c4 dxc4 e3 Nf6 Bxc4 g6 Nf3 Bg7 Qa4+ Bd7|Qb3": "The bishop on d7 no longer guards b7. Find the queen square that hits b7 and f7 at the same time.",
+    "d4 d5 c4 dxc4 e3 Nf6 Bxc4 c5|Nf3": "Protect d4 and develop. The knight also prepares to castle.",
+    "d4 d5 c4 dxc4 e3 Nf6 Bxc4 c5 Nf3 Bg4|Ne5": "Don't worry about the pin. Jump the knight forward: it attacks the g4 bishop and, with your c4 bishop, targets f7.",
+    "d4 d5 c4 dxc4 e3 Nf6 Bxc4 c5 Nf3 Bg4 Ne5 Bxd1|Bxf7#": "Black took your queen, but f7 is fatal. Your bishop lands there backed by the e5 knight and the king has no squares.",
+    "d4 d5 c4 dxc4 e3 Nf6 Bxc4 c5 Nf3 Bg4 Ne5 Be6|Qa4+": "Give check with the queen. It pressures the a4-e8 diagonal and keeps the initiative.",
+    "d4 d5 c4 dxc4 e3 Nf6 Bxc4 c5 Nf3 Bg4 Ne5 Be6 Qa4+ Nbd7|Bxe6": "Trade on e6. After ...fxe6 Black's pawns are damaged and the king is exposed.",
+    "d4 d5 c4 dxc4 e3 Nf6 Bxc4 c5 Nf3 Bg4 Ne5 Be6 Qa4+ Nbd7 Bxe6 fxe6|O-O": "Get your king safe before doing anything else.",
+    "d4 d5 c4 e6|Nc3": "Black declined the gambit. Develop the queen's knight to add pressure on d5.",
+    "d4 d5 c4 e6 Nc3 Nf6|cxd5": "Release the tension with the Exchange Variation: take on d5 to fix Black's pawn structure.",
+    "d4 d5 c4 e6 Nc3 Nf6 cxd5 exd5|Bg5": "Develop the dark-squared bishop and pin the f6 knight.",
+    "d4 d5 c4 e6 Nc3 Nf6 cxd5 exd5 Bg5 Be7|e3": "Open the f1 bishop's diagonal and support d4.",
+    "d4 d5 c4 e6 Nc3 Nf6 cxd5 exd5 Bg5 Be7 e3 O-O|Bd3": "Develop the light-squared bishop toward Black's kingside.",
+    "d4 d5 c4 e6 Nc3 Nf6 cxd5 exd5 Bg5 Be7 e3 O-O Bd3 c6|Qc2": "Line up the queen behind the d3 bishop on the b1-h7 diagonal.",
+    "d4 d5 c4 e6 Nc3 Nf6 cxd5 exd5 Bg5 Be7 e3 O-O Bd3 c6 Qc2 Nbd7|Nf3": "Develop the king's knight before castling.",
+    "d4 d5 c4 e6 Nc3 Nf6 cxd5 exd5 Bg5 Be7 e3 O-O Bd3 c6 Qc2 Nbd7 Nf3 Re8|O-O": "Finish development: castle.",
+    "d4 d5 c4 e6 Nc3 Nf6 cxd5 exd5 Bg5 Be7 e3 O-O Bd3 c6 Qc2 Nbd7 Nf3 Re8 O-O h6|Bf4": "The g5 bishop is attacked. Retreat it to a square where it stays on an active diagonal.",
+    "d4 d5 c4 e6 Nc3 Nf6 cxd5 exd5 Bg5 Be7 e3 O-O Bd3 c6 Qc2 Nbd7 Nf3 Re8 O-O h6 Bf4 Nh5|Nxd5": "The knight left f6, so d5 has lost a defender. Grab it. If ...cxd5, your f4 bishop can trap Black's queen.",
+    "d4 d5 c4 e6 Nc3 Nf6 cxd5 exd5 Bg5 Be7 e3 O-O Bd3 c6 Qc2 Nbd7 Nf3 Re8 O-O h6 Bf4 Nh5 Nxd5 cxd5|Bc7": "Black's queen on d8 has no safe squares. Attack it with the bishop.",
+    "d4 d5 c4 e6 Nc3 Nf6 cxd5 exd5 Bg5 Be7 e3 O-O Bd3 c6 Qc2 Nbd7 Nf3 Re8 O-O h6 Bf4 Nh5 Nxd5 cxd5 Bc7 Qxc7|Qxc7": "Recapture the queen.",
+    "d4 d5 c4 e6 Nc3 Nf6 cxd5 exd5 Bg5 Be7 e3 O-O Bd3 c6 Qc2 Nbd7 Nf3 Re8 O-O h6 Bf4 Nh5 Nxd5 Nxf4|Nxf4": "Take the piece back. You come out a clean pawn up.",
+    "d4|d5": "Meet 1.d4 by claiming the centre with your own queen's pawn.",
+    "d4 d5 c4|e6": "Decline the gambit solidly: support d5 with a pawn and open your f8 bishop.",
+    "d4 d5 c4|e5": "Counter-gambit: hit back in the centre with your e-pawn instead of defending d5.",
+    "d4 d5 c4|*": "Two answers are in this course: support d5 solidly with a pawn, or counter-attack in the centre with your e-pawn.",
+    "d4 d5 c4 e6 Nc3|Nf6": "Develop the king's knight to defend d5.",
+    "d4 d5 c4 e6 Nc3 Nf6 Bg5|Nbd7": "Develop the queen's knight. It looks like it blocks your bishop, but it sets the Elephant Trap.",
+    "d4 d5 c4 e6 Nc3 Nf6 Bg5 Nbd7 cxd5|exd5": "Recapture on d5 with the e-pawn.",
+    "d4 d5 c4 e6 Nc3 Nf6 Bg5 Nbd7 cxd5 exd5 Nxd5|Nxd5": "White's knight grabbed d5. Take it. Your queen looks hanging, but you have a check coming.",
+    "d4 d5 c4 e6 Nc3 Nf6 Bg5 Nbd7 cxd5 exd5 Nxd5 Nxd5 Bxd8|Bb4+": "White took your queen. Check the king with your dark-squared bishop and you will win the queen back.",
+    "d4 d5 c4 e6 Nc3 Nf6 Bg5 Nbd7 cxd5 exd5 Nxd5 Nxd5 Bxd8 Bb4+ Qd2|Kxd8": "Recapture White's bishop on d8. You end up a piece ahead.",
+    "d4 d5 c4 e6 Nc3 Nf6 Bg5 Nbd7 cxd5 exd5 Nxd5 Nxd5 Bxd8 Bb4+ Qd2 Kxd8 Qxb4|Nxb4": "Take White's queen with the d5 knight.",
+    "d4 d5 c4 e6 Nc3 Nf6 Bg5 Nbd7 cxd5 exd5 Nxd5 Nxd5 Bxd8 Bb4+ Qd2 Kxd8 Qxb4 Nxb4 O-O-O|Nxa2+": "Grab a pawn with check.",
+    "d4 d5 c4 e6 Nc3 Nf6 Bg5 Nbd7 cxd5 exd5 Nxd5 Nxd5 Bxd8 Bb4+ Qd2 Kxd8 e4|Re8": "Your bishop pins White's queen to the king. Bring a rook to the e-file to add pressure on e4 and the king.",
+    "d4 d5 c4 e6 Nc3 Nf6 Bg5 Nbd7 cxd5 exd5 Nxd5 Nxd5 Bxd8 Bb4+ Qd2 Kxd8 e4 Re8 Bd3|Nf4": "Your d5 knight is attacked. Move it to a square that hits the d3 bishop and g2.",
+    "d4 d5 c4 e6 Nc3 Nf6 Bg5 Nbd7 cxd5 exd5 Nxd5 Nxd5 Bxd8 Bb4+ Qd2 Kxd8 e4 Re8 Bd3 Nf4 Kd1|Bxd2": "Take the queen on d2.",
+    "d4 d5 c4 e6 Nc3 Nf6 Bg5 Nbd7 cxd5 exd5 Nxd5 Nxd5 Bxd8 Bb4+ Qd2 Kxd8 e4 Re8 Bd3 Nf4 Kd1 Bxd2 Kxd2|Nxd3": "Trade off the d3 bishop with your knight.",
+    "d4 d5 c4 e6 Nc3 Nf6 Bg5 Nbd7 Nf3|c6": "Strengthen d5 with your c-pawn. This also opens the a5-e1 diagonal for your queen.",
+    "d4 d5 c4 e6 Nc3 Nf6 Bg5 Nbd7 Nf3 c6 e3|Qa5": "Pin the c3 knight with your queen. The g5 bishop also loses its support.",
+    "d4 d5 c4 e6 Nc3 Nf6 Bg5 Nbd7 Nf3 c6 e3 Qa5 Bd3|dxc4": "Take on c4 to pull White's bishop away from d3.",
+    "d4 d5 c4 e6 Nc3 Nf6 Bg5 Nbd7 Nf3 c6 e3 Qa5 Bd3 dxc4 Bxc4|Ne4": "Hit the pinned c3 knight and the g5 bishop at once. White can't hold both.",
+    "d4 d5 c4 e5 dxe5|d4": "Push your d-pawn forward to gain space and cramp White.",
+    "d4 d5 c4 e5 dxe5 d4 e3|Bb4+": "Give a bishop check before taking on e3.",
+    "d4 d5 c4 e5 dxe5 d4 e3 Bb4+ Bd2|dxe3": "Now take on e3, hitting f2 and d2.",
+    "d4 d5 c4 e5 dxe5 d4 e3 Bb4+ Bd2 dxe3 Bxb4|exf2+": "Capture on f2 with check.",
+    "d4 d5 c4 e5 dxe5 d4 e3 Bb4+ Bd2 dxe3 Bxb4 exf2+ Ke2|fxg1=N+": "Promote on g1, but pick the piece that gives check. A queen here would not.",
+    "d4 d5 c4 e5 dxe5 d4 e3 Bb4+ Bd2 dxe3 Bxb4 exf2+ Ke2 fxg1=N+ Rxg1|Bg4+": "Check the king along the diagonal and skewer White's queen on d1."
+  }
+}
