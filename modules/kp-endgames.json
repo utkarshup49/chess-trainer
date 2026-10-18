@@ -3,7 +3,7 @@
   "type": "endgame",
   "title": "King & Pawn Endgames",
   "description": "Six drills on fresh random positions every time. Nothing interrupts you while you play: if a move throws the result away, the game runs to its real finish and the post-mortem shows you which move did it.",
-  "source": "Principles from GothamChess, \"EASY CHESS ENDGAMES: King & Pawns\". Positions are judged by a built-in solver that has every King + Pawn vs King position worked out.",
+  "source": "Principles from GothamChess, \"EASY CHESS ENDGAMES: King & Pawns\". King and pawn against king is solved inside the page and works offline; the pawn race is looked up in Lichess's endgame tablebase, so that drill needs a connection.",
   "drills": [
     {
       "id": "square",

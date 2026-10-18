@@ -10,8 +10,21 @@ Live site: https://utkarshup49.github.io/chess-trainer/
 - `js/app.js` is the page router: home → module → learn or drill.
 - `js/board.js` wraps the board. The trainer decides whether a move counts.
 - `js/opening.js` is the opening trainer.
+- `js/endgame.js` is the endgame trainer: random positions, silence while you play, and a post-mortem naming the move where the result slipped.
 - `js/progress.js` saves progress in the browser (localStorage), so each device keeps its own.
 - `modules/index.json` lists the modules; each module is one JSON file.
+
+## How endgame moves are judged
+
+A move counts if it keeps the result. Nothing is stored as a line, so nothing can be memorised.
+
+- `js/kpk.js` solves every King + Pawn vs King position on load (about half a second) by working backwards from promotions and captures. Instant and offline.
+- `js/oracle.js` is the single way to ask who is winning. Three pieces or fewer go to the solver above; anything larger goes to Lichess's endgame tablebase, which is perfect up to seven pieces. Every answer is cached.
+- `js/kpgen.js` deals random King + Pawn vs King positions, rejecting any where no move throws the result away — if you cannot go wrong, there is nothing to learn.
+- `js/race.js` deals four-piece pawn races, filtering candidates locally so a deal costs only a handful of lookups.
+- `js/coach.js` turns "that move throws the result away" into the principle behind it.
+
+The solver was checked three ways: against a second implementation written independently (165,676 positions, no disagreements), against Lichess's tablebase (70 random positions and a set of promotion edge cases), and against chess.js for move generation (600 positions).
 
 ## Opening module format
 
