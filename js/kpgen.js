@@ -193,12 +193,19 @@ export function drillIds() {
   return Object.keys(DRILLS);
 }
 
+// The mixed drill deals one of the four without saying which.
+const RANDOM_POOL = Object.keys(DRILLS);
+
 export function drillSpec(id) {
   return DRILLS[id];
 }
 
 export function generate(drillId) {
   solve();
+  if (drillId === 'random') {
+    const pick = RANDOM_POOL[Math.floor(Math.random() * RANDOM_POOL.length)];
+    return { ...generate(pick), sourceDrill: pick };
+  }
   const spec = DRILLS[drillId];
   let fallback = null;
   for (let tries = 0; tries < 60000; tries++) {
@@ -209,8 +216,8 @@ export function generate(drillId) {
     if (probe(wk, bk, p, stm).result !== spec.want) continue;
     if (!fallback) fallback = cand;
     if (!hasTrap(wk, bk, p, stm)) continue;
-    return { ...cand, userColor: spec.userColor, fen: toFen(wk, bk, p, stm) };
+    return { ...cand, userColor: spec.userColor, sourceDrill: drillId, fen: toFen(wk, bk, p, stm) };
   }
   const c = fallback || { wk: 4, bk: 36, p: 28, stm: spec.userColor === 'w' ? 0 : 1 };
-  return { ...c, userColor: spec.userColor, fen: toFen(c.wk, c.bk, c.p, c.stm) };
+  return { ...c, userColor: spec.userColor, sourceDrill: drillId, fen: toFen(c.wk, c.bk, c.p, c.stm) };
 }

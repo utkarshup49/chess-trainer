@@ -119,12 +119,12 @@ function endgameBody(m, progress) {
     const tone = s.clean ? 'good' : s.played ? 'warn' : 'idle';
     const chip = s.played ? `Clean ×${s.clean} of ${s.played}` : 'Not played';
     return `
-      <a class="drill-card" href="#/m/${m.id}/drill/${d.id}">
+      <a class="drill-card${d.id === 'random' ? ' mixed-card' : ''}" href="#/m/${m.id}/drill/${d.id}">
         <div class="group-head">
           <h2>${escapeHtml(d.name)}</h2>
           <span class="chip" data-tone="${tone}">${chip}</span>
         </div>
-        <p class="meta">You play ${d.side === 'white' ? 'White' : 'Black'}</p>
+        <p class="meta">${d.side === 'either' ? 'Either colour' : 'You play ' + (d.side === 'white' ? 'White' : 'Black')}</p>
         <p>${escapeHtml(d.goal)}</p>
         ${s.best ? `<p class="meta">Best streak ${s.best}</p>` : ''}
       </a>`;

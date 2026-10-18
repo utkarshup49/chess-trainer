@@ -1,13 +1,17 @@
-// Endgame drills. Every position is dealt at random and judged by the solver,
-// so there are no moves to memorise: a move counts if it keeps the result.
+// Endgame drills. Positions are dealt at random and judged by the solver.
+//
+// Nothing is said while you play. If a move throws the result away the game
+// carries on to its real conclusion, and only then does the post-mortem point
+// back at the move that did it — so you see the consequence before the verdict.
 import { TrainingBoard, Chess } from './board.js';
 import { generate, readBoard, scoreState, scoredMoves, chooseReply, file, rank, WIN, DRAW } from './kpgen.js';
-import { diagnose, label } from './coach.js';
+import { diagnose } from './coach.js';
 import { recordEndgame, getModuleProgress } from './progress.js';
 
-const REPLY_DELAY = 520;
-const HOLD_TARGET = 16;        // correct defensive moves that count as holding
-const PUSH_LIMIT = 60;         // safety net for the attacking drill
+const REPLY_DELAY = 480;
+const HOLD_TARGET = 16;        // defensive moves that count as holding the draw
+const MOVE_LIMIT = 60;
+const DEAD_DRAW_MOVES = 10;  // how long to play on once the win is gone
 
 const escapeHtml = t => String(t).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 
@@ -37,7 +41,7 @@ export class EndgameTrainer {
           <a class="crumb" href="#/m/${this.module.id}">← ${escapeHtml(this.module.title)}</a>
           <p class="eyebrow" id="eyebrow"></p>
           <h1 class="line-title">${escapeHtml(this.drill.name)}</h1>
-          <p class="goal" id="goal">${escapeHtml(this.drill.goal)}</p>
+          <p class="goal">${escapeHtml(this.drill.goal)}</p>
           <div class="status" id="status" data-tone="neutral"></div>
           <div class="note" id="note" hidden></div>
           <div class="actions">
@@ -75,22 +79,30 @@ export class EndgameTrainer {
   }
 
   newPosition() {
+    const pos = generate(this.drill.id);
+    this.sourceId = pos.sourceDrill || this.drill.id;
+    this.source = this.module.drills.find(d => d.id === this.sourceId) || this.drill;
+    this.userColor = pos.userColor === 'w' ? 'white' : 'black';
+    this.target = pos.userColor === 'w' ? WIN : DRAW;
+    this.beginRound(pos.fen);
+  }
+
+  // Start (or restart) a round from a given position.
+  beginRound(fen) {
     clearTimeout(this.timer);
     if (this.board) this.board.destroy();
 
-    const pos = generate(this.drill.id);
-    this.start = pos;
-    this.userColor = pos.userColor === 'w' ? 'white' : 'black';
-    this.target = pos.userColor === 'w' ? WIN : DRAW;
-    this.mistakes = 0;
+    this.live = this.target;     // the result still available from here
+    this.turningPoint = null;
+    this.played = 0;
     this.helped = false;
-    this.goodMoves = 0;
     this.finished = false;
+    this.startStm = fen.split(' ')[1] === 'w' ? 0 : 1;
 
-    this.board = new TrainingBoard(this.el.board, this.userColor, m => this.onUserMove(m), pos.fen);
-    const stats = getModuleProgress(this.module.id).endgames?.[this.drill.id];
-    const streak = stats ? stats.streak : 0;
-    this.el.eyebrow.textContent = `You play ${this.userColor === 'white' ? 'White' : 'Black'} · streak ${streak}`;
+    this.board = new TrainingBoard(this.el.board, this.userColor, m => this.onUserMove(m), fen);
+    const stats = getModuleProgress(this.module.id).endgames[this.drill.id];
+    this.el.eyebrow.textContent =
+      `You play ${this.userColor === 'white' ? 'White' : 'Black'} · streak ${stats ? stats.streak : 0}`;
     this.el.finish.hidden = true;
     this.hideNote();
     this.renderMoves();
@@ -101,10 +113,13 @@ export class EndgameTrainer {
     return readBoard(this.board.game);
   }
 
-  // Legal moves from here that keep the learner's result.
-  goodOptions() {
-    const all = scoredMoves(this.board.game, Chess);
-    return all.filter(m => m.result === this.target);
+  // Moves from here that still reach `result`.
+  optionsFor(result) {
+    return scoredMoves(this.board.game, Chess).filter(m => m.result === result);
+  }
+
+  myTurn() {
+    return (this.board.game.turn() === 'w') === (this.userColor === 'white');
   }
 
   afterChange() {
@@ -113,29 +128,52 @@ export class EndgameTrainer {
 
     const st = this.state();
     const game = this.board.game;
+    const defending = this.userColor === 'black';
 
-    // Finished?
-    if (this.userColor === 'white' && st.q >= 0) return this.finish(true, 'The pawn queened.');
-    if (this.userColor === 'black' && st.p < 0 && st.q < 0) return this.finish(true, 'Pawn captured — bare kings, dead draw.');
+    if (st.q >= 0) {
+      // A pawn can queen and still not win, if the new queen drops straight off.
+      if (scoreState(st).result === WIN) {
+        return defending
+          ? this.finish(false, 'The pawn queened.')
+          : this.finish(true, 'The pawn queened.');
+      }
+      if (!defending) return this.finish(false, 'You queened, but the queen falls at once. Draw.');
+      // Defending: let them take the queen themselves.
+    }
+    if (st.p < 0 && st.q < 0) {
+      return defending
+        ? this.finish(true, 'Pawn captured — bare kings, dead draw.')
+        : this.finish(false, 'Your pawn is gone. Draw.');
+    }
     if (game.isStalemate()) {
-      return this.userColor === 'black'
+      return defending
         ? this.finish(true, 'Stalemate — the draw is safe.')
-        : this.finish(false, 'Stalemate. The win slipped away.');
+        : this.finish(false, 'Stalemate. Draw.');
     }
-    // In the race drill, stepping in front of the pawn is the whole point.
-    if (this.drill.id === 'square' && st.p >= 0
+    // In the race drill, getting in front of the pawn settles it.
+    if (this.sourceId === 'square' && this.live === DRAW
         && file(st.bk) === file(st.p) && rank(st.bk) > rank(st.p)) {
-      return this.finish(true, 'Caught it \u2014 your king is in front of the pawn.');
+      return this.finish(true, 'Caught it — your king is in front of the pawn.');
     }
-    if (this.userColor === 'black' && this.goodMoves >= HOLD_TARGET) {
+    if (defending && this.live === DRAW && this.played >= HOLD_TARGET) {
       return this.finish(true, 'You have held it long enough — this is a book draw.');
     }
-    if (this.userColor === 'white' && this.goodMoves >= PUSH_LIMIT) {
-      return this.finish(false, 'Still winning, but it is taking too long. Try again with the king leading.');
+    // Once the win is gone, show the draw being sealed and then stop; there is
+    // nothing more to learn from shuffling around a dead position.
+    if (!defending && this.turningPoint) {
+      const blockaded = st.p >= 0 && file(st.bk) === file(st.p) && rank(st.bk) > rank(st.p);
+      if (blockaded) return this.finish(false, 'Their king is parked in front of the pawn. Dead draw.');
+      if (this.played - this.turningPoint.playedAt >= DEAD_DRAW_MOVES) {
+        return this.finish(false, 'This is a dead draw now.');
+      }
+    }
+    if (this.played >= MOVE_LIMIT) {
+      return this.finish(false, defending
+        ? 'Time called on this one.'
+        : `Still winning after ${MOVE_LIMIT} moves, but the pawn is no closer to queening.`);
     }
 
-    const mine = (game.turn() === 'w') === (this.userColor === 'white');
-    if (mine) {
+    if (this.myTurn()) {
       this.setStatus('Your move', 'neutral');
       this.board.setLocked(false);
     } else {
@@ -158,66 +196,64 @@ export class EndgameTrainer {
     this.board.clearArrows();
 
     const before = this.state();
-    const copy = new Chess(this.board.game.fen());
+    const fenBefore = this.board.game.fen();
+    const copy = new Chess(fenBefore);
     copy.move({ from: move.from, to: move.to, promotion: move.promotion });
     const after = readBoard(copy);
     const { result } = scoreState(after);
 
-    if (result !== this.target) {
-      this.mistakes += 1;
-      this.board.reject(move.from, move.to);
-      const verdict = this.target === WIN
-        ? `${move.san} throws the win away — it becomes a draw.`
-        : `${move.san} loses the draw — the pawn gets through.`;
-      this.setStatus(verdict, 'bad');
-      this.showNote(diagnose({
-        drillId: this.drill.id,
-        before,
-        after,
-        move,
-        correct: this.goodOptions(),
-      }));
-      return;
+    // The result just slipped. Remember where it happened and say nothing.
+    if (result !== this.live && !this.turningPoint) {
+      const correct = this.optionsFor(this.live);
+      const best = this.live === WIN && correct.length
+        ? correct.reduce((a, b) => (b.depth < a.depth ? b : a))
+        : correct[0];
+      this.turningPoint = {
+        number: Math.floor((this.startStm + this.board.sanHistory().length) / 2) + 1,
+        playedAt: this.played,
+        san: move.san,
+        fenBefore,
+        bestSan: best ? best.move.san : null,
+        diagnosis: diagnose({ drillId: this.sourceId, before, after, move, correct }),
+      };
+      this.live = result;
     }
 
-    this.goodMoves += 1;
+    this.played += 1;
     this.hideNote();
     this.board.play(move);
-    const what = label({ drillId: this.drill.id, before, after: this.state(), move });
     this.afterChange();
-    if (!this.finished) this.setStatus(`${move.san} — ${what}.`, 'good');
   }
 
   hint() {
     if (this.finished || !this.myTurn()) return;
     this.helped = true;
-    const options = this.goodOptions();
-    if (!options.length) return;
-    // Explain the principle without naming the square.
-    const worst = scoredMoves(this.board.game, Chess).find(m => m.result !== this.target);
+    const correct = this.optionsFor(this.live);
+    const slip = scoredMoves(this.board.game, Chess).find(m => m.result !== this.live);
+    if (!correct.length) return;
+    const ref = slip || correct[0];
     this.showNote(diagnose({
-      drillId: this.drill.id,
+      drillId: this.sourceId,
       before: this.state(),
-      after: worst ? worst.state : options[0].state,
-      move: worst ? worst.move : options[0].move,
-      correct: options,
+      after: ref.state,
+      move: ref.move,
+      correct,
     }));
   }
 
   showMove() {
     if (this.finished || !this.myTurn()) return;
     this.helped = true;
-    const options = this.goodOptions();
-    if (!options.length) return;
-    const best = this.target === WIN
-      ? options.reduce((a, b) => (b.depth < a.depth ? b : a))
-      : options[0];
+    const correct = this.optionsFor(this.live);
+    if (!correct.length) return;
+    const best = this.live === WIN
+      ? correct.reduce((a, b) => (b.depth < a.depth ? b : a))
+      : correct[0];
     this.board.showArrow(best.move.from, best.move.to);
-    this.showNote({ principle: 'One move that works', text: `${best.move.san} keeps ${this.target === WIN ? 'the win' : 'the draw'}. Often more than one move does.` });
-  }
-
-  myTurn() {
-    return (this.board.game.turn() === 'w') === (this.userColor === 'white');
+    this.showNote({
+      principle: 'One move that works',
+      text: `${best.move.san} keeps ${this.live === WIN ? 'the win' : 'the draw'}. Usually more than one move does.`,
+    });
   }
 
   stepBack() {
@@ -228,7 +264,12 @@ export class EndgameTrainer {
       this.board.undo();
       if (this.myTurn()) break;
     }
-    this.goodMoves = Math.max(0, this.goodMoves - 1);
+    // Taking the move back un-does the slip too, if that is where we are.
+    if (this.turningPoint && this.board.game.fen() === this.turningPoint.fenBefore) {
+      this.live = this.target;
+      this.turningPoint = null;
+    }
+    this.played = Math.max(0, this.played - 1);
     this.hideNote();
     this.afterChange();
   }
@@ -236,21 +277,44 @@ export class EndgameTrainer {
   finish(won, summary) {
     this.finished = true;
     this.board.setLocked(true);
-    const clean = won && this.mistakes === 0 && !this.helped;
+    const clean = won && !this.turningPoint && !this.helped;
     const stats = recordEndgame(this.module.id, this.drill.id, clean);
-    this.el.eyebrow.textContent = `You play ${this.userColor === 'white' ? 'White' : 'Black'} · streak ${stats.streak} · best ${stats.best}`;
-    const tally = clean
-      ? 'No mistakes, no help.'
-      : `${this.mistakes} wrong ${this.mistakes === 1 ? 'move' : 'moves'}${this.helped ? ', with help' : ''}.`;
-    this.setStatus(`${summary} ${won ? tally : ''}`.trim(), won ? 'good' : 'bad');
+    this.el.eyebrow.textContent =
+      `You play ${this.userColor === 'white' ? 'White' : 'Black'} · streak ${stats.streak} · best ${stats.best}`;
+    this.setStatus(summary, won ? 'good' : 'bad');
     this.hideNote();
-    this.el.finish.innerHTML =
-      `<p class="label">The principle</p><p>${escapeHtml(this.drill.idea)}</p>
-       <div class="actions">
-         <button type="button" class="primary" id="btn-next">Next position</button>
-         <a class="button" href="#/m/${this.module.id}">Stop</a>
-       </div>`;
+
+    const reveal = this.drill.id === 'random'
+      ? `<p class="meta">This one was: ${escapeHtml(this.source.name)}.</p>` : '';
+
+    let body;
+    if (this.turningPoint) {
+      const tp = this.turningPoint;
+      const kept = this.target === WIN ? 'the win' : 'the draw';
+      body = `
+        <p class="label">Where it went wrong</p>
+        <p class="turning">Move ${tp.number}, ${escapeHtml(tp.san)} — that is where ${kept} slipped away.</p>
+        <p class="note-title">${escapeHtml(tp.diagnosis.principle)}</p>
+        <p>${escapeHtml(tp.diagnosis.text)}</p>
+        ${tp.bestSan ? `<p class="meta">${escapeHtml(tp.bestSan)} was one move that kept ${kept}. Everything after that was already lost ground.</p>` : ''}
+        ${reveal}`;
+    } else {
+      body = `<p class="label">${won ? 'The principle' : 'What happened'}</p>
+              <p>${escapeHtml(this.source.idea)}</p>${reveal}`;
+    }
+
+    const retry = this.turningPoint
+      ? `<button type="button" class="primary" id="btn-retry">Replay from move ${this.turningPoint.number}</button>` : '';
+    this.el.finish.innerHTML = `${body}
+      <div class="actions">
+        ${retry}
+        <button type="button" class="${retry ? '' : 'primary'}" id="btn-next">New position</button>
+        <a class="button" href="#/m/${this.module.id}">Stop</a>
+      </div>`;
     this.el.finish.hidden = false;
+
+    const retryBtn = this.el.finish.querySelector('#btn-retry');
+    if (retryBtn) retryBtn.onclick = () => this.beginRound(this.turningPoint.fenBefore);
     this.el.finish.querySelector('#btn-next').onclick = () => this.newPosition();
   }
 
@@ -270,7 +334,7 @@ export class EndgameTrainer {
 
   renderMoves() {
     const sans = this.board ? this.board.sanHistory() : [];
-    const blackFirst = this.start && this.start.stm === 1;
+    const blackFirst = this.startStm === 1;
     let html = '';
     if (blackFirst && sans.length) html += `<li><span class="num">1.</span><span>…</span><span>${sans[0]}</span></li>`;
     const rest = blackFirst ? sans.slice(1) : sans;

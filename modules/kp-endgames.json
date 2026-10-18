@@ -2,7 +2,7 @@
   "id": "kp-endgames",
   "type": "endgame",
   "title": "King & Pawn Endgames",
-  "description": "Four drills on fresh random positions every time. A move counts if it keeps the result, so there are no squares to memorise.",
+  "description": "Five drills on fresh random positions every time. Nothing interrupts you while you play: if a move throws the result away, the game runs to its real finish and the post-mortem shows you which move did it.",
   "source": "Principles from GothamChess, \"EASY CHESS ENDGAMES: King & Pawns\". Positions are judged by a built-in solver that has every King + Pawn vs King position worked out.",
   "drills": [
     {
@@ -32,6 +32,13 @@
       "side": "black",
       "goal": "They have an a- or h-pawn. Hold the corner.",
       "idea": "A rook pawn can never be escorted home. There is no file on the far side to outflank you on, so the corner is a fortress: reach it and shuffle there, and any attempt to force you out is stalemate."
+    },
+    {
+      "id": "random",
+      "name": "Random position",
+      "side": "either",
+      "goal": "One of the four above, and you are not told which. Work out what the position is worth, then go and get it.",
+      "idea": "Read the position before you move: whose pawn is it, is it a rook pawn, is the defending king inside the square, and who holds the opposition. The technique follows from the answer."
     }
   ],
   "principles": [
