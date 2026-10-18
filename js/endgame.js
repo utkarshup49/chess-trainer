@@ -184,7 +184,11 @@ export class EndgameTrainer {
 
     if (this.isRace) {
       if (c.wq > 0 && wdl === this.target) return this.finish(true, 'You queened and the race is won.');
-      if (c.bq > 0 && wdl !== this.target) return this.finish(false, 'They queened first.');
+      if (c.bq > 0 && wdl !== this.target) {
+        return this.finish(false, c.wq > 0
+          ? 'Both queened \u2014 that is only a draw.'
+          : 'They queened first.');
+      }
     } else {
       const st = readBoard(game);
       if (st.q >= 0) {
