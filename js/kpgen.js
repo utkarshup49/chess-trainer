@@ -140,6 +140,9 @@ const DRILLS = {
       return { wk: rand(64), bk: rand(64), p, stm: 1 };
     },
     accept({ wk, bk, p }) {
+      // The king must not already be sitting in the pawn's path, or the drill
+      // would be over before a move is played.
+      if (file(bk) === file(p) && rank(bk) > rank(p)) return false;
       return rank(p) >= 2 && rank(p) <= 5
         && chebyshev(wk, p) >= 4 && chebyshev(wk, promoSquare(p)) >= 4
         && chebyshev(bk, promoSquare(p)) >= 2;
