@@ -19,6 +19,7 @@ function save(data) {
 
 function moduleData(data, moduleId) {
   if (!data[moduleId]) data[moduleId] = { lines: {}, drill: { played: 0, clean: 0, best: 0, streak: 0 } };
+  if (!data[moduleId].endgames) data[moduleId].endgames = {};
   return data[moduleId];
 }
 
@@ -59,4 +60,22 @@ export function resetModule(moduleId) {
   const data = load();
   delete data[moduleId];
   save(data);
+}
+
+// Endgame drills are scored per drill rather than per line.
+export function recordEndgame(moduleId, drillId, clean) {
+  const data = load();
+  const m = moduleData(data, moduleId);
+  const d = m.endgames[drillId] || { played: 0, clean: 0, streak: 0, best: 0 };
+  d.played += 1;
+  if (clean) {
+    d.clean += 1;
+    d.streak += 1;
+    d.best = Math.max(d.best, d.streak);
+  } else {
+    d.streak = 0;
+  }
+  m.endgames[drillId] = d;
+  save(data);
+  return d;
 }

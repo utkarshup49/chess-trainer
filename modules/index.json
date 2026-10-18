@@ -1,3 +1,4 @@
 [
-  { "id": "qg-traps", "type": "opening", "file": "modules/qg-traps.json" }
+  { "id": "qg-traps", "type": "opening", "file": "modules/qg-traps.json" },
+  { "id": "kp-endgames", "type": "endgame", "file": "modules/kp-endgames.json" }
 ]

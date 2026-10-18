@@ -1,0 +1,71 @@
+{
+  "id": "kp-endgames",
+  "type": "endgame",
+  "title": "King & Pawn Endgames",
+  "description": "Four drills on fresh random positions every time. A move counts if it keeps the result, so there are no squares to memorise.",
+  "source": "Principles from GothamChess, \"EASY CHESS ENDGAMES: King & Pawns\". Positions are judged by a built-in solver that has every King + Pawn vs King position worked out.",
+  "drills": [
+    {
+      "id": "square",
+      "name": "Catch the runaway pawn",
+      "side": "black",
+      "goal": "A pawn is running and their king is too far away to help. Catch it.",
+      "idea": "The rule of the square: count the squares from the pawn to its queening square, and picture a box of that size stretching across toward your king. If your king is inside that box, or can step into it, the pawn is caught. Moving straight at the queening square keeps you inside the box."
+    },
+    {
+      "id": "promote",
+      "name": "Escort the pawn home",
+      "side": "white",
+      "goal": "You are a pawn up with a won position. Queen it.",
+      "idea": "Your king is the escort and goes first. Take the opposition so their king has to give way, outflank diagonally when it steps aside, and push the pawn only while it stays behind your king or once the path is clear."
+    },
+    {
+      "id": "hold",
+      "name": "Hold the draw a pawn down",
+      "side": "black",
+      "goal": "You are a pawn down but the position is drawn. Stop the pawn.",
+      "idea": "Three moves hold almost every one of these: stand in front of the pawn whenever that square is free, retreat straight back on the pawn's own file when it advances, and face their king to take the opposition when it comes up the side."
+    },
+    {
+      "id": "rookpawn",
+      "name": "The rook pawn draw",
+      "side": "black",
+      "goal": "They have an a- or h-pawn. Hold the corner.",
+      "idea": "A rook pawn can never be escorted home. There is no file on the far side to outflank you on, so the corner is a fortress: reach it and shuffle there, and any attempt to force you out is stalemate."
+    }
+  ],
+  "principles": [
+    {
+      "title": "The rule of the square",
+      "text": "Count the squares from the pawn to its queening square and extend a box of that size toward the defending king. A king inside the box, or able to step into it, catches the pawn. Build the box from the square in front of a pawn still on its starting rank, so the double step is accounted for."
+    },
+    {
+      "title": "The opposition",
+      "text": "Kings face each other on the same file or rank with one square between. Whoever does not have to move holds it, and the other king has to give way. The gaps that matter are odd, so both coordinate differences come out even."
+    },
+    {
+      "title": "Outflanking",
+      "text": "Holding the opposition, when their king steps to one side, step diagonally forward to the other. That takes the squares in front of your pawn."
+    },
+    {
+      "title": "The king is the escort",
+      "text": "Keep the king in front of the pawn and move it first. Push the pawn only while it stays behind the king, to hand the move back to them, or when their king has stepped beside the pawn instead of in front of it and the path is clear."
+    },
+    {
+      "title": "Defending: file discipline",
+      "text": "Step directly in front of the pawn whenever that square is free, retreat straight back along the pawn's file when it advances, and step in front of their king to take the opposition when it comes up the side. On the back rank this becomes stalemate and the draw holds."
+    },
+    {
+      "title": "The rook pawn exception",
+      "text": "An a- or h-pawn is drawn whenever the defending king reaches the corner, because the edge of the board removes the files needed to outflank. An attacking king that gets stuck in front of its own rook pawn can even be stalemated there."
+    },
+    {
+      "title": "Distant opposition and waiting moves",
+      "text": "Opposition works at three and five squares too. When stepping straight forward would let them take the direct opposition, step wider instead and make them commit first; the extra tempo flips the opposition your way."
+    },
+    {
+      "title": "Shouldering, breakthroughs and centralisation",
+      "text": "In races, use your king to block theirs rather than running straight at the target, and do not grab a pawn if the capture opens a path for their king. Watch for pawn levers that create a passed pawn outside your king's square, and prefer a centralising move that attacks and defends at once."
+    }
+  ]
+}
