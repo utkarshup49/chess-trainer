@@ -2,7 +2,7 @@
   "id": "kp-endgames",
   "type": "endgame",
   "title": "King & Pawn Endgames",
-  "description": "Five drills on fresh random positions every time. Nothing interrupts you while you play: if a move throws the result away, the game runs to its real finish and the post-mortem shows you which move did it.",
+  "description": "Six drills on fresh random positions every time. Nothing interrupts you while you play: if a move throws the result away, the game runs to its real finish and the post-mortem shows you which move did it.",
   "source": "Principles from GothamChess, \"EASY CHESS ENDGAMES: King & Pawns\". Positions are judged by a built-in solver that has every King + Pawn vs King position worked out.",
   "drills": [
     {
@@ -34,10 +34,17 @@
       "idea": "A rook pawn can never be escorted home. There is no file on the far side to outflank you on, so the corner is a fortress: reach it and shuffle there, and any attempt to force you out is stalemate."
     },
     {
+      "id": "race",
+      "name": "Win the pawn race",
+      "side": "white",
+      "goal": "A pawn each and both are running. Queen first, or stop theirs.",
+      "idea": "Count both races before you touch anything. Then use the king for two jobs at once: shoulder their king onto the long way round, and escort your own pawn. Do not stop to grab their pawn if the capture lets their king back into the game."
+    },
+    {
       "id": "random",
       "name": "Random position",
       "side": "either",
-      "goal": "One of the four above, and you are not told which. Work out what the position is worth, then go and get it.",
+      "goal": "One of the drills above, and you are not told which. Work out what the position is worth, then go and get it.",
       "idea": "Read the position before you move: whose pawn is it, is it a rook pawn, is the defending king inside the square, and who holds the opposition. The technique follows from the answer."
     }
   ],
@@ -71,8 +78,12 @@
       "text": "Opposition works at three and five squares too. When stepping straight forward would let them take the direct opposition, step wider instead and make them commit first; the extra tempo flips the opposition your way."
     },
     {
-      "title": "Shouldering, breakthroughs and centralisation",
-      "text": "In races, use your king to block theirs rather than running straight at the target, and do not grab a pawn if the capture opens a path for their king. Watch for pawn levers that create a passed pawn outside your king's square, and prefer a centralising move that attacks and defends at once."
+      "title": "Shouldering in a race",
+      "text": "In a race, do not run straight at the target. Step so your king stands beside theirs and forces it onto a wider arc; every tempo it loses is one your pawn gains. For the same reason, do not stop to capture a pawn when the capture opens a path for their king."
+    },
+    {
+      "title": "Breakthroughs and centralisation",
+      "text": "Before racing, check whether a pawn lever gives them a passed pawn outside your king's square. Prefer the centralising move that does two jobs at once, and spend a pawn move to kill the breakthrough when one exists."
     }
   ]
 }

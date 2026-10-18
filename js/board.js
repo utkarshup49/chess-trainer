@@ -13,7 +13,8 @@ const PROMO_PIECES = [
 ];
 
 export class TrainingBoard {
-  // wrapper: element that holds the board. onUserMove(move) gets {from, to, promotion, san}.
+  // wrapper: element that holds the board. onUserMove(move) receives
+  // { from, to, promotion, san, piece } - piece is 'p' for a pawn, 'k' for the king.
   constructor(wrapper, orientation, onUserMove, startFen) {
     this.wrapper = wrapper;
     this.onUserMove = onUserMove;
@@ -86,7 +87,7 @@ export class TrainingBoard {
       }
     }
     const chosen = options.find(m => !m.promotion || m.promotion === promotion);
-    this.onUserMove({ from: orig, to: dest, promotion: promotion, san: chosen.san });
+    this.onUserMove({ from: orig, to: dest, promotion, san: chosen.san, piece: chosen.piece });
   }
 
   askPromotion(square) {
