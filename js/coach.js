@@ -6,10 +6,12 @@ const sq = name => 'abcdefgh'.indexOf(name[0]) + (Number(name[1]) - 1) * 8;
 
 const cornerFor = p => (file(p) === 0 ? sq('a8') : sq('h8'));
 
-// Could the side to move have taken the opposition instead?
+// Could a king move have taken the opposition instead? Only king moves count:
+// telling someone to "face their king" after a pawn push reads as nonsense.
 function oppositionWasAvailable(options, mover) {
-  return options.some(o => inOpposition(mover === 'w' ? o.state.wk : o.state.bk,
-                                        mover === 'w' ? o.state.bk : o.state.wk));
+  return options.some(o => o.move.piece === 'k'
+    && inOpposition(mover === 'w' ? o.state.wk : o.state.bk,
+                    mover === 'w' ? o.state.bk : o.state.wk));
 }
 
 function movedTo(options, target, mover) {
@@ -27,21 +29,26 @@ export function diagnose({ drillId, before, after, move, correct }) {
     if (move.piece === 'p') {
       return {
         principle: 'The pawn is not the escort',
-        text: 'Walk your king in front of the pawn first and keep it there. Push the pawn only while it stays behind your king — to win a tempo and hand the move back to them — or once nothing can stop it from queening.',
+        text: 'Walk your king in front of the pawn first and keep it there. Push the pawn only while it stays behind your king \u2014 to win a tempo and hand the move back to them \u2014 or once nothing can stop it from queening.',
       };
     }
+
+    const kingMoves = correct.filter(o => o.move.piece === 'k');
+    const closer = kingMoves.some(o => chebyshev(o.state.wk, promo) < chebyshev(after.wk, promo));
+    const retreated = chebyshev(after.wk, promo) > chebyshev(before.wk, promo);
+    const lead = {
+      principle: 'King leads, toward the queening square',
+      text: `March your king up the board ahead of the pawn, toward ${'abcdefgh'[file(pawn)]}8 and the squares around it. Your king has to clear the path before the pawn can travel, so every king move should be closing in on them.`,
+    };
+
+    if (retreated && closer) return lead;
     if (oppositionWasAvailable(correct, 'w')) {
       return {
         principle: 'Take the opposition',
         text: 'Put your king directly facing theirs with one square between, on the same file or rank. Whoever does not have to move holds the opposition, so they are the one forced to give way and let you through.',
       };
     }
-    if (movedTo(correct, front, 'w') || correct.some(o => chebyshev(o.state.wk, promo) < chebyshev(after.wk, promo))) {
-      return {
-        principle: 'King leads, toward the queening square',
-        text: 'March your king up the board ahead of the pawn, toward the squares in front of it. Your king has to clear the path before the pawn can travel.',
-      };
-    }
+    if (closer) return lead;
     return {
       principle: 'Outflank them',
       text: 'When their king steps aside, step diagonally forward to the other side. That wins the squares in front of your pawn and keeps them from blocking it.',

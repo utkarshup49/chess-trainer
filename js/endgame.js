@@ -1,7 +1,7 @@
 // Endgame drills. Every position is dealt at random and judged by the solver,
 // so there are no moves to memorise: a move counts if it keeps the result.
 import { TrainingBoard, Chess } from './board.js';
-import { generate, readBoard, scoreState, scoredMoves, chooseReply, toFen, squareName, WIN, DRAW } from './kpgen.js';
+import { generate, readBoard, scoreState, scoredMoves, chooseReply, file, rank, WIN, DRAW } from './kpgen.js';
 import { diagnose, label } from './coach.js';
 import { recordEndgame, getModuleProgress } from './progress.js';
 
@@ -121,6 +121,11 @@ export class EndgameTrainer {
       return this.userColor === 'black'
         ? this.finish(true, 'Stalemate — the draw is safe.')
         : this.finish(false, 'Stalemate. The win slipped away.');
+    }
+    // In the race drill, stepping in front of the pawn is the whole point.
+    if (this.drill.id === 'square' && st.p >= 0
+        && file(st.bk) === file(st.p) && rank(st.bk) > rank(st.p)) {
+      return this.finish(true, 'Caught it \u2014 your king is in front of the pawn.');
     }
     if (this.userColor === 'black' && this.goodMoves >= HOLD_TARGET) {
       return this.finish(true, 'You have held it long enough — this is a book draw.');
