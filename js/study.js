@@ -113,6 +113,7 @@ export class LineStudy {
     if (move.san !== expected) {
       this.board.reject(move.from, move.to);
       this.flash(`In this line the move is ${expected}. Play that one, or press Next.`);
+      this.timer = setTimeout(() => this.render(), 1000);
       return;
     }
     this.board.play(move);
@@ -179,16 +180,16 @@ export class LineStudy {
     const shape = this.board.preview(san);
     this.board.showArrow(shape.from, shape.to, mine ? 'green' : 'blue');
 
-    const note = this.noteFor(this.ply);
     if (mine) {
+      const note = this.noteFor(this.ply);
       this.el.teach.innerHTML =
         `<p class="note-title">Your move: ${escapeHtml(san)}</p>
          <p>${escapeHtml(note || 'Play the move shown on the board.')}</p>
          <p class="meta">Play it on the board, or press Next.</p>`;
     } else {
       this.el.teach.innerHTML =
-        `<p class="note-title">They play ${escapeHtml(san)}</p>
-         <p>${escapeHtml(note || 'Press Next to see it played.')}</p>`;
+        `<p class="note-title">They reply ${escapeHtml(san)}</p>
+         <p class="meta">Shown in blue. Press Next to play it.</p>`;
     }
   }
 
