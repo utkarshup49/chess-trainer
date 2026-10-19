@@ -41,10 +41,11 @@ function unitDone(progress, m, unit) {
 }
 
 function lineStatus(progress, lineId) {
-  const p = progress.lines[lineId];
-  if (!p || !p.done) return { text: 'Not played', tone: 'idle' };
-  if (p.clean) return { text: 'Clean ×' + p.clean, tone: 'good' };
-  return { text: 'Done ×' + p.done, tone: 'warn' };
+  const p = progress.lines[lineId] || {};
+  if (p.clean) return { text: 'Passed ×' + p.clean, tone: 'good' };
+  if (p.done) return { text: 'Tested ×' + p.done, tone: 'warn' };
+  if (p.studied) return { text: 'Learned', tone: 'warn' };
+  return { text: 'New', tone: 'idle' };
 }
 
 // ---------- Home ----------
@@ -78,38 +79,84 @@ async function renderHome() {
 }
 
 // ---------- Opening module ----------
+// Two ways in: learn the lines first, then be tested on them.
 function openingBody(m, progress) {
-  const group = (side, sideLabel) => {
+  const studied = id => Boolean((progress.lines[id] || {}).studied);
+  const tested = id => Boolean((progress.lines[id] || {}).done);
+
+  const learnGroup = (side, sideLabel) => {
     const lines = m.lines.filter(l => l.side === side);
     if (!lines.length) return '';
-    const done = lines.filter(l => progress.lines[l.id] && progress.lines[l.id].done).length;
-    const items = lines.map(l => {
-      const s = lineStatus(progress, l.id);
-      return `<li><a href="#/m/${m.id}/learn/${l.id}"><span>${escapeHtml(l.name)}</span><span class="chip" data-tone="${s.tone}">${s.text}</span></a></li>`;
-    }).join('');
-    const drill = done === lines.length
-      ? `<a class="button primary" href="#/m/${m.id}/drill/${side}">Random drill: ${sideLabel} lines</a>`
-      : `<div class="locked"><p>Play all ${lines.length} ${sideLabel} lines once to unlock the random drill (${done}/${lines.length}).</p>
-         <a class="small-link" href="#/m/${m.id}/drill/${side}">Start the drill anyway</a></div>`;
+    const done = lines.filter(l => studied(l.id)).length;
+    const items = lines.map(l => `
+      <li><a href="#/m/${m.id}/study/${l.id}">
+        <span>${escapeHtml(l.name)}</span>
+        <span class="chip" data-tone="${studied(l.id) ? 'good' : 'idle'}">${studied(l.id) ? 'Learned' : 'New'}</span>
+      </a></li>`).join('');
     return `
       <section class="line-group">
         <div class="group-head"><h2>You play ${sideLabel}</h2><span class="meta">${done}/${lines.length}</span></div>
         <ol class="line-list">${items}</ol>
-        ${drill}
+      </section>`;
+  };
+
+  const testGroup = (side, sideLabel) => {
+    const lines = m.lines.filter(l => l.side === side);
+    if (!lines.length) return '';
+    const done = lines.filter(l => tested(l.id)).length;
+    const ready = lines.filter(l => studied(l.id)).length;
+    const items = lines.map(l => {
+      const st = lineStatus(progress, l.id);
+      return `<li><a href="#/m/${m.id}/practice/${l.id}"><span>${escapeHtml(l.name)}</span><span class="chip" data-tone="${st.tone}">${st.text}</span></a></li>`;
+    }).join('');
+    const hint = ready < lines.length
+      ? `<p class="meta">${ready} of ${lines.length} learned so far. The random test works either way.</p>` : '';
+    return `
+      <section class="line-group">
+        <div class="group-head"><h2>You play ${sideLabel}</h2><span class="meta">${done}/${lines.length} tested</span></div>
+        <a class="button primary" href="#/m/${m.id}/drill/${side}">Random ${sideLabel} line</a>
+        ${hint}
+        <details class="line-picker">
+          <summary>Test one line at a time</summary>
+          <ol class="line-list">${items}</ol>
+        </details>
       </section>`;
   };
 
   const d = progress.drill;
+  const learnedAll = m.lines.every(l => studied(l.id));
   return `
-    <div class="groups">${group('white', 'White')}${group('black', 'Black')}</div>
-    <section class="mixed">
-      <div>
-        <h2>Both colours</h2>
-        <p class="meta">A random line each round, and you don't know which colour you'll get.</p>
+    <section class="portal">
+      <div class="portal-head">
+        <span class="step">1</span>
+        <div>
+          <h2>Learn the lines</h2>
+          <p class="meta">Walk through each trap move by move, with the point of every move explained. Nothing to get wrong here.</p>
+        </div>
       </div>
-      <a class="button" href="#/m/${m.id}/drill/mixed">Mixed drill</a>
+      <div class="groups">${learnGroup('white', 'White')}${learnGroup('black', 'Black')}</div>
     </section>
-    <p class="meta">Drill record: ${d.played} played · ${d.clean} clean · best streak ${d.best}</p>`;
+
+    <section class="portal">
+      <div class="portal-head">
+        <span class="step">2</span>
+        <div>
+          <h2>Test yourself</h2>
+          <p class="meta">${learnedAll
+            ? 'You have been through every line. Now find the moves without help.'
+            : 'A random line each round, and you have to find the moves yourself.'}</p>
+        </div>
+      </div>
+      <div class="groups">${testGroup('white', 'White')}${testGroup('black', 'Black')}</div>
+      <section class="mixed">
+        <div>
+          <h2>Both colours</h2>
+          <p class="meta">A random line each round, and you don't know which colour you'll get.</p>
+        </div>
+        <a class="button" href="#/m/${m.id}/drill/mixed">Mixed test</a>
+      </section>
+      <p class="meta">Test record: ${d.played} played · ${d.clean} clean · best streak ${d.best}</p>
+    </section>`;
 }
 
 // ---------- Endgame module ----------
@@ -182,8 +229,20 @@ async function renderTrainer(id, mode, arg) {
     return;
   }
 
-  if (mode === 'learn' && !m.lines.some(l => l.id === arg)) return renderMissing();
-  active = new OpeningTrainer(app, m, mode === 'learn' ? { mode, lineId: arg } : { mode, side: arg });
+  // 'learn' is the old name for 'practice'; keep it working for saved links.
+  const perLine = mode === 'study' || mode === 'practice' || mode === 'learn';
+  if (perLine && !m.lines.some(l => l.id === arg)) return renderMissing();
+
+  if (mode === 'study') {
+    const { LineStudy } = await import('./study.js');
+    active = new LineStudy(app, m, { lineId: arg });
+    return;
+  }
+  if (perLine) {
+    active = new OpeningTrainer(app, m, { mode: 'learn', lineId: arg });
+    return;
+  }
+  active = new OpeningTrainer(app, m, { mode, side: arg });
 }
 
 function renderMissing() {

@@ -79,3 +79,14 @@ export function recordEndgame(moduleId, drillId, clean) {
   save(data);
   return d;
 }
+
+// Reaching the end of a line in the walkthrough.
+export function recordStudy(moduleId, lineId) {
+  const data = load();
+  const m = moduleData(data, moduleId);
+  const line = m.lines[lineId] || { done: 0, clean: 0 };
+  line.studied = (line.studied || 0) + 1;
+  m.lines[lineId] = line;
+  save(data);
+  return line;
+}

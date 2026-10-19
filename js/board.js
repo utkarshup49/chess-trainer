@@ -134,8 +134,8 @@ export class TrainingBoard {
     setTimeout(() => this.cg.setAutoShapes([]), 900);
   }
 
-  showArrow(from, to) {
-    this.cg.setAutoShapes([{ orig: from, dest: to, brush: 'green' }]);
+  showArrow(from, to, brush = 'green') {
+    this.cg.setAutoShapes([{ orig: from, dest: to, brush }]);
   }
 
   clearArrows() {

@@ -124,7 +124,7 @@ export class OpeningTrainer {
 
     const sideText = roundSide === 'white' ? 'You play White' : 'You play Black';
     if (this.mode === 'learn') {
-      this.el.eyebrow.textContent = 'Learn · ' + sideText;
+      this.el.eyebrow.textContent = 'Test · ' + sideText;
       this.el.title.textContent = target.name;
     } else {
       const stats = getModuleProgress(this.module.id).drill;
@@ -261,7 +261,7 @@ export class OpeningTrainer {
       const idx = sameSide.findIndex(l => l.id === line.id);
       const next = sameSide[idx + 1];
       buttons = `<button type="button" class="primary" id="btn-again">Play it again</button>` +
-        (next ? `<a class="button" href="#/m/${this.module.id}/learn/${next.id}">Next line</a>` : '') +
+        (next ? `<a class="button" href="#/m/${this.module.id}/practice/${next.id}">Next line</a>` : '') +
         `<a class="button" href="#/m/${this.module.id}">All lines</a>`;
     } else {
       const stats = recordDrill(this.module.id, line.id, clean);
