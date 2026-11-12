@@ -1,0 +1,145 @@
+{
+  "id": "rook-endgames",
+  "type": "endgame",
+  "engine": "tablebase",
+  "title": "Rook Endgames",
+  "description": "The endings you will actually get. Six methods, each on fresh positions: build the bridge, hold the third rank, check from the long side.",
+  "source": "Every position is dealt fresh and judged by Lichess's endgame tablebase, which is perfect for seven pieces or fewer. These drills need a connection.",
+  "drills": [
+    {
+      "id": "lucena",
+      "name": "Lucena: build the bridge",
+      "side": "either",
+      "recipe": "lucena",
+      "goal": "Your pawn is on the seventh with your king in front of it. Get the king out and queen.",
+      "idea": "The king cannot leave the queening square without being checked forever, unless the rook first builds a bridge on the fourth rank to block the last check.",
+      "method": [
+        "Check their king one file further away from your pawn.",
+        "Lift your rook to the fourth rank. That is the bridge.",
+        "Step your king out from in front of the pawn and walk it toward the checks.",
+        "When your king reaches the fifth rank, block the check with the rook. The pawn queens."
+      ],
+      "demo": {
+        "fen": "3K4/3P2k1/8/8/8/8/r7/5R2 w - - 0 1",
+        "side": "white",
+        "moves": "Rg1+ Kh7 Rg4 Rd2 Ke7 Re2+ Kd6 Rd2+ Ke6 Re2+ Kd5 Rd2+ Rd4",
+        "notes": {
+          "0": "First push their king one more file away from the pawn.",
+          "2": "The bridge. From the fourth rank this rook will be able to block a check later.",
+          "4": "Now step out from in front of the pawn. The checks start, and that is fine.",
+          "6": "Walk down the board toward the rook, staying next to the pawn.",
+          "8": "Keep going. The king is heading for the fifth rank.",
+          "10": "Fifth rank. The rook on g4 is now one step from blocking.",
+          "12": "The bridge closes. There are no more checks and the pawn queens."
+        }
+      }
+    },
+    {
+      "id": "philidor",
+      "name": "Philidor: hold the third rank",
+      "side": "either",
+      "recipe": "philidor",
+      "goal": "You are a pawn down with your king in front of the pawn. Hold the draw.",
+      "idea": "A rook on your third rank keeps their king off it. Once the pawn has to step there instead, their king has lost its shelter and checks from behind never end.",
+      "method": [
+        "Put your rook on your third rank, counted from your side, so their king cannot step onto it.",
+        "Wait there. Shuffle the rook along that rank.",
+        "The moment their pawn steps onto that rank, drop your rook to the far end of the board.",
+        "Check from behind. Their king has nowhere to hide."
+      ],
+      "demo": {
+        "fen": "4k3/7R/8/4PK2/8/8/r7/8 b - - 0 1",
+        "side": "black",
+        "moves": "Ra6 e6 Ra1 Kf6 Rf1+ Ke5 Re1+ Kd6 Rd1+",
+        "notes": {
+          "0": "Third rank first. Their king can no longer step forward to f6 or e6.",
+          "1": "The pawn has stepped onto the rank your rook was guarding. That is your signal.",
+          "2": "Drop to the far end. With the pawn on e6 their king has lost the square it wanted to hide on.",
+          "4": "Check from behind.",
+          "6": "Keep checking from as far away as you can.",
+          "8": "It never ends. Draw."
+        }
+      }
+    },
+    {
+      "id": "rookdefence",
+      "name": "Short side, long side",
+      "side": "either",
+      "recipe": "rookdefence",
+      "goal": "A pawn down again, but the Philidor set-up is not available. Find the defence that still holds.",
+      "idea": "When you cannot hold the third rank, the king goes to the short side of the pawn and the rook to the long side, where it has room to check from a distance.",
+      "method": [
+        "Move your king to the short side of the pawn, the side with fewer files to the edge.",
+        "Put your rook on the long side, as far from their king as it can get.",
+        "Check from the side when their king steps in front of the pawn. Go back to waiting when it hides.",
+        "Against a knight pawn or rook pawn, a rook waiting on your back rank is enough."
+      ]
+    },
+    {
+      "id": "vancura",
+      "name": "Vancura: attack the rook pawn from the side",
+      "side": "either",
+      "recipe": "vancura",
+      "goal": "They have a rook pawn on the sixth with their rook stuck in front of it. Hold the draw.",
+      "idea": "Their rook is tied to the pawn. Attack the pawn from the side so that the rook can never leave, and check their king away whenever it comes to help.",
+      "method": [
+        "Attack the pawn from the side, along the rank it stands on.",
+        "Keep your king on the far wing, right next to their queening rank: g7 or h7 against a White a-pawn. From there no pawn push comes with check.",
+        "When their king comes to defend the pawn, check it away sideways.",
+        "If the pawn steps to the seventh, put your rook straight behind it."
+      ],
+      "demo": {
+        "fen": "R7/6k1/P7/8/8/3K4/8/r7 b - - 0 1",
+        "side": "black",
+        "moves": "Rf1 Kd4 Rf6 Kc5 Rf5+ Kb6 Rf6+ Kb7 Rf7+ Kc6 Rf6+",
+        "notes": {
+          "0": "The rook is heading for f6, to attack the pawn from the side instead of from behind.",
+          "2": "From f6 the rook hits a6, and it can check along the sixth rank or down the f-file.",
+          "4": "Their king came to help the pawn. Check it away from the side.",
+          "6": "Their king cannot settle anywhere near the pawn.",
+          "8": "Still checking.",
+          "10": "If the king runs away from the pawn, the rook goes back to attacking a6. Draw."
+        }
+      }
+    },
+    {
+      "id": "rookvpawn",
+      "name": "Rook against a pawn",
+      "side": "either",
+      "recipe": "rookvpawn",
+      "goal": "You have a rook against a far-advanced pawn and its king. Win it.",
+      "idea": "A rook wins against a pawn only if your king gets back in time. The rook's job is to slow the pawn and cut their king off while yours arrives.",
+      "method": [
+        "Count first: your king has to reach the pawn's path in time.",
+        "Cut their king off along a rank with the rook when you can. A pawn without its king is harmless.",
+        "Bring your king round on the side away from their king, so it cannot be shouldered.",
+        "Take the pawn only once it cannot be defended."
+      ]
+    },
+    {
+      "id": "extrapawn",
+      "name": "Win with the extra pawn",
+      "side": "either",
+      "recipe": "extrapawn",
+      "goal": "Rook and pawn against rook, and their king is cut off. Convert it.",
+      "idea": "Keep their king cut off, advance king and pawn together, and steer for the Lucena position.",
+      "method": [
+        "Cut their king off from the pawn with your rook, and keep it cut off.",
+        "Advance king and pawn together, with the king a step ahead.",
+        "Aim for Lucena: pawn on the seventh, your king in front, their king shut out.",
+        "Answer checks by walking toward the checking rook, staying next to your pawn."
+      ]
+    },
+    {
+      "id": "random",
+      "name": "Random position",
+      "side": "either",
+      "goal": "One of the drills above, and you are not told which. Work out what the position is worth first.",
+      "idea": "Read the position before you move: what is the material, where are the kings, and which method does it call for?",
+      "method": [
+        "Name the position type before touching a piece.",
+        "Then apply that type's method."
+      ]
+    }
+  ]
+}
