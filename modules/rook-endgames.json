@@ -89,12 +89,12 @@
         "If the pawn steps to the seventh, put your rook straight behind it."
       ],
       "demo": {
-        "fen": "R7/6k1/P7/8/8/3K4/8/r7 b - - 0 1",
+        "fen": "R7/6k1/P7/8/8/4K3/8/r7 b - - 0 1",
         "side": "black",
         "moves": "Rf1 Kd4 Rf6 Kc5 Rf5+ Kb6 Rf6+ Kb7 Rf7+ Kc6 Rf6+",
         "notes": {
           "0": "The rook is heading for f6, to attack the pawn from the side instead of from behind.",
-          "2": "From f6 the rook hits a6, and it can check along the sixth rank or down the f-file.",
+          "2": "The only move. From f6 the rook attacks a6 and can check along the sixth rank or down the f-file.",
           "4": "Their king came to help the pawn. Check it away from the side.",
           "6": "Their king cannot settle anywhere near the pawn.",
           "8": "Still checking.",
