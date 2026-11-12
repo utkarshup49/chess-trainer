@@ -164,27 +164,45 @@ function endgameBody(m, progress) {
   const cards = m.drills.map(d => {
     const s = progress.endgames[d.id] || { played: 0, clean: 0, streak: 0, best: 0 };
     const tone = s.clean ? 'good' : s.played ? 'warn' : 'idle';
-    const chip = s.played ? `Clean ×${s.clean} of ${s.played}` : 'Not played';
-    return `
-      <a class="drill-card${d.id === 'random' ? ' mixed-card' : ''}" href="#/m/${m.id}/drill/${d.id}">
+    const chip = s.played ? `Clean \u00d7${s.clean} of ${s.played}` : 'Not played';
+    const side = d.side === 'either' ? 'Either colour' : 'You play ' + (d.side === 'white' ? 'White' : 'Black');
+    const head = `
         <div class="group-head">
           <h2>${escapeHtml(d.name)}</h2>
           <span class="chip" data-tone="${tone}">${chip}</span>
         </div>
-        <p class="meta">${d.side === 'either' ? 'Either colour' : 'You play ' + (d.side === 'white' ? 'White' : 'Black')}</p>
+        <p class="meta">${side}</p>
         <p>${escapeHtml(d.goal)}</p>
-        ${s.best ? `<p class="meta">Best streak ${s.best}</p>` : ''}
+        ${s.best ? `<p class="meta">Best streak ${s.best}</p>` : ''}`;
+
+    // A drill with a worked example gets two ways in: learn it, then drill it.
+    if (d.demo) {
+      const learned = (progress.lines[d.id] || {}).studied;
+      return `
+      <div class="drill-card">${head}
+        <div class="actions">
+          <a class="button${learned ? '' : ' primary'}" href="#/m/${m.id}/demo/${d.id}">${learned ? 'See the method again' : 'Learn the method'}</a>
+          <a class="button${learned ? ' primary' : ''}" href="#/m/${m.id}/drill/${d.id}">Drill it</a>
+        </div>
+      </div>`;
+    }
+    return `
+      <a class="drill-card${d.id === 'random' ? ' mixed-card' : ''}" href="#/m/${m.id}/drill/${d.id}">${head}
       </a>`;
   }).join('');
 
-  const principles = m.principles.map(p => `
-    <li><h3>${escapeHtml(p.title)}</h3><p>${escapeHtml(p.text)}</p></li>`).join('');
+  // Older modules list their principles; newer ones carry a method per drill.
+  const points = m.principles
+    ? m.principles.map(p => `<li><h3>${escapeHtml(p.title)}</h3><p>${escapeHtml(p.text)}</p></li>`)
+    : m.drills.filter(d => d.recipe).map(d => `
+        <li><h3>${escapeHtml(d.name)}</h3>
+          <ol class="method">${d.method.map(step => `<li>${escapeHtml(step)}</li>`).join('')}</ol></li>`);
 
   return `
     <div class="drill-grid">${cards}</div>
     <section class="principles">
-      <h2>The principles behind the drills</h2>
-      <ol class="principle-list">${principles}</ol>
+      <h2>${m.principles ? 'The principles behind the drills' : 'The methods'}</h2>
+      <ol class="principle-list">${points.join('')}</ol>
     </section>`;
 }
 
@@ -223,7 +241,21 @@ async function renderTrainer(id, mode, arg) {
   if (!m) return renderMissing();
 
   if (isEndgame(m)) {
-    if (mode !== 'drill' || !m.drills.some(d => d.id === arg)) return renderMissing();
+    const drill = m.drills.find(d => d.id === arg);
+    if (!drill) return renderMissing();
+    // A drill's worked example, stepped through like an opening line.
+    if (mode === 'demo' && drill.demo) {
+      const { LineStudy } = await import('./study.js');
+      const demo = { ...drill.demo, id: drill.id, name: drill.name, idea: drill.idea };
+      active = new LineStudy(app, m, { demo });
+      return;
+    }
+    if (mode !== 'drill') return renderMissing();
+    if (m.engine === 'tablebase') {
+      const { TablebaseTrainer } = await import('./tbdrill.js');
+      active = new TablebaseTrainer(app, m, { drillId: arg });
+      return;
+    }
     const { EndgameTrainer } = await import('./endgame.js');
     active = new EndgameTrainer(app, m, { drillId: arg });
     return;

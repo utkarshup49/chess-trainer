@@ -403,3 +403,11 @@ button:hover, .button:hover { border-color: var(--muted); }
 }
 button:disabled { opacity: 0.45; cursor: default; }
 button:disabled:hover { border-color: var(--line); }
+
+/* Method steps, in the trainer and on the module page */
+.method { margin: 0; padding-left: 1.25em; display: grid; gap: 4px; }
+.method li { padding-left: 2px; }
+.principle-list .method { color: var(--muted); font-size: 0.94rem; }
+.principle-list .method li { display: list-item; padding-left: 2px; position: static; }
+.principle-list .method li::before { content: none; }
+.drill-card .actions { margin-top: 4px; }

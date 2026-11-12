@@ -1,4 +1,32 @@
 [
-  { "id": "qg-traps", "type": "opening", "file": "modules/qg-traps.json" },
-  { "id": "kp-endgames", "type": "endgame", "file": "modules/kp-endgames.json" }
+  {
+    "id": "qg-traps",
+    "type": "opening",
+    "file": "modules/qg-traps.json"
+  },
+  {
+    "id": "kp-endgames",
+    "type": "endgame",
+    "file": "modules/kp-endgames.json"
+  },
+  {
+    "id": "pawn-endgames-2",
+    "type": "endgame",
+    "file": "modules/pawn-endgames-2.json"
+  },
+  {
+    "id": "rook-endgames",
+    "type": "endgame",
+    "file": "modules/rook-endgames.json"
+  },
+  {
+    "id": "queen-vs-pawn",
+    "type": "endgame",
+    "file": "modules/queen-vs-pawn.json"
+  },
+  {
+    "id": "fortresses",
+    "type": "endgame",
+    "file": "modules/fortresses.json"
+  }
 ]
