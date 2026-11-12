@@ -74,14 +74,49 @@ const CATEGORY = {
   loss: -1, 'blessed-loss': -1, 'maybe-loss': -1,
 };
 
-async function askTablebase(fen) {
-  let res;
-  try {
-    res = await fetch(`${TABLEBASE}?fen=${encodeURIComponent(fen)}`);
-  } catch (e) {
-    throw new OracleOffline(e.message);
+// Lichess asks for one request at a time, and for a full minute's pause after
+// a 429. So every lookup goes through one queue with a small gap between
+// requests, and a 429 parks the queue rather than failing the drill.
+const GAP_MS = 220;
+const PAUSE_MS = 61000;
+let queue = Promise.resolve();
+let lastRequest = 0;
+
+const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
+
+function announce(seconds) {
+  if (typeof window !== 'undefined') {
+    window.dispatchEvent(new CustomEvent('oracle-wait', { detail: { seconds } }));
   }
-  // A 4xx is the tablebase refusing this position, which is a different
+}
+
+function fetchInTurn(url) {
+  const run = async () => {
+    for (let attempt = 0; attempt < 3; attempt++) {
+      const wait = lastRequest + GAP_MS - Date.now();
+      if (wait > 0) await sleep(wait);
+      lastRequest = Date.now();
+      let res;
+      try {
+        res = await fetch(url);
+      } catch (e) {
+        throw new OracleOffline(e.message);
+      }
+      if (res.status !== 429) return res;
+      announce(Math.round(PAUSE_MS / 1000));
+      await sleep(PAUSE_MS);
+      announce(0);
+    }
+    throw new OracleOffline('the tablebase is still asking us to slow down');
+  };
+  const result = queue.then(run, run);
+  queue = result.catch(() => {});
+  return result;
+}
+
+async function askTablebase(fen) {
+  const res = await fetchInTurn(`${TABLEBASE}?fen=${encodeURIComponent(fen)}`);
+  // Any other 4xx is the tablebase refusing this position, which is a different
   // problem from not being able to reach it at all.
   if (res.status >= 400 && res.status < 500) {
     throw new PositionRejected(`${res.status}: ${(await res.text()).slice(0, 80)}`);
