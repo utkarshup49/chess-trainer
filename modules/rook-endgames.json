@@ -73,7 +73,24 @@
         "Put your rook on the long side, as far from their king as it can get.",
         "Check from the side when their king steps in front of the pawn. Go back to waiting when it hides.",
         "Against a knight pawn or rook pawn, a rook waiting on your back rank is enough."
-      ]
+      ],
+      "demo": {
+        "fen": "5k2/R7/5K2/5P2/8/8/8/1r6 b - - 0 1",
+        "side": "black",
+        "moves": "Kg8 Ra8+ Kh7 Ke6 Re1+ Kf7 Rb1 f6 Rb7+ Ke6 Rb6+ Ke7 Rb7+ Kd6 Rb6+ Kc7 Rxf6",
+        "notes": {
+          "0": "They threaten mate on the back rank. Step to the short side of the pawn: the g- and h-files, where there are fewer files to the edge.",
+          "2": "Stay on the short side. Your king is safe here and out of your rook's way.",
+          "4": "Their king steps up to shelter the pawn. Check it first.",
+          "6": "Now the rook goes to the long side, as far from their king as it can get. From the b-file it has room to check along the ranks.",
+          "7": "They push the pawn.",
+          "8": "Check from the side.",
+          "10": "Again. This is the only move that holds.",
+          "12": "Keep checking. To stop the checks their king has to walk all the way toward your rook.",
+          "15": "And now it has walked away from its own pawn.",
+          "16": "So the pawn falls. Draw."
+        }
+      }
     },
     {
       "id": "vancura",
@@ -114,7 +131,19 @@
         "Cut their king off along a rank with the rook when you can. A pawn without its king is harmless.",
         "Bring your king round on the side away from their king, so it cannot be shouldered.",
         "Take the pawn only once it cannot be defended."
-      ]
+      ],
+      "demo": {
+        "fen": "8/8/8/8/2K3pk/8/8/R7 w - - 0 1",
+        "side": "white",
+        "moves": "Kd5 g3 Ke4 g2 Kf3 Kg5 Kxg2",
+        "notes": {
+          "0": "Count first. The pawn needs three moves to queen, and your rook already guards g1. Your king only has to reach the pawn, so head straight for its path.",
+          "2": "Keep coming, one diagonal step at a time.",
+          "3": "One square from queening, but the rook still covers g1.",
+          "4": "Your king arrives in time. Their king is on the wrong side to defend the pawn.",
+          "6": "Take it. A rook against a bare king is a win."
+        }
+      }
     },
     {
       "id": "extrapawn",
@@ -128,7 +157,23 @@
         "Advance king and pawn together, with the king a step ahead.",
         "Aim for Lucena: pawn on the seventh, your king in front, their king shut out.",
         "Answer checks by walking toward the checking rook, staying next to your pawn."
-      ]
+      ],
+      "demo": {
+        "fen": "7r/8/8/k7/3P4/3K4/8/1R6 w - - 0 1",
+        "side": "white",
+        "moves": "d5 Rd8 Kc4 Rc8+ Kd4 Rc2 d6 Rd2+ Ke5 Ka6 Ke6 Re2+ Kd7 Rd2 Ke7 Re2+ Kd8 Re3 d7 Rd3",
+        "notes": {
+          "0": "Your rook on the b-file cuts their king off, two files from the pawn. Leave the rook there and bring the pawn up.",
+          "2": "Support the pawn with your king.",
+          "4": "Checked away, come straight back beside the pawn.",
+          "6": "Push when the pawn is safe to push.",
+          "8": "Out of the check, and forward. The king leads.",
+          "10": "King a step ahead of the pawn.",
+          "12": "Walk toward the checks, staying next to your pawn.",
+          "16": "In front of the pawn.",
+          "18": "Pawn on the seventh, your king in front of it, their king still shut out on the a-file. This is the Lucena position, and you know how to win it."
+        }
+      }
     },
     {
       "id": "random",
