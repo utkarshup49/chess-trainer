@@ -1,0 +1,50 @@
+{
+  "id": "queen-vs-pawn",
+  "type": "endgame",
+  "engine": "tablebase",
+  "title": "Queen against a Pawn",
+  "description": "A pawn on the seventh against a queen: a win against some pawns and a draw against others. Learn which, and why.",
+  "source": "Every position is dealt fresh and judged by Lichess's endgame tablebase, which is perfect for seven pieces or fewer. These drills need a connection.",
+  "drills": [
+    {
+      "id": "qvpwin",
+      "name": "Win against a centre or knight pawn",
+      "side": "either",
+      "recipe": "qvpwin",
+      "goal": "They have a centre or knight pawn one step from queening. Win before it gets there.",
+      "idea": "Check until their king has to stand in front of its own pawn. That costs them a move, and your king uses it to come one square closer. Repeat.",
+      "method": [
+        "Check or pin until their king is forced to step in front of its own pawn.",
+        "That blocks the pawn for one move. Use that move to bring your king one square closer.",
+        "Repeat the cycle. Each round gains one king move.",
+        "Once your king is beside the pawn, take it or give mate."
+      ]
+    },
+    {
+      "id": "qvpdraw",
+      "name": "Draw with a rook or bishop pawn",
+      "side": "either",
+      "recipe": "qvpdraw",
+      "goal": "You have a rook pawn or bishop pawn on the seventh against a queen. Hold the draw.",
+      "idea": "With these two pawns the corner gives stalemate. Their king never gets the free move it needs to approach.",
+      "method": [
+        "Keep your king next to the pawn and the queening square.",
+        "Rook pawn: when the queen comes close, step into the corner in front of your pawn. They must let you out or it is stalemate.",
+        "Bishop pawn: when checked onto the knight file, go into the corner and leave the pawn. Taking it is stalemate.",
+        "Step in front of your pawn only in those corner positions."
+      ],
+      "hold": 10
+    },
+    {
+      "id": "random",
+      "name": "Random position",
+      "side": "either",
+      "goal": "A queen against a pawn on the seventh, and you could be on either side. Decide whether it is a win or a draw, then prove it.",
+      "idea": "Read the position before you move: what is the material, where are the kings, and which method does it call for?",
+      "method": [
+        "Name the position type before touching a piece.",
+        "Then apply that type's method."
+      ]
+    }
+  ]
+}
