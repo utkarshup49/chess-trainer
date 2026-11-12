@@ -265,6 +265,10 @@ function loadBank() {
   return bankPromise;
 }
 
+// Lookups a live deal spends looking for a real first decision before it
+// settles for the most demanding candidate it has seen.
+const PATIENCE = 8;
+
 // --- How hard is a position? ----------------------------------------------
 // A decision is real when few moves keep the result (at most two, or a quarter
 // of the legal moves when there are many, as in rook endings) and none of them
@@ -349,6 +353,7 @@ export async function deal(recipeId, Chess, { budget = 40, useBank = true, deep 
 
   const userAttacks = recipe.user === 'attacker';
   let asked = 0;
+  let fallback = null;
 
   for (let tries = 0; tries < 4000 && asked < budget; tries++) {
     let pieces = recipe.make();
@@ -392,15 +397,31 @@ export async function deal(recipeId, Chess, { budget = 40, useBank = true, deep 
     const lose = moves.length - keep;
     if (!keep || lose < (recipe.minThrow || 1)) continue;
     if (recipe.maxKeepFrac && keep / moves.length > recipe.maxKeepFrac) continue;
+    const result = { fen, userColor: userIsWhite ? 'w' : 'b', goal: userAttacks ? 'win' : 'draw' };
+
     // The first move has to be a real decision, not a hanging pawn to take.
-    if (!isRealDecision(keepers, moves.length)) continue;
+    // Some families (drawn rook endings, fortresses) rarely offer one at the
+    // very first move, so when dealing live, settle for the most demanding
+    // candidate seen rather than keep the learner waiting.
+    if (!isRealDecision(keepers, moves.length)) {
+      if (deep) continue;
+      const easy = keepers.some(m => m.san.includes('x') || m.san.includes('='));
+      const score = keep / moves.length + (easy ? 1 : 0);
+      if (!fallback || score < fallback.score) fallback = { ...result, score };
+      if (asked >= PATIENCE && fallback && fallback.score < 1) break;
+      continue;
+    }
 
     if (deep) {
       const d = await difficulty(fen, recipeId, Chess, { hold });
       asked += d.lookups;
       if (!hardEnough(d)) continue;
     }
-    return { fen, userColor: userIsWhite ? 'w' : 'b', goal: userAttacks ? 'win' : 'draw', lookups: asked };
+    return { ...result, lookups: asked };
+  }
+  if (fallback) {
+    const { score, ...pos } = fallback;
+    return { ...pos, lookups: asked };
   }
   return null;
 }
