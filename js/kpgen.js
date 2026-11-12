@@ -189,6 +189,109 @@ const DRILLS = {
   },
 };
 
+// --- How hard is a position? ---------------------------------------------
+// Plays the drill out the way the trainer will run it. The learner always takes
+// the correct move that finishes soonest (the most forgiving reading of how hard
+// it is) and the opponent defends exactly as the trainer's opponent does.
+//
+// A decision counts as real when only a couple of moves keep the result and
+// none of them is a capture or a promotion: taking a hanging pawn is not a skill.
+const REAL_DECISION_KEEPS = 2;
+const HOLD_TARGET = 16;           // keep in step with js/endgame.js
+
+function successors(s) {
+  return movesFrom(s.wk, s.bk, s.p, s.stm).map(m => {
+    if (m.terminal !== undefined) {
+      return { terminal: true, result: m.terminal, depth: 0,
+               capture: s.stm === 1, promotion: s.stm === 0 };
+    }
+    const next = { wk: m.wk, bk: m.bk, p: m.p, stm: 1 - s.stm };
+    const r = probe(next.wk, next.bk, next.p, next.stm);
+    return { next, result: r.result, depth: r.depth, capture: false, promotion: false };
+  });
+}
+
+// The trainer's opponent: never spoils its own result, resists as long as it
+// can when lost, and otherwise leaves the learner the most ways to go wrong.
+function opponentChoice(opts, white, want) {
+  const best = white
+    ? (opts.some(o => o.result === WIN) ? WIN : DRAW)
+    : (opts.some(o => o.result === DRAW) ? DRAW : WIN);
+  let pool = opts.filter(o => o.result === best);
+  if (!white && best === WIN) {
+    const longest = Math.max(...pool.map(o => o.depth));
+    pool = pool.filter(o => o.depth === longest);
+  }
+  let pickd = pool[0], most = -1;
+  for (const o of pool) {
+    if (o.terminal) continue;
+    const replies = successors(o.next);
+    const bad = replies.filter(r => r.result !== want).length;
+    if (bad > most) { most = bad; pickd = o; }
+  }
+  return pickd;
+}
+
+// Mirrors the end conditions in js/endgame.js for a position the learner is
+// still holding.
+function drillOver(drillId, s, played) {
+  if (drillId === 'square' && file(s.bk) === file(s.p) && rank(s.bk) > rank(s.p)) return true;
+  if (DRILLS[drillId].userColor === 'b' && played >= HOLD_TARGET) return true;
+  return false;
+}
+
+export function difficulty(drillId, pos, { lookAhead = 8 } = {}) {
+  const spec = DRILLS[drillId];
+  const userWhite = spec.userColor === 'w';
+  let s = { wk: pos.wk, bk: pos.bk, p: pos.p, stm: pos.stm };
+  let moves = 0, real = 0, firstReal = false;
+
+  for (let ply = 0; ply < 60; ply++) {
+    const opts = successors(s);
+    if (!opts.length) break;                                 // stalemate or mate
+    const mine = (s.stm === 0) === userWhite;
+    let next;
+    if (mine) {
+      const keep = opts.filter(o => o.result === spec.want);
+      if (!keep.length) break;
+      const isReal = keep.length <= REAL_DECISION_KEEPS && keep.length < opts.length
+        && !keep.some(o => o.capture || o.promotion);
+      if (moves === 0) firstReal = isReal;
+      if (isReal && moves < lookAhead) real++;
+      moves++;
+      if (userWhite) {
+        next = keep.reduce((a, b) => (b.depth < a.depth ? b : a));
+      } else {
+        next = keep.find(o => o.capture)
+          || keep.find(o => !o.terminal && drillOver(drillId, o.next, moves))
+          || keep.reduce((a, b) => (!b.terminal && !a.terminal
+               && chebyshev(b.next.bk, s.p) < chebyshev(a.next.bk, s.p) ? b : a));
+      }
+    } else {
+      next = opponentChoice(opts, s.stm === 0, spec.want);
+    }
+    if (next.terminal) break;
+    s = next.next;
+    if (drillOver(drillId, s, moves)) break;
+    if (moves >= lookAhead + 4) break;                     // long enough to count as long
+  }
+  return { moves, real, firstReal };
+}
+
+// What a dealt position has to clear, per drill.
+const NEEDS = {
+  square:   { moves: 3, real: 2 },
+  promote:  { moves: 4, real: 3 },
+  hold:     { moves: 4, real: 3 },
+  rookpawn: { moves: 3, real: 2 },
+};
+
+export function isHardEnough(drillId, pos) {
+  const need = NEEDS[drillId];
+  const d = difficulty(drillId, pos);
+  return d.firstReal && d.moves >= need.moves && d.real >= need.real;
+}
+
 export function drillIds() {
   return Object.keys(DRILLS);
 }
@@ -214,8 +317,9 @@ export function generate(drillId) {
     if (!isLegal(wk, bk, p, stm)) continue;
     if (!spec.accept(cand)) continue;
     if (probe(wk, bk, p, stm).result !== spec.want) continue;
-    if (!fallback) fallback = cand;
     if (!hasTrap(wk, bk, p, stm)) continue;
+    if (!fallback) fallback = cand;
+    if (!isHardEnough(drillId, cand)) continue;
     return { ...cand, userColor: spec.userColor, sourceDrill: drillId, fen: toFen(wk, bk, p, stm) };
   }
   const c = fallback || { wk: 4, bk: 36, p: 28, stm: spec.userColor === 'w' ? 0 : 1 };
