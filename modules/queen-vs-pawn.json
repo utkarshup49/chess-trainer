@@ -18,7 +18,24 @@
         "That blocks the pawn for one move. Use that move to bring your king one square closer.",
         "Repeat the cycle. Each round gains one king move.",
         "Once your king is beside the pawn, take it or give mate."
-      ]
+      ],
+      "demo": {
+        "fen": "K7/8/8/8/8/8/3pk3/7Q w - - 0 1",
+        "side": "white",
+        "moves": "Qe4+ Kf2 Qd3 Ke1 Qe3+ Kd1 Kb7 Kc2 Qe4+ Kc1 Qc4+ Kb2 Qd3 Kc1 Qc3+ Kd1 Kc6",
+        "notes": {
+          "0": "Start with a check to bring the queen close.",
+          "2": "Attack the pawn, so their king has to come back and defend it.",
+          "4": "This is the check that matters: the only square left is in front of the pawn.",
+          "5": "Their king is standing in front of its own pawn, so the pawn cannot move this turn.",
+          "6": "That is your free move. The king comes one square closer.",
+          "8": "Now the same cycle again: check,",
+          "10": "check,",
+          "12": "attack the pawn,",
+          "14": "and force the king in front of it once more.",
+          "16": "Another free king move. Keep repeating until your king stands next to the pawn, then take it."
+        }
+      }
     },
     {
       "id": "qvpdraw",
@@ -33,7 +50,22 @@
         "Bishop pawn: when checked onto the knight file, go into the corner and leave the pawn. Taking it is stalemate.",
         "Step in front of your pawn only in those corner positions."
       ],
-      "hold": 10
+      "hold": 10,
+      "demo": {
+        "fen": "8/8/8/8/8/K7/3Q1pk1/8 b - - 0 1",
+        "side": "black",
+        "moves": "Kg1 Qg5+ Kh2 Qf4+ Kg2 Qg4+ Kh1 Qf3+ Kg1 Qg3+ Kh1 Qxf2",
+        "notes": {
+          "0": "Stay next to the pawn and the queening square.",
+          "2": "Keep stepping around the pawn. Their king is too far away to help yet.",
+          "4": "Back next to the pawn.",
+          "6": "The corner is safe here because the pawn is still protected.",
+          "8": "The only move. The king must stay touching the pawn.",
+          "9": "Against a centre pawn this check would force your king in front of the pawn. With a bishop pawn there is another square.",
+          "10": "Into the corner, leaving the pawn to be taken. This is the whole trick.",
+          "11": "They take it, and you have no legal move. Stalemate."
+        }
+      }
     },
     {
       "id": "random",
