@@ -1,0 +1,79 @@
+{
+  "id": "fortresses",
+  "type": "endgame",
+  "engine": "tablebase",
+  "title": "Fortresses",
+  "description": "Positions where the weaker side cannot be broken down. Four set-ups worth knowing by sight, because they save lost-looking games.",
+  "source": "Every position is dealt fresh and judged by Lichess's endgame tablebase, which is perfect for seven pieces or fewer. These drills need a connection.",
+  "drills": [
+    {
+      "id": "wrongbishop",
+      "name": "The wrong-coloured bishop",
+      "side": "either",
+      "recipe": "wrongbishop",
+      "goal": "They have a bishop and a rook pawn, but the bishop does not control the queening corner. Draw it.",
+      "idea": "If the bishop cannot attack the corner square, a king sitting there can never be driven out.",
+      "method": [
+        "Run for the corner the pawn is heading to.",
+        "Take the shortest path. Going after the pawn wastes the move you need.",
+        "Once there, shuffle between the corner and the square beside it.",
+        "They can only stalemate you or give the pawn away."
+      ],
+      "hold": 10
+    },
+    {
+      "id": "oppbishops",
+      "name": "Opposite-coloured bishops",
+      "side": "either",
+      "recipe": "oppbishops",
+      "goal": "Two pawns down with bishops of opposite colours. Set up the blockade and hold it.",
+      "idea": "Your bishop and king control squares their bishop can never contest. Two extra pawns are not enough if they cannot both advance.",
+      "method": [
+        "Put your king in front of the pawns, on a square their bishop cannot attack.",
+        "Put your bishop where it attacks a pawn, so their king is tied to defending it.",
+        "Keep the bishop on the diagonal that stops the pawns stepping forward together.",
+        "Then wait, moving the bishop up and down that diagonal."
+      ]
+    },
+    {
+      "id": "knightvpawn",
+      "name": "Knight against a rook pawn",
+      "side": "either",
+      "recipe": "knightvpawn",
+      "goal": "A lone knight against a rook pawn and its king. Stop the pawn.",
+      "idea": "A knight in front of a rook pawn holds it by itself, as long as the pawn has not reached the seventh.",
+      "method": [
+        "Get the knight to the square in front of the pawn, or to one that covers its next step.",
+        "Use forks: a check that also covers the queening square gains a move.",
+        "On its post, the knight hops between the squares that keep the pawn stopped.",
+        "Bring your king over only if it does not cost the knight its post."
+      ],
+      "hold": 10
+    },
+    {
+      "id": "rookvbishop",
+      "name": "Bishop against a rook",
+      "side": "either",
+      "recipe": "rookvbishop",
+      "goal": "A bishop against a rook, with your king near a corner. Find the safe corner and hold.",
+      "idea": "In the corner your bishop does not control, the bishop can always block a check on the edge and any tighter squeeze is stalemate.",
+      "method": [
+        "Head for a corner square of the colour your bishop does not travel on.",
+        "Keep the bishop close enough to block a check along the edge.",
+        "When the rook pins the bishop against your king, they have no follow-up: a waiting move by them is stalemate.",
+        "Stay out of the corner your bishop does control. There the same idea loses."
+      ]
+    },
+    {
+      "id": "random",
+      "name": "Random position",
+      "side": "either",
+      "goal": "One of the drills above, and you are not told which. Work out what the position is worth first.",
+      "idea": "Read the position before you move: what is the material, where are the kings, and which method does it call for?",
+      "method": [
+        "Name the position type before touching a piece.",
+        "Then apply that type's method."
+      ]
+    }
+  ]
+}
