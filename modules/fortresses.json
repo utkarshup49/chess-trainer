@@ -19,7 +19,20 @@
         "Once there, shuffle between the corner and the square beside it.",
         "They can only stalemate you or give the pawn away."
       ],
-      "hold": 10
+      "hold": 10,
+      "demo": {
+        "fen": "8/8/4k3/7P/8/5B2/6K1/8 b - - 0 1",
+        "side": "black",
+        "moves": "Kf7 h6 Kg8 Kg3 Kh8 Kg4 Kg8 Kg5 Kh8 Kg6 Kg8 h7+ Kh8 Kh6",
+        "notes": {
+          "0": "The pawn queens on h8, a dark square, and their bishop only sees light squares. Run for that corner.",
+          "2": "Shortest path. Ignore the pawn.",
+          "4": "In the corner. From here you only shuffle between h8 and g8.",
+          "10": "The only move, and it is enough.",
+          "12": "Back in the corner.",
+          "13": "However they close in, it is stalemate. A bishop that cannot see the corner can never drive you out of it."
+        }
+      }
     },
     {
       "id": "oppbishops",
@@ -33,7 +46,22 @@
         "Put your bishop where it attacks a pawn, so their king is tied to defending it.",
         "Keep the bishop on the diagonal that stops the pawns stepping forward together.",
         "Then wait, moving the bishop up and down that diagonal."
-      ]
+      ],
+      "demo": {
+        "fen": "8/8/6B1/4bp2/4k1p1/8/6K1/8 w - - 0 1",
+        "side": "white",
+        "moves": "Bh7 Kf4 Bg6 g3 Bh7 Ke3 Bg6 f4 Bh5 Kd2 Bf3 Ke1 Bh5",
+        "notes": {
+          "0": "Your king already sits in front of the pawns on g2, a light square their bishop can never attack. Keep your bishop on the diagonal that attacks f5, so one of their pieces is tied to defending it.",
+          "2": "Wait on the same diagonal.",
+          "3": "One pawn steps forward.",
+          "4": "Still attacking f5. Nothing has changed.",
+          "7": "Now the other pawn, and the threat is to push it to f3 with check.",
+          "8": "The only move. The bishop switches to the diagonal that covers f3, so the pawns cannot step forward together.",
+          "10": "You can even sit on f3. Both pawns are frozen on dark squares, and your king and bishop own the light ones.",
+          "12": "Then wait. They are two pawns up and cannot make progress."
+        }
+      }
     },
     {
       "id": "knightvpawn",
@@ -48,7 +76,21 @@
         "On its post, the knight hops between the squares that keep the pawn stopped.",
         "Bring your king over only if it does not cost the knight its post."
       ],
-      "hold": 10
+      "hold": 10,
+      "demo": {
+        "fen": "8/8/4n3/PK6/8/8/8/7k b - - 0 1",
+        "side": "black",
+        "moves": "Nc7+ Kb6 Nd5+ Ka7 Nc7 a6 Nb5+ Ka8 Nc7+ Kb8 Nb5 a7 Nxa7",
+        "notes": {
+          "0": "Your king is too far away to help, so the knight works alone. Start with a check that brings it closer to the pawn.",
+          "2": "The only move. Another check, so they still have had no time to push.",
+          "4": "Back to c7, covering the squares in the pawn's path.",
+          "6": "The pawn has moved, so check again. Every check costs them a move.",
+          "8": "And again.",
+          "10": "Wait here for the pawn to step forward.",
+          "12": "Take it. Near a rook pawn the knight almost always finds a check or a fork in time."
+        }
+      }
     },
     {
       "id": "rookvbishop",
@@ -62,7 +104,21 @@
         "Keep the bishop close enough to block a check along the edge.",
         "When the rook pins the bishop against your king, they have no follow-up: a waiting move by them is stalemate.",
         "Stay out of the corner your bishop does control. There the same idea loses."
-      ]
+      ],
+      "demo": {
+        "fen": "6k1/R7/6K1/8/2b5/8/8/8 b - - 0 1",
+        "side": "black",
+        "moves": "Kh8 Ra8+ Bg8 Kf6 Kh7 Ra7+ Kh8 Kg6 Bc4 Ra8+ Bg8",
+        "notes": {
+          "0": "Your bishop travels on light squares, so head for the dark corner: h8.",
+          "2": "Block the check. This is the whole fortress. The bishop is pinned, but they have nothing to add.",
+          "3": "If their king had stayed and the rook simply waited, you would have no legal move at all: stalemate. So they have to back off.",
+          "4": "The only move, and enough.",
+          "6": "Back to the corner.",
+          "8": "Free again, so the bishop steps out. Keep it close enough to return to g8.",
+          "10": "The same position again. They can repeat this for ever and never win."
+        }
+      }
     },
     {
       "id": "random",
