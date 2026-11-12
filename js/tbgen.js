@@ -153,11 +153,12 @@ export const RECIPES = {
     },
   },
   outsidepawn: {
-    user: 'attacker', minDepth: 16, maxKeepFrac: 0.5,
+    user: 'attacker', minDepth: 12, maxKeepFrac: 0.6,
     make() {
-      const g = rnd(5, 7), r = rnd(1, 3);
-      return [['P', sq(rnd(0, 1), rnd(2, 4))], ['P', sq(g, r)], ['p', sq(g, rnd(r + 1, r + 3))],
-              ['K', sq(rnd(2, 6), rnd(1, 3))], ['k', sq(rnd(2, 6), rnd(4, 6))]];
+      // A blocked pair on one wing, a passed pawn on the other, kings between.
+      const g = rnd(5, 7), r = rnd(2, 4), c = rnd(3, 4);
+      return [['P', sq(rnd(0, 1), rnd(2, 4))], ['P', sq(g, r)], ['p', sq(g, r + 1)],
+              ['K', sq(c, rnd(2, 3))], ['k', sq(c + rnd(-1, 1), rnd(5, 6))]];
     },
   },
   pawndown: {
