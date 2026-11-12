@@ -18,7 +18,21 @@
         "Take the opposition on the way: make their king be the one that has to move.",
         "If stepping straight ahead would hand them the opposition, step sideways first to lose a move.",
         "Take the pawn only when you will still hold the opposition afterwards, so your own pawn can queen."
-      ]
+      ],
+      "demo": {
+        "fen": "8/4k3/3p4/3P4/5K2/8/8/8 w - - 0 1",
+        "side": "white",
+        "moves": "Kg5 Kf7 Kf5 Ke7 Kg6 Kd8 Kf7 Kd7 Kf6 Kc8 Ke6 Kd8 Kxd6",
+        "notes": {
+          "0": "Their pawn falls if your king reaches e6. Going straight there with Kf5 lets them answer Kf7 and take the opposition. Step sideways first to lose a move. Nothing else wins.",
+          "2": "Now you step in front of their king and it is their move. You hold the opposition.",
+          "3": "They have to give way.",
+          "4": "Outflank: forward, on the other side.",
+          "6": "Deeper. Their king is being pushed off the pawn's defence.",
+          "10": "On e6, attacking the pawn. It cannot be defended any more.",
+          "12": "Take it. Your king is on the sixth rank in front of your own pawn, which wins whoever is to move."
+        }
+      }
     },
     {
       "id": "outsidepawn",
@@ -32,7 +46,20 @@
         "Let them take it. It is a decoy.",
         "While their king is busy, walk your king to their pawn on the other wing.",
         "Win that pawn and queen yours. Count the race before you start."
-      ]
+      ],
+      "demo": {
+        "fen": "8/8/8/3k1p2/P4P2/3K4/8/8 w - - 0 1",
+        "side": "white",
+        "moves": "a5 Kc5 a6 Kb6 Kd4 Ka7 Ke5 Kxa6 Kxf5",
+        "notes": {
+          "0": "The a-pawn is far from everything else. Push it: their king has to leave to catch it.",
+          "2": "Further. It is a decoy, and you do not mind losing it.",
+          "4": "Their king is committed to the a-file. Yours turns the other way.",
+          "6": "Straight for the f-pawn.",
+          "7": "They take the decoy, four files from where it matters.",
+          "8": "And you take the pawn that matters, with their king nowhere near."
+        }
+      }
     },
     {
       "id": "pawndown",
@@ -46,7 +73,17 @@
         "Take the opposition whenever their king steps up.",
         "Keep your own pawn where their king cannot win it for free, and trade it for one of theirs when you can.",
         "Aim for an ending you know is drawn: a rook pawn, or king in front of the pawn with the opposition."
-      ]
+      ],
+      "demo": {
+        "fen": "8/6k1/8/6P1/6p1/5P2/8/4K3 b - - 0 1",
+        "side": "black",
+        "moves": "gxf3 Kf2 Kg6 Kxf3 Kxg5",
+        "notes": {
+          "0": "A pawn down, trade pawns. Every pawn that comes off leaves them less to win with. Here it is also the only move that holds.",
+          "2": "Now go after the last one. It has no defender.",
+          "4": "Bare kings. Draw."
+        }
+      }
     },
     {
       "id": "random",
