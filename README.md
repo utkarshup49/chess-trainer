@@ -23,6 +23,7 @@ A move counts if it keeps the result. Nothing is stored as a line, so nothing ca
 - `js/kpgen.js` deals random King + Pawn vs King positions, rejecting any where no move throws the result away — if you cannot go wrong, there is nothing to learn.
 - `js/race.js` deals four-piece pawn races, filtering candidates locally so a deal costs only a handful of lookups.
 - `js/coach.js` turns "that move throws the result away" into the principle behind it.
+- `js/tbgen.js` holds the position recipes for the tablebase-judged modules (rook endings, queen against pawn, fortresses, pawn endings with pawns on both sides), and `js/tbdrill.js` is their trainer. Lookups are queued one at a time, as Lichess asks.
 
 The solver was checked three ways: against a second implementation written independently (165,676 positions, no disagreements), against Lichess's tablebase (70 random positions and a set of promotion edge cases), and against chess.js for move generation (600 positions).
 
