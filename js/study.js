@@ -12,12 +12,17 @@ const REPLY_MS = 550;
 const escapeHtml = t => String(t).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 
 export class LineStudy {
-  constructor(container, module, { lineId }) {
+  // Either an opening line ({ lineId }) or a self-contained demonstration
+  // ({ demo }) with its own start position and a note per move.
+  constructor(container, module, { lineId, demo }) {
     this.container = container;
     this.module = module;
-    this.line = module.lines.find(l => l.id === lineId);
+    this.demo = demo || null;
+    this.line = demo || module.lines.find(l => l.id === lineId);
     this.moves = this.line.moves.split(' ');
     this.side = this.line.side;                   // the colour being taught
+    this.startFen = demo ? demo.fen : undefined;
+    this.firstMover = demo && demo.fen.split(' ')[1] === 'b' ? 'black' : 'white';
     this.ply = 0;
     this.timer = null;
     this.autoplay = false;
@@ -29,7 +34,7 @@ export class LineStudy {
     };
     window.addEventListener('keydown', this.keyHandler);
 
-    this.board = new TrainingBoard(this.el.board, this.side, m => this.onUserMove(m));
+    this.board = new TrainingBoard(this.el.board, this.side, m => this.onUserMove(m), this.startFen);
     this.render();
   }
 
@@ -85,11 +90,13 @@ export class LineStudy {
 
   // Whose move is it at this point in the line?
   moverAt(ply) {
-    return ply % 2 === 0 ? 'white' : 'black';
+    const other = this.firstMover === 'white' ? 'black' : 'white';
+    return ply % 2 === 0 ? this.firstMover : other;
   }
 
   // The note attached to the move about to be played, if there is one.
   noteFor(ply) {
+    if (this.demo) return (this.demo.notes || {})[String(ply)] || null;
     const explain = this.module.explain || {};
     const prefix = this.moves.slice(0, ply).join(' ');
     return explain[`${prefix}|${this.moves[ply]}`] || explain[`${prefix}|*`] || null;
@@ -187,13 +194,24 @@ export class LineStudy {
          <p>${escapeHtml(note || 'Play the move shown on the board.')}</p>
          <p class="meta">Play it on the board, or press Next.</p>`;
     } else {
+      const theirNote = this.demo ? this.noteFor(this.ply) : null;
       this.el.teach.innerHTML =
         `<p class="note-title">They reply ${escapeHtml(san)}</p>
+         ${theirNote ? `<p>${escapeHtml(theirNote)}</p>` : ''}
          <p class="meta">Shown in blue. Press Next to play it.</p>`;
     }
   }
 
   showFinish() {
+    if (this.demo) {
+      this.el.finish.innerHTML = `
+        <div class="actions">
+          <a class="button primary" href="#/m/${this.module.id}/drill/${this.demo.id}">Now drill it</a>
+          <a class="button" href="#/m/${this.module.id}">All drills</a>
+        </div>`;
+      this.el.finish.hidden = false;
+      return;
+    }
     const sameSide = this.module.lines.filter(l => l.side === this.side);
     const idx = sameSide.findIndex(l => l.id === this.line.id);
     const next = sameSide[idx + 1];
@@ -207,14 +225,17 @@ export class LineStudy {
   }
 
   renderMoves() {
+    const cell = j => {
+      if (j < 0) return '<span>\u2026</span>';
+      if (j >= this.moves.length) return '<span></span>';
+      const here = j + 1 === this.ply ? ' class="here"' : '';
+      return `<span${here} data-ply="${j + 1}" role="button" tabindex="0">${this.moves[j]}</span>`;
+    };
+    // When Black moves first, the first row starts with a gap.
+    const shift = this.firstMover === 'black' ? 1 : 0;
     let html = '';
-    for (let i = 0; i < this.moves.length; i += 2) {
-      const cell = j => {
-        if (j >= this.moves.length) return '<span></span>';
-        const here = j + 1 === this.ply ? ' class="here"' : '';
-        return `<span${here} data-ply="${j + 1}" role="button" tabindex="0">${this.moves[j]}</span>`;
-      };
-      html += `<li><span class="num">${i / 2 + 1}.</span>${cell(i)}${cell(i + 1)}</li>`;
+    for (let i = -shift, n = 1; i < this.moves.length; i += 2, n++) {
+      html += `<li><span class="num">${n}.</span>${cell(i)}${cell(i + 1)}</li>`;
     }
     this.el.moves.innerHTML = html;
   }
