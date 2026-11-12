@@ -73,6 +73,28 @@ to the built-in solver in `js/kpk.js` (instant, offline), anything larger to
 Lichess's tablebase (perfect to seven pieces), and every answer is cached.
 Generators reject any position where no move throws the result away.
 
+There are two endgame engines, chosen per module:
+
+- `kp-endgames` uses `js/endgame.js` with the built-in solver.
+- Any module with `"engine": "tablebase"` uses `js/tbdrill.js`. A drill there is
+  data plus a recipe: the module JSON carries `name`, `goal`, `idea`, a
+  four-step `method`, and optionally a `demo` (start FEN, moves and a note per
+  move) that becomes the "Learn the method" walkthrough. The drill's `recipe`
+  names an entry in `js/tbgen.js`, which describes the family of positions from
+  the attacker's side; the dealer mirrors it, swaps colours, and keeps only
+  positions the tablebase says are the right result and sharp.
+
+Adding a tablebase drill: write the recipe, add the drill to a module, and if
+it has a demo, check every move of the demo against the tablebase first. A
+hand-written textbook position can simply be wrong (the first Vancura start
+was a loss for the defender).
+
+### Be polite to the tablebase
+
+Lichess allows one request at a time and wants a full minute's pause after a
+429. All lookups go through one queue in `oracle.js` with a gap between them.
+Never fire lookups in parallel, and keep test scripts to a few hundred requests.
+
 ## Testing
 
 The sandbox cannot reach the CDN or the tablebase, so:
