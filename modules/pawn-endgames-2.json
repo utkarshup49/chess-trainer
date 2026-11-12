@@ -1,0 +1,63 @@
+{
+  "id": "pawn-endgames-2",
+  "type": "endgame",
+  "engine": "tablebase",
+  "title": "Pawn Endings: Both Sides Have Pawns",
+  "description": "The King and Pawn ideas with pawns on both sides: winning a blocked pawn, the outside passed pawn, and holding a pawn down.",
+  "source": "Every position is dealt fresh and judged by Lichess's endgame tablebase, which is perfect for seven pieces or fewer. These drills need a connection.",
+  "drills": [
+    {
+      "id": "blockedpawns",
+      "name": "Win the blocked pawn",
+      "side": "either",
+      "recipe": "blockedpawns",
+      "goal": "One pawn each, blocking one another. Win theirs and keep yours.",
+      "idea": "The squares beside their pawn are the key squares. You get there by taking the opposition, and sometimes by losing a move on purpose.",
+      "method": [
+        "Aim your king at the squares beside and behind their pawn. Reach one and the pawn falls.",
+        "Take the opposition on the way: make their king be the one that has to move.",
+        "If stepping straight ahead would hand them the opposition, step sideways first to lose a move.",
+        "Take the pawn only when you will still hold the opposition afterwards, so your own pawn can queen."
+      ]
+    },
+    {
+      "id": "outsidepawn",
+      "name": "The outside passed pawn",
+      "side": "either",
+      "recipe": "outsidepawn",
+      "goal": "You have a passed pawn far from the other pawns. Use it to win.",
+      "idea": "The outside pawn is a decoy. Their king has to go and catch it, and while it is away your king wins the pawns on the other side.",
+      "method": [
+        "Push the outside pawn to drag their king across the board.",
+        "Let them take it. It is a decoy.",
+        "While their king is busy, walk your king to their pawn on the other wing.",
+        "Win that pawn and queen yours. Count the race before you start."
+      ]
+    },
+    {
+      "id": "pawndown",
+      "name": "Hold a pawn down",
+      "side": "either",
+      "recipe": "pawndown",
+      "goal": "You are a pawn down in a pawn ending that can still be drawn. Hold it.",
+      "idea": "A pawn down is not always lost. Blocking the passed pawn, taking the opposition, and swapping your pawn for the right one of theirs all save half points.",
+      "method": [
+        "Keep your king in front of their passed pawn.",
+        "Take the opposition whenever their king steps up.",
+        "Keep your own pawn where their king cannot win it for free, and trade it for one of theirs when you can.",
+        "Aim for an ending you know is drawn: a rook pawn, or king in front of the pawn with the opposition."
+      ]
+    },
+    {
+      "id": "random",
+      "name": "Random position",
+      "side": "either",
+      "goal": "One of the drills above, and you are not told which. Work out what the position is worth first.",
+      "idea": "Read the position before you move: what is the material, where are the kings, and which method does it call for?",
+      "method": [
+        "Name the position type before touching a piece.",
+        "Then apply that type's method."
+      ]
+    }
+  ]
+}
