@@ -89,6 +89,29 @@ it has a demo, check every move of the demo against the tablebase first. A
 hand-written textbook position can simply be wrong (the first Vancura start
 was a loss for the defender).
 
+### Positions must be hard, not just correct
+
+"Some move throws the result away" is true of almost any position, because
+the learner can always walk the king away, so it says nothing about whether
+the right move is hard. A dealt position has to clear a real bar:
+
+- A **real decision** is one where at most two moves keep the result (or a
+  quarter of the legal moves, when there are many), and none of them is a
+  capture or a promotion. Taking a hanging pawn is not a skill.
+- The position is played out the way the trainer runs the drill: the learner
+  takes the quickest correct move, the opponent defends as the trainer's
+  opponent does, and the drill's own finishing rules apply. The first move
+  must be a real decision, there must be at least two of them, and the drill
+  must not be finishable in one or two moves.
+
+King + Pawn drills check this at deal time with the built-in solver
+(`difficulty` and `isHardEnough` in `js/kpgen.js`). Tablebase drills cannot
+afford a full play-out per deal, so they deal from `modules/banks.json`,
+positions vetted ahead of time with `js/bankbuild.js` and dealt mirrored and
+colour-swapped at random. When a drill has no bank, live dealing still insists
+on a real first decision, and falls back to the most demanding candidate it
+saw rather than fail. Rebuild the bank whenever a recipe changes.
+
 ### Be polite to the tablebase
 
 Lichess allows one request at a time and wants a full minute's pause after a
