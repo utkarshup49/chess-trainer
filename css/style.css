@@ -411,3 +411,22 @@ button:disabled:hover { border-color: var(--line); }
 .principle-list .method li { display: list-item; padding-left: 2px; position: static; }
 .principle-list .method li::before { content: none; }
 .drill-card .actions { margin-top: 4px; }
+
+/* Board coordinates. Chessground's defaults assume Lichess's own layout and
+   land a square off here, so put one label inside each edge square instead:
+   ranks in the top-left corner of the left column, files in the bottom-right
+   corner of the bottom row. One dark colour reads on both square colours. */
+.board-wrap .cg-wrap coords {
+  font-family: var(--font-body);
+  font-size: clamp(9px, 2.6vw, 12px);
+  font-weight: 700;
+  line-height: 1;
+  opacity: 1;
+  text-transform: none;
+}
+.board-wrap .cg-wrap coords coord,
+.board-wrap .cg-wrap coords coord:nth-child(n) { color: #3b2a1a; }
+.board-wrap .cg-wrap coords.ranks { left: 0; top: 0; width: auto; height: 100%; }
+.board-wrap .cg-wrap coords.ranks coord { flex: 1 1 0; transform: none; padding: 3px 0 0 3px; }
+.board-wrap .cg-wrap coords.files { left: 0; bottom: 0; width: 100%; height: auto; }
+.board-wrap .cg-wrap coords.files coord { flex: 1 1 0; text-align: right; padding: 0 3px 3px 0; }
