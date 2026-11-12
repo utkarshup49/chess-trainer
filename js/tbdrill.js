@@ -3,7 +3,7 @@
 // said while you play, the game runs to a real conclusion, and the post-mortem
 // names the move where the result slipped.
 import { TrainingBoard, Chess } from './board.js';
-import { deal } from './tbgen.js';
+import { deal, material } from './tbgen.js';
 import { scoreFen, scoreMoves, OracleOffline } from './oracle.js';
 import { recordEndgame, getModuleProgress } from './progress.js';
 
@@ -14,19 +14,6 @@ const WIN_LIMIT = 40;       // a win that takes longer than this is not progress
 const TRAP_SAMPLE = 3;      // candidate replies the opponent weighs up in a draw
 
 const escapeHtml = t => String(t).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
-
-// Non-king material for each colour, read straight off a FEN.
-function material(fen) {
-  const out = { w: { all: 0, pawns: 0, queens: 0 }, b: { all: 0, pawns: 0, queens: 0 } };
-  for (const ch of fen.split(' ')[0]) {
-    if (!/[a-zA-Z]/.test(ch) || ch.toLowerCase() === 'k') continue;
-    const side = ch === ch.toUpperCase() ? out.w : out.b;
-    side.all += 1;
-    if (ch.toLowerCase() === 'p') side.pawns += 1;
-    if (ch.toLowerCase() === 'q') side.queens += 1;
-  }
-  return out;
-}
 
 export class TablebaseTrainer {
   constructor(container, module, { drillId }) {
@@ -104,8 +91,9 @@ export class TablebaseTrainer {
 
     let pos = null;
     try {
-      pos = await deal(this.source.recipe, Chess);
-      if (!pos) pos = await deal(this.source.recipe, Chess, { budget: 80 });
+      const hold = this.source.hold || HOLD_MOVES;
+      pos = await deal(this.source.recipe, Chess, { hold });
+      if (!pos) pos = await deal(this.source.recipe, Chess, { budget: 80, hold });
     } catch (e) {
       this.dealing = false;
       if (e instanceof OracleOffline) return this.offline();

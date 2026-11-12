@@ -200,10 +200,153 @@ function toFen(pieces, whiteToMove) {
   return `${rows.join('/')} ${whiteToMove ? 'w' : 'b'} - - 0 1`;
 }
 
+// --- Shared helpers ----------------------------------------------------------
+// Non-king material for each colour, read straight off a FEN.
+export function material(fen) {
+  const out = { w: { all: 0, pawns: 0, queens: 0 }, b: { all: 0, pawns: 0, queens: 0 } };
+  for (const ch of fen.split(' ')[0]) {
+    if (!/[a-zA-Z]/.test(ch) || ch.toLowerCase() === 'k') continue;
+    const side = ch === ch.toUpperCase() ? out.w : out.b;
+    side.all += 1;
+    if (ch.toLowerCase() === 'p') side.pawns += 1;
+    if (ch.toLowerCase() === 'q') side.queens += 1;
+  }
+  return out;
+}
+
+// Mirror left-to-right and/or swap colours (flipping the board top to bottom).
+// Neither changes what a position is worth, so one vetted position is four.
+export function transformFen(fen, mirror, swap) {
+  const [placement, turn] = fen.split(' ');
+  const board = Array(64).fill('');
+  let s = 56;
+  for (const ch of placement) {
+    if (ch === '/') { s -= 16; continue; }
+    if (ch >= '1' && ch <= '8') { s += Number(ch); continue; }
+    board[s++] = ch;
+  }
+  const out = Array(64).fill('');
+  for (let i = 0; i < 64; i++) {
+    if (!board[i]) continue;
+    let f = i & 7, r = i >> 3, ch = board[i];
+    if (mirror) f = 7 - f;
+    if (swap) { r = 7 - r; ch = ch === ch.toUpperCase() ? ch.toLowerCase() : ch.toUpperCase(); }
+    out[r * 8 + f] = ch;
+  }
+  const rows = [];
+  for (let r = 7; r >= 0; r--) {
+    let row = '', gap = 0;
+    for (let f = 0; f < 8; f++) {
+      const c = out[r * 8 + f];
+      if (c) { if (gap) { row += gap; gap = 0; } row += c; } else gap++;
+    }
+    if (gap) row += gap;
+    rows.push(row);
+  }
+  const side = swap ? (turn === 'w' ? 'b' : 'w') : turn;
+  return `${rows.join('/')} ${side} - - 0 1`;
+}
+
+// One spelling for all four versions of a position, to spot duplicates.
+export function canonical(fen) {
+  return [[0, 0], [1, 0], [0, 1], [1, 1]].map(([m, w]) => transformFen(fen, m, w)).sort()[0];
+}
+
+// Positions vetted ahead of time (see js/bankbuild.js). Dealing from here costs
+// no lookups and every position has already been played out and found hard.
+let bankPromise = null;
+function loadBank() {
+  if (!bankPromise) {
+    bankPromise = (typeof fetch === 'function'
+      ? fetch(new URL('../modules/banks.json', import.meta.url)).then(r => (r.ok ? r.json() : {}))
+      : Promise.resolve({})
+    ).catch(() => ({}));
+  }
+  return bankPromise;
+}
+
+// --- How hard is a position? ----------------------------------------------
+// A decision is real when few moves keep the result (at most two, or a quarter
+// of the legal moves when there are many, as in rook endings) and none of them
+// is a capture or a promotion: taking what is hanging is not a skill.
+export function isRealDecision(keep, total) {
+  if (!keep.length || keep.length >= total) return false;
+  if (keep.length > Math.max(2, Math.floor(total * 0.25))) return false;
+  return !keep.some(m => m.san.includes('x') || m.san.includes('='));
+}
+
+// Plays a position out the way the trainer runs the drill, for up to
+// `lookAhead` of the learner's moves: the learner takes the quickest correct
+// move, the opponent defends as the trainer's opponent does, and the drill's
+// own finishing rules apply. Costs one lookup per move played.
+export async function difficulty(fen, recipeId, Chess, { hold = 12, lookAhead = 4 } = {}) {
+  const recipe = RECIPES[recipeId];
+  const game = new Chess(fen);
+  const userWhite = game.turn() === 'w';
+  const sign = userWhite ? 1 : -1;
+  const target = recipe.user === 'attacker' ? 1 : 0;
+  const me = userWhite ? 'w' : 'b', them = userWhite ? 'b' : 'w';
+  const start = material(fen);
+  let moves = 0, real = 0, firstReal = false, lookups = 0;
+
+  for (let ply = 0; ply < 2 * lookAhead + 2; ply++) {
+    if (game.isGameOver()) break;
+    const now = material(game.fen());
+    if (moves > 0) {
+      if (target === 1 && (now[me].queens > start[me].queens || now[them].all < start[them].all)) break;
+      if (target === 0 && start[them].pawns > 0 && now[them].pawns === 0
+          && now[them].queens === start[them].queens) break;
+      if (target === 0 && moves >= hold) break;
+    }
+    const answer = await scoreFen(game.fen());
+    lookups++;
+    const list = answer.moves || [];
+    if (!list.length) break;
+
+    let choice;
+    if ((game.turn() === 'w') === userWhite) {
+      const keep = list.filter(m => m.wdl * sign === target);
+      if (!keep.length) break;
+      const isReal = isRealDecision(keep, list.length);
+      if (moves === 0) firstReal = isReal;
+      if (isReal) real++;
+      moves++;
+      if (!firstReal || moves >= lookAhead) break;
+      choice = target === 1
+        ? keep.reduce((a, b) => (b.depth < a.depth ? b : a))
+        : (keep.find(m => m.san.includes('x')) || keep[0]);
+    } else {
+      const theirs = m => -m.wdl * sign;
+      const best = Math.max(...list.map(theirs));
+      let pool = list.filter(m => theirs(m) === best);
+      if (best < 0) { const l = Math.max(...pool.map(m => m.depth)); pool = pool.filter(m => m.depth === l); }
+      else if (best > 0) { const q = Math.min(...pool.map(m => m.depth)); pool = pool.filter(m => m.depth === q); }
+      choice = pool[0];
+    }
+    game.move({ from: choice.uci.slice(0, 2), to: choice.uci.slice(2, 4), promotion: choice.uci[4] });
+  }
+  return { moves, real, firstReal, lookups };
+}
+
+// The bar a banked position has to clear.
+export function hardEnough(d) {
+  return d.firstReal && d.moves >= 3 && d.real >= 2;
+}
+
 // Deals one position for a drill, or null if the lookup budget runs out.
 // Returns { fen, userColor: 'w'|'b', goal: 'win'|'draw', lookups }.
-export async function deal(recipeId, Chess, { budget = 40 } = {}) {
+export async function deal(recipeId, Chess, { budget = 40, useBank = true, deep = false, hold = 12 } = {}) {
   const recipe = RECIPES[recipeId];
+
+  if (useBank) {
+    const bank = (await loadBank())[recipeId] || [];
+    if (bank.length) {
+      const fen = transformFen(bank[Math.floor(Math.random() * bank.length)],
+        Math.random() < 0.5, Math.random() < 0.5);
+      return { fen, userColor: fen.split(' ')[1], goal: recipe.user === 'attacker' ? 'win' : 'draw', lookups: 0, banked: true };
+    }
+  }
+
   const userAttacks = recipe.user === 'attacker';
   let asked = 0;
 
@@ -244,11 +387,19 @@ export async function deal(recipeId, Chess, { budget = 40 } = {}) {
     if (userAttacks && recipe.minDepth && answer.depth < recipe.minDepth) continue;
 
     const moves = answer.moves || [];
-    const keep = moves.filter(m => m.wdl * (userIsWhite ? 1 : -1) === mine).length;
+    const keepers = moves.filter(m => m.wdl * (userIsWhite ? 1 : -1) === mine);
+    const keep = keepers.length;
     const lose = moves.length - keep;
     if (!keep || lose < (recipe.minThrow || 1)) continue;
     if (recipe.maxKeepFrac && keep / moves.length > recipe.maxKeepFrac) continue;
+    // The first move has to be a real decision, not a hanging pawn to take.
+    if (!isRealDecision(keepers, moves.length)) continue;
 
+    if (deep) {
+      const d = await difficulty(fen, recipeId, Chess, { hold });
+      asked += d.lookups;
+      if (!hardEnough(d)) continue;
+    }
     return { fen, userColor: userIsWhite ? 'w' : 'b', goal: userAttacks ? 'win' : 'draw', lookups: asked };
   }
   return null;
