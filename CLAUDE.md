@@ -95,6 +95,18 @@ plays from them at random and explains its replies from `replies`; if the
 learner leaves the lines, the coach offers a takeback to the prepared move.
 When the lines end, the engine plays at the chosen rating.
 
+There are two bot styles (`/book` or `/surprise` at the end of the game URL).
+The book bot plays the lines all the way. The surprise bot leaves them at a
+random move (its 4th to 9th, or never) with a sound sideline (40%), a mistake
+(35%) or a blunder (25%), picked from the engine's scores of nearly every
+legal move; after the learner's answer the coach says whether it punished the
+move, and the review shows the punishing move. Real opponents leave the book
+with bad moves too, so the learner must not expect book moves.
+
+The home page has two sections, `#/openings` and `#/endgames`; a module's
+`type` decides where it is listed. Add a section only when there are modules
+for it (no middlegame yet).
+
 - `js/engine.js` runs Stockfish (stockfish.js lite single-threaded WASM, GPLv3)
   from **unpkg** in a blob worker; the .wasm URL goes after `#` in the worker
   URL. jsDelivr refuses this package (over its 150 MB limit).
