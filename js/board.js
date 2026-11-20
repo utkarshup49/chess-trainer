@@ -153,6 +153,13 @@ export class TrainingBoard {
     return m;
   }
 
+  // Jump to any position (used by the game review). lastMove is [from, to].
+  showPosition(fen, lastMove) {
+    this.game.load(fen);
+    this.sync();
+    this.cg.set({ lastMove: lastMove || undefined });
+  }
+
   sideToMove() {
     return this.game.turn() === 'w' ? 'white' : 'black';
   }
