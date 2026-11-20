@@ -138,6 +138,11 @@ export class TrainingBoard {
     this.cg.setAutoShapes([{ orig: from, dest: to, brush }]);
   }
 
+  // Draw several arrows and circles at once: [{ orig, dest?, brush }].
+  showShapes(shapes) {
+    this.cg.setAutoShapes(shapes);
+  }
+
   clearArrows() {
     this.cg.setAutoShapes([]);
   }

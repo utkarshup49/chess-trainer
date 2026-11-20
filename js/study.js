@@ -9,6 +9,16 @@ import { recordStudy } from './progress.js';
 const AUTOPLAY_MS = 1500;
 const REPLY_MS = 550;
 
+// Teaching shapes are written compactly in the module: "Yf4c7" is a yellow
+// arrow from f4 to c7, "Re5" a red circle on e5.
+const BRUSHES = { G: 'green', R: 'red', B: 'blue', Y: 'yellow' };
+function parseShape(code) {
+  const brush = BRUSHES[code[0]] || 'yellow';
+  const orig = code.slice(1, 3);
+  const dest = code.length >= 5 ? code.slice(3, 5) : undefined;
+  return dest ? { orig, dest, brush } : { orig, brush };
+}
+
 const escapeHtml = t => String(t).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 
 export class LineStudy {
@@ -95,11 +105,21 @@ export class LineStudy {
   }
 
   // The note attached to the move about to be played, if there is one.
+  // Your moves are explained in "explain" (the same text the test uses);
+  // the opponent's moves, when the module explains them, in "replies".
   noteFor(ply) {
     if (this.demo) return (this.demo.notes || {})[String(ply)] || null;
-    const explain = this.module.explain || {};
+    const mine = this.moverAt(ply) === this.side;
+    const notes = (mine ? this.module.explain : this.module.replies) || {};
     const prefix = this.moves.slice(0, ply).join(' ');
-    return explain[`${prefix}|${this.moves[ply]}`] || explain[`${prefix}|*`] || null;
+    return notes[`${prefix}|${this.moves[ply]}`] || notes[`${prefix}|*`] || null;
+  }
+
+  // Extra arrows and circles showing what the move is aiming at.
+  shapesFor(ply) {
+    if (this.demo) return [];
+    const prefix = this.moves.slice(0, ply).join(' ');
+    return ((this.module.shapes || {})[`${prefix}|${this.moves[ply]}`] || []).map(parseShape);
   }
 
   step(delta) {
@@ -185,19 +205,23 @@ export class LineStudy {
     const san = this.moves[this.ply];
     const mine = this.moverAt(this.ply) === this.side;
     const shape = this.board.preview(san);
-    this.board.showArrow(shape.from, shape.to, mine ? 'green' : 'blue');
+    const extras = this.shapesFor(this.ply);
+    this.board.showShapes([{ orig: shape.from, dest: shape.to, brush: mine ? 'green' : 'blue' }, ...extras]);
+    const legend = extras.length
+      ? '<p class="legend"><span class="swatch y"></span>what the move aims at <span class="swatch r"></span>danger or weakness</p>' : '';
 
+    const note = this.noteFor(this.ply);
     if (mine) {
-      const note = this.noteFor(this.ply);
       this.el.teach.innerHTML =
         `<p class="note-title">Your move: ${escapeHtml(san)}</p>
          <p>${escapeHtml(note || 'Play the move shown on the board.')}</p>
+         ${legend}
          <p class="meta">Play it on the board, or press Next.</p>`;
     } else {
-      const theirNote = this.demo ? this.noteFor(this.ply) : null;
       this.el.teach.innerHTML =
         `<p class="note-title">They reply ${escapeHtml(san)}</p>
-         ${theirNote ? `<p>${escapeHtml(theirNote)}</p>` : ''}
+         ${note ? `<p>${escapeHtml(note)}</p>` : ''}
+         ${legend}
          <p class="meta">Shown in blue. Press Next to play it.</p>`;
     }
   }

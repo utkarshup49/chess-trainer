@@ -430,3 +430,9 @@ button:disabled:hover { border-color: var(--line); }
 .board-wrap .cg-wrap coords.ranks coord { flex: 1 1 0; transform: none; padding: 3px 0 0 3px; }
 .board-wrap .cg-wrap coords.files { left: 0; bottom: 0; width: 100%; height: auto; }
 .board-wrap .cg-wrap coords.files coord { flex: 1 1 0; text-align: right; padding: 0 3px 3px 0; }
+
+/* Walkthrough legend for the teaching arrows */
+.legend { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 8px; font-size: 13px; color: var(--muted); }
+.legend .swatch { display: inline-block; width: 14px; height: 6px; border-radius: 3px; }
+.legend .swatch.y { background: #e68f00; }
+.legend .swatch.r { background: #882020; }
