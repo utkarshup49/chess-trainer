@@ -182,7 +182,10 @@ function openingBody(m, progress) {
         </div>
         <a class="button" href="#/m/${m.id}/drill/mixed">Mixed test</a>
       </section>` : '';
-  const playLinks = sides.map(side => `<a class="button${side === sides[0] ? ' primary' : ''}" href="#/play/${m.id}/${side}/${lastRating()}">Play it as ${side === 'white' ? 'White' : 'Black'}</a>`).join('');
+  const colour = side => (side === 'white' ? 'White' : 'Black');
+  const playLinks = sides.map(side => `
+      <a class="button${side === sides[0] ? ' primary' : ''}" href="#/play/${m.id}/${side}/${lastRating()}/book">Book bot as ${colour(side)}</a>
+      <a class="button" href="#/play/${m.id}/${side}/${lastRating()}/surprise">Surprise bot as ${colour(side)}</a>`).join('');
   return `
     <section class="portal">
       <div class="portal-head">
@@ -215,7 +218,7 @@ function openingBody(m, progress) {
         <span class="step">3</span>
         <div>
           <h2>Play it against the bot</h2>
-          <p class="meta">A full game. The bot follows your lines, the coach steps in if you leave them, and the engine takes over when they run out. Bot rating ${lastRating()}; <a href="#/play">change it</a>.</p>
+          <p class="meta">A full game. The book bot plays your lines all the way. The surprise bot leaves them at a random moment, sometimes with a mistake you should punish. Bot rating ${lastRating()}; <a href="#/play">change it</a>.</p>
         </div>
       </div>
       <div class="actions">${playLinks}</div>
@@ -314,6 +317,16 @@ async function renderPlayHome() {
   let lastChoice = '';
   try { lastChoice = localStorage.getItem('chess-gym-bot-opening') || ''; } catch (e) { /* none */ }
   let chosen = Math.max(0, choices.findIndex(c => `${c.m.id}/${c.side}` === lastChoice));
+  let mode = 'book';
+  try { mode = localStorage.getItem('chess-gym-bot-mode') || 'book'; } catch (e) { /* default */ }
+  const modes = [
+    { id: 'book', name: 'Book bot', text: 'Plays your prepared lines all the way, then plays the game out.' },
+    { id: 'surprise', name: 'Surprise bot', text: 'Leaves your lines at a random moment (its 4th to 9th move, or never): sometimes with a good sideline, often with a mistake or blunder you should punish.' },
+  ];
+  const modeButtons = modes.map(x => `
+    <button type="button" class="pick${x.id === mode ? ' on' : ''}" data-mode="${x.id}">
+      <strong>${x.name}</strong><span class="meta">${x.text}</span>
+    </button>`).join('');
 
   const options = choices.map((c, i) => `
     <button type="button" class="pick${i === chosen ? ' on' : ''}" data-choice="${i}">
@@ -340,12 +353,16 @@ async function renderPlayHome() {
       </section>`;
   }).join('');
 
+  const surprised = listGames().filter(g => g.surprise && g.surprise.kind !== 'sound' && g.surprise.reply && 'punished' in g.surprise);
+  const punished = surprised.filter(g => g.surprise.punished).length;
+  const surpriseStat = surprised.length
+    ? `<p class="meta">Surprise bot: you punished ${punished} of the ${surprised.length} mistakes and blunders it made when leaving your lines.</p>` : '';
   const games = listGames().slice(0, 25).map(g => {
     const when = new Date(g.date).toLocaleDateString(undefined, { day: 'numeric', month: 'short' });
     const tone = g.outcome === 'win' ? 'good' : g.outcome === 'loss' ? 'bad' : 'idle';
     const label = { win: 'Won', draw: 'Draw', loss: 'Lost' }[g.outcome];
     return `<li><a href="#/review/${g.id}">
-      <span>${escapeHtml(g.moduleTitle)} · ${g.side === 'white' ? 'White' : 'Black'} vs ${g.rating}<span class="meta"> · ${when} · ${Math.ceil(g.moves.length / 2)} moves</span></span>
+      <span>${escapeHtml(g.moduleTitle)} · ${g.side === 'white' ? 'White' : 'Black'} vs ${g.mode === 'surprise' ? 'surprise' : 'book'} bot ${g.rating}<span class="meta"> · ${when} · ${Math.ceil(g.moves.length / 2)} moves</span></span>
       <span class="chip" data-tone="${tone}">${label}</span></a></li>`;
   }).join('');
 
@@ -363,11 +380,14 @@ async function renderPlayHome() {
         <h2>2. Bot rating</h2>
         <div class="pick-row">${ratings}</div>
         <p class="meta">The ratings are approximate: the bot is tuned so its moves throw away about as much as a human's at that level.</p>
+        <h2>3. Bot style</h2>
+        <div class="pick-grid">${modeButtons}</div>
         <div class="actions"><a class="button primary" id="start" href="#">Start the game</a></div>
       </section>
       ${insight ? `<section class="portal"><h2>How your lines are going</h2><p class="meta">Score is your points per game. "Eval at end of prep" is the engine's view, in pawns from your side, at the moment your prepared moves ran out: it shows which lines leave you with good positions.</p>${insight}</section>` : ''}
       <section class="portal">
         <h2>Your games</h2>
+        ${surpriseStat}
         ${games ? `<ol class="line-list">${games}</ol>` : '<p class="meta">No games yet. Your finished games appear here, with a full review.</p>'}
       </section>
       <p class="meta">The bot and the review use Stockfish (stockfish.js, GPLv3), loaded from the unpkg CDN.</p>
@@ -376,12 +396,20 @@ async function renderPlayHome() {
   const start = document.getElementById('start');
   const update = () => {
     const c = choices[chosen];
-    start.href = c ? `#/play/${c.m.id}/${c.side}/${rating}` : '#/play';
+    start.href = c ? `#/play/${c.m.id}/${c.side}/${rating}/${mode}` : '#/play';
   };
   app.querySelectorAll('[data-choice]').forEach(b => {
     b.onclick = () => {
       chosen = Number(b.dataset.choice);
       app.querySelectorAll('[data-choice]').forEach(x => x.classList.toggle('on', x === b));
+      update();
+    };
+  });
+  app.querySelectorAll('[data-mode]').forEach(b => {
+    b.onclick = () => {
+      mode = b.dataset.mode;
+      try { localStorage.setItem('chess-gym-bot-mode', mode); } catch (e) { /* not kept */ }
+      app.querySelectorAll('[data-mode]').forEach(x => x.classList.toggle('on', x === b));
       update();
     };
   });
@@ -396,13 +424,13 @@ async function renderPlayHome() {
   update();
 }
 
-async function renderGame(id, side, rating) {
+async function renderGame(id, side, rating, mode = 'book') {
   const m = await loadModule(id);
   if (!m || m.type !== 'opening' || !m.lines.some(l => l.side === side)) return renderMissing();
   rememberRating(rating);
   try { localStorage.setItem('chess-gym-bot-opening', `${id}/${side}`); } catch (e) { /* not kept */ }
   const { BotGame } = await import('./play.js');
-  active = new BotGame(app, m, { side, rating: Number(rating) });
+  active = new BotGame(app, m, { side, rating: Number(rating), mode });
 }
 
 // ---------- Training ----------
@@ -461,7 +489,7 @@ async function route() {
     if (parts.length === 0) await renderHome();
     else if (parts.length === 1 && SECTIONS[parts[0]]) await renderSection(parts[0]);
     else if (parts[0] === 'play' && parts.length === 1) await renderPlayHome();
-    else if (parts[0] === 'play' && parts.length === 4) await renderGame(parts[1], parts[2], parts[3]);
+    else if (parts[0] === 'play' && (parts.length === 4 || parts.length === 5)) await renderGame(parts[1], parts[2], parts[3], parts[4]);
     else if (parts[0] === 'review' && parts.length === 2) {
       const { GameReview } = await import('./review.js');
       active = new GameReview(app, parts[1]);
