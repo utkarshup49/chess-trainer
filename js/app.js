@@ -51,21 +51,47 @@ function lineStatus(progress, lineId) {
 }
 
 // ---------- Home ----------
-async function renderHome() {
-  const modules = await loadModules();
-  const cards = modules.map(m => {
-    const progress = getModuleProgress(m.id);
-    const units = unitsOf(m);
-    const done = units.filter(u => unitDone(progress, m, u)).length;
-    const noun = isEndgame(m) ? 'drills' : 'lines';
-    const pct = units.length ? Math.round((done / units.length) * 100) : 0;
-    return `
+// Two sections: openings and endgames. Each opens its own list of modules.
+const SECTIONS = {
+  openings: { type: 'opening', title: 'Openings', noun: 'lines',
+    lede: 'Learn each repertoire move by move, test yourself on it, then play it against the bot.' },
+  endgames: { type: 'endgame', title: 'Endgames', noun: 'drills',
+    lede: 'Fresh positions every time, judged by whether your move keeps the result.' },
+};
+const sectionOf = m => (isEndgame(m) ? 'endgames' : 'openings');
+
+function moduleCard(m) {
+  const progress = getModuleProgress(m.id);
+  const units = unitsOf(m);
+  const done = units.filter(u => unitDone(progress, m, u)).length;
+  const noun = isEndgame(m) ? 'drills' : 'lines';
+  const pct = units.length ? Math.round((done / units.length) * 100) : 0;
+  return `
       <a class="module-card" href="#/m/${m.id}">
-        <span class="tag">${isEndgame(m) ? 'Endgame' : 'Opening'}</span>
         <h2>${escapeHtml(m.title)}</h2>
         <p>${escapeHtml(m.description)}</p>
         <div class="meter" aria-label="${done} of ${units.length} ${noun} played"><span style="width:${pct}%"></span></div>
         <p class="meta">${done} / ${units.length} ${noun} played</p>
+      </a>`;
+}
+
+async function renderHome() {
+  const modules = await loadModules();
+  const cards = Object.entries(SECTIONS).map(([key, sec]) => {
+    const list = modules.filter(m => m.type === sec.type);
+    const units = list.reduce((n, m) => n + unitsOf(m).length, 0);
+    const done = list.reduce((n, m) => {
+      const progress = getModuleProgress(m.id);
+      return n + unitsOf(m).filter(u => unitDone(progress, m, u)).length;
+    }, 0);
+    const pct = units ? Math.round((done / units) * 100) : 0;
+    return `
+      <a class="section-card" href="#/${key}">
+        <h2>${sec.title}</h2>
+        <p>${sec.lede}</p>
+        <p class="names">${list.map(m => escapeHtml(m.title)).join(' · ')}</p>
+        <div class="meter" aria-label="${done} of ${units} ${sec.noun} played"><span style="width:${pct}%"></span></div>
+        <p class="meta">${list.length} modules · ${done} / ${units} ${sec.noun} played</p>
       </a>`;
   }).join('');
 
@@ -76,12 +102,27 @@ async function renderHome() {
         <h1>Chess Gym</h1>
         <p class="lede">Play the moves yourself. Wrong moves get explained, and the drills pick a different position every time.</p>
       </header>
+      <div class="section-grid">${cards}</div>
       <a class="play-banner" href="#/play">
-        <span class="tag">New</span>
         <h2>Play the bot</h2>
-        <p>Pick one of your openings and a bot rating from 800 to 2000. The bot plays your prepared lines with you, then plays the game out.</p>
+        <p>Pick one of your openings and a bot rating from 800 to 2000. The bot can play your lines perfectly, or leave them by surprise so you learn to punish it.</p>
       </a>
-      <div class="module-grid">${cards}</div>
+    </section>`;
+}
+
+async function renderSection(key) {
+  const sec = SECTIONS[key];
+  const list = (await loadModules()).filter(m => m.type === sec.type);
+  app.innerHTML = `
+    <section class="home">
+      <a class="crumb" href="#/">← Home</a>
+      <header class="hero">
+        <p class="eyebrow">Section</p>
+        <h1>${sec.title}</h1>
+        <p class="lede">${sec.lede}</p>
+      </header>
+      <div class="module-grid">${list.map(moduleCard).join('')}</div>
+      ${key === 'openings' ? '<a class="play-banner" href="#/play"><h2>Play the bot</h2><p>Put any of these openings to work in a full game.</p></a>' : ''}
     </section>`;
 }
 
@@ -235,7 +276,7 @@ async function renderModule(id) {
 
   app.innerHTML = `
     <section class="module">
-      <a class="crumb" href="#/">← All modules</a>
+      <a class="crumb" href="#/${sectionOf(m)}">← ${SECTIONS[sectionOf(m)].title}</a>
       <header class="module-head">
         <p class="eyebrow">${isEndgame(m) ? 'Endgame' : 'Opening'} module</p>
         <h1>${escapeHtml(m.title)}</h1>
@@ -310,7 +351,7 @@ async function renderPlayHome() {
 
   app.innerHTML = `
     <section class="module">
-      <a class="crumb" href="#/">← All modules</a>
+      <a class="crumb" href="#/">← Home</a>
       <header class="module-head">
         <p class="eyebrow">Practice games</p>
         <h1>Play the bot</h1>
@@ -418,6 +459,7 @@ async function route() {
   const parts = location.hash.replace(/^#\/?/, '').replace(/\?.*$/, '').split('/').filter(Boolean);
   try {
     if (parts.length === 0) await renderHome();
+    else if (parts.length === 1 && SECTIONS[parts[0]]) await renderSection(parts[0]);
     else if (parts[0] === 'play' && parts.length === 1) await renderPlayHome();
     else if (parts[0] === 'play' && parts.length === 4) await renderGame(parts[1], parts[2], parts[3]);
     else if (parts[0] === 'review' && parts.length === 2) {
