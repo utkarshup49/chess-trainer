@@ -1,6 +1,8 @@
 // Page router: home -> module -> a line or a drill.
 import { OpeningTrainer } from './opening.js';
 import { getModuleProgress, resetModule } from './progress.js';
+import { LEVELS } from './bot.js';
+import { listGames, lineSummary } from './games.js';
 
 const app = document.getElementById('app');
 const cache = {};
@@ -74,6 +76,11 @@ async function renderHome() {
         <h1>Chess Gym</h1>
         <p class="lede">Play the moves yourself. Wrong moves get explained, and the drills pick a different position every time.</p>
       </header>
+      <a class="play-banner" href="#/play">
+        <span class="tag">New</span>
+        <h2>Play the bot</h2>
+        <p>Pick one of your openings and a bot rating from 800 to 2000. The bot plays your prepared lines with you, then plays the game out.</p>
+      </a>
       <div class="module-grid">${cards}</div>
     </section>`;
 }
@@ -125,13 +132,23 @@ function openingBody(m, progress) {
 
   const d = progress.drill;
   const learnedAll = m.lines.every(l => studied(l.id));
+  const sides = [...new Set(m.lines.map(l => l.side))];
+  const mixed = sides.length > 1 ? `
+      <section class="mixed">
+        <div>
+          <h2>Both colours</h2>
+          <p class="meta">A random line each round, and you don't know which colour you'll get.</p>
+        </div>
+        <a class="button" href="#/m/${m.id}/drill/mixed">Mixed test</a>
+      </section>` : '';
+  const playLinks = sides.map(side => `<a class="button${side === sides[0] ? ' primary' : ''}" href="#/play/${m.id}/${side}/${lastRating()}">Play it as ${side === 'white' ? 'White' : 'Black'}</a>`).join('');
   return `
     <section class="portal">
       <div class="portal-head">
         <span class="step">1</span>
         <div>
           <h2>Learn the lines</h2>
-          <p class="meta">Walk through each trap move by move, with the point of every move explained. Nothing to get wrong here.</p>
+          <p class="meta">Walk through each line move by move, with the point of every move explained. Nothing to get wrong here.</p>
         </div>
       </div>
       <div class="groups">${learnGroup('white', 'White')}${learnGroup('black', 'Black')}</div>
@@ -148,14 +165,19 @@ function openingBody(m, progress) {
         </div>
       </div>
       <div class="groups">${testGroup('white', 'White')}${testGroup('black', 'Black')}</div>
-      <section class="mixed">
-        <div>
-          <h2>Both colours</h2>
-          <p class="meta">A random line each round, and you don't know which colour you'll get.</p>
-        </div>
-        <a class="button" href="#/m/${m.id}/drill/mixed">Mixed test</a>
-      </section>
+      ${mixed}
       <p class="meta">Test record: ${d.played} played · ${d.clean} clean · best streak ${d.best}</p>
+    </section>
+
+    <section class="portal">
+      <div class="portal-head">
+        <span class="step">3</span>
+        <div>
+          <h2>Play it against the bot</h2>
+          <p class="meta">A full game. The bot follows your lines, the coach steps in if you leave them, and the engine takes over when they run out. Bot rating ${lastRating()}; <a href="#/play">change it</a>.</p>
+        </div>
+      </div>
+      <div class="actions">${playLinks}</div>
     </section>`;
 }
 
@@ -235,6 +257,113 @@ async function renderModule(id) {
   document.getElementById('reset-yes').onclick = () => { resetModule(m.id); renderModule(m.id); };
 }
 
+// ---------- Play the bot ----------
+const RATING_KEY = 'chess-gym-bot-rating';
+function lastRating() {
+  try { return Number(localStorage.getItem(RATING_KEY)) || 1200; } catch (e) { return 1200; }
+}
+function rememberRating(r) {
+  try { localStorage.setItem(RATING_KEY, String(r)); } catch (e) { /* not kept */ }
+}
+
+async function renderPlayHome() {
+  const openings = (await loadModules()).filter(m => m.type === 'opening');
+  const choices = openings.flatMap(m => [...new Set(m.lines.map(l => l.side))].map(side => ({ m, side })));
+  let rating = lastRating();
+  let lastChoice = '';
+  try { lastChoice = localStorage.getItem('chess-gym-bot-opening') || ''; } catch (e) { /* none */ }
+  let chosen = Math.max(0, choices.findIndex(c => `${c.m.id}/${c.side}` === lastChoice));
+
+  const options = choices.map((c, i) => `
+    <button type="button" class="pick${i === chosen ? ' on' : ''}" data-choice="${i}">
+      <strong>${escapeHtml(c.m.title)}</strong>
+      <span class="meta">You play ${c.side === 'white' ? 'White' : 'Black'} · ${c.m.lines.filter(l => l.side === c.side).length} lines</span>
+    </button>`).join('');
+  const ratings = LEVELS.map(l => `<button type="button" class="pick rating${l.rating === rating ? ' on' : ''}" data-rating="${l.rating}">${l.rating}</button>`).join('');
+
+  // How each opening has gone so far, line by line.
+  const insight = openings.map(m => {
+    const rows = lineSummary(m.id);
+    if (!rows.length) return '';
+    const body = rows.map(r => `
+      <tr><td>${escapeHtml(r.name)}</td><td>${r.games}</td><td>${r.wins}/${r.draws}/${r.losses}</td>
+        <td>${Math.round((r.points / r.games) * 100)}%</td>
+        <td>${r.avgEval === null ? '–' : (r.avgEval > 0 ? '+' : '') + r.avgEval.toFixed(1)}</td></tr>`).join('');
+    return `
+      <section class="line-group">
+        <h3>${escapeHtml(m.title)}</h3>
+        <div class="table-scroll"><table class="review-table">
+          <thead><tr><th>Line</th><th>Games</th><th>W/D/L</th><th>Score</th><th>Eval at end of prep</th></tr></thead>
+          <tbody>${body}</tbody>
+        </table></div>
+      </section>`;
+  }).join('');
+
+  const games = listGames().slice(0, 25).map(g => {
+    const when = new Date(g.date).toLocaleDateString(undefined, { day: 'numeric', month: 'short' });
+    const tone = g.outcome === 'win' ? 'good' : g.outcome === 'loss' ? 'bad' : 'idle';
+    const label = { win: 'Won', draw: 'Draw', loss: 'Lost' }[g.outcome];
+    return `<li><a href="#/review/${g.id}">
+      <span>${escapeHtml(g.moduleTitle)} · ${g.side === 'white' ? 'White' : 'Black'} vs ${g.rating}<span class="meta"> · ${when} · ${Math.ceil(g.moves.length / 2)} moves</span></span>
+      <span class="chip" data-tone="${tone}">${label}</span></a></li>`;
+  }).join('');
+
+  app.innerHTML = `
+    <section class="module">
+      <a class="crumb" href="#/">← All modules</a>
+      <header class="module-head">
+        <p class="eyebrow">Practice games</p>
+        <h1>Play the bot</h1>
+        <p class="lede">Choose an opening and a bot rating. While the game is in your repertoire, the bot plays your prepared lines with you and the coach explains its moves. Once the lines run out, the engine plays the rest at the rating you picked.</p>
+      </header>
+      <section class="portal">
+        <h2>1. Your opening</h2>
+        <div class="pick-grid">${options}</div>
+        <h2>2. Bot rating</h2>
+        <div class="pick-row">${ratings}</div>
+        <p class="meta">The ratings are approximate: the bot is tuned so its moves throw away about as much as a human's at that level.</p>
+        <div class="actions"><a class="button primary" id="start" href="#">Start the game</a></div>
+      </section>
+      ${insight ? `<section class="portal"><h2>How your lines are going</h2><p class="meta">Score is your points per game. "Eval at end of prep" is the engine's view, in pawns from your side, at the moment your prepared moves ran out: it shows which lines leave you with good positions.</p>${insight}</section>` : ''}
+      <section class="portal">
+        <h2>Your games</h2>
+        ${games ? `<ol class="line-list">${games}</ol>` : '<p class="meta">No games yet. Your finished games appear here, with a full review.</p>'}
+      </section>
+      <p class="meta">The bot and the review use Stockfish (stockfish.js, GPLv3), loaded from the jsDelivr CDN.</p>
+    </section>`;
+
+  const start = document.getElementById('start');
+  const update = () => {
+    const c = choices[chosen];
+    start.href = c ? `#/play/${c.m.id}/${c.side}/${rating}` : '#/play';
+  };
+  app.querySelectorAll('[data-choice]').forEach(b => {
+    b.onclick = () => {
+      chosen = Number(b.dataset.choice);
+      app.querySelectorAll('[data-choice]').forEach(x => x.classList.toggle('on', x === b));
+      update();
+    };
+  });
+  app.querySelectorAll('[data-rating]').forEach(b => {
+    b.onclick = () => {
+      rating = Number(b.dataset.rating);
+      rememberRating(rating);
+      app.querySelectorAll('[data-rating]').forEach(x => x.classList.toggle('on', x === b));
+      update();
+    };
+  });
+  update();
+}
+
+async function renderGame(id, side, rating) {
+  const m = await loadModule(id);
+  if (!m || m.type !== 'opening' || !m.lines.some(l => l.side === side)) return renderMissing();
+  rememberRating(rating);
+  try { localStorage.setItem('chess-gym-bot-opening', `${id}/${side}`); } catch (e) { /* not kept */ }
+  const { BotGame } = await import('./play.js');
+  active = new BotGame(app, m, { side, rating: Number(rating) });
+}
+
 // ---------- Training ----------
 async function renderTrainer(id, mode, arg) {
   const m = await loadModule(id);
@@ -286,9 +415,15 @@ async function route() {
     active.destroy();
     active = null;
   }
-  const parts = location.hash.replace(/^#\/?/, '').split('/').filter(Boolean);
+  const parts = location.hash.replace(/^#\/?/, '').replace(/\?.*$/, '').split('/').filter(Boolean);
   try {
     if (parts.length === 0) await renderHome();
+    else if (parts[0] === 'play' && parts.length === 1) await renderPlayHome();
+    else if (parts[0] === 'play' && parts.length === 4) await renderGame(parts[1], parts[2], parts[3]);
+    else if (parts[0] === 'review' && parts.length === 2) {
+      const { GameReview } = await import('./review.js');
+      active = new GameReview(app, parts[1]);
+    }
     else if (parts[0] === 'm' && parts.length === 2) await renderModule(parts[1]);
     else if (parts[0] === 'm' && parts.length === 4) await renderTrainer(parts[1], parts[2], parts[3]);
     else renderMissing();
