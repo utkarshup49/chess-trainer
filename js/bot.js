@@ -5,8 +5,11 @@
 // now and then plays a move without looking at all, the way people at that
 // level hang pieces. The numbers below were tuned offline with a full-strength
 // Stockfish so that the bot's average centipawn loss (how much its moves throw
-// away, on average) roughly matches human players at each rating. It is an
-// approximation of a rating, not a measured one.
+// away, on average) roughly matches human players at each rating, using the
+// rule of thumb rating ~ 3100 * e^(-ACPL/100): about 135 at 800, 95 at 1200,
+// 66 at 1600 and 44 at 2000. The tuning used 61 middlegame positions from
+// these openings, each move checked at depth 15. It is an approximation of a
+// rating, not a measured one.
 //
 //   depth   how far Stockfish looks
 //   lines   how many moves it scores (MultiPV)
@@ -14,13 +17,13 @@
 //           picked about e^-1 (37%) as often as the best move
 //   wild    chance of a completely random legal move
 export const LEVELS = [
-  { rating: 800, depth: 6, lines: 8, temp: 0, wild: 0 },
-  { rating: 1000, depth: 6, lines: 8, temp: 0, wild: 0 },
-  { rating: 1200, depth: 8, lines: 8, temp: 0, wild: 0 },
-  { rating: 1400, depth: 8, lines: 6, temp: 0, wild: 0 },
-  { rating: 1600, depth: 10, lines: 5, temp: 0, wild: 0 },
-  { rating: 1800, depth: 12, lines: 4, temp: 0, wild: 0 },
-  { rating: 2000, depth: 12, lines: 3, temp: 0, wild: 0 },
+  { rating: 800, depth: 6, lines: 8, temp: 337, wild: 0.14 },
+  { rating: 1000, depth: 6, lines: 8, temp: 242, wild: 0.09 },
+  { rating: 1200, depth: 8, lines: 8, temp: 232, wild: 0.05 },
+  { rating: 1400, depth: 8, lines: 6, temp: 271, wild: 0.035 },
+  { rating: 1600, depth: 10, lines: 6, temp: 197, wild: 0.02 },
+  { rating: 1800, depth: 12, lines: 6, temp: 182, wild: 0.01 },
+  { rating: 2000, depth: 12, lines: 6, temp: 131, wild: 0.005 },
 ];
 
 export const levelFor = rating => LEVELS.find(l => l.rating === Number(rating)) || LEVELS[2];
