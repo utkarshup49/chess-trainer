@@ -126,12 +126,14 @@ export class BotGame {
       <button type="button" class="primary" id="btn-redo">Take it back, play ${escapeHtml(san)}</button>
       <button type="button" id="btn-keep">Keep my move</button>`;
     this.el.choice.hidden = false;
+    this.setStatus('Take it back, or keep your move and carry on.');
     this.el.choice.querySelector('#btn-redo').onclick = () => {
       this.el.choice.hidden = true;
       this.board.undo();
       this.board.setLocked(false);
       this.board.showArrow(...this.squaresOf(san), 'green');
       this.renderMoves();
+      this.setStatus(this.turnText());
       this.setCoach(`Play ${san}`, why);
     };
     this.el.choice.querySelector('#btn-keep').onclick = () => {

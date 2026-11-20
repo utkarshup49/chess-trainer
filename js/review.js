@@ -18,8 +18,14 @@ function grade(drop) {
   return null;
 }
 
-const fmtEval = cp => (Math.abs(cp) >= 9000 ? (cp > 0 ? 'mate for White' : 'mate for Black')
-  : (cp > 0 ? '+' : '') + (cp / 100).toFixed(1));
+// An engine score in words. cp is from White's side unless `forYou` is set.
+function evalWords(cp, forYou = false) {
+  const good = forYou ? 'you' : 'White';
+  const bad = forYou ? 'the bot' : 'Black';
+  if (Math.abs(cp) >= 9000) return `a forced mate for ${cp > 0 ? good : bad}`;
+  if (Math.abs(cp) < 25) return 'about equal';
+  return `${(Math.abs(cp) / 100).toFixed(1)} pawns in ${cp > 0 ? good : bad}'s favour`.replace("you's", 'your');
+}
 
 export class GameReview {
   constructor(container, gameId) {
@@ -167,7 +173,7 @@ export class GameReview {
         <td><span class="badge blunder">${count(mine, 'blunder')}</span></td></tr>`;
     const g = this.game;
     const bookLine = g.bookPly
-      ? `Your preparation lasted until move ${Math.ceil(g.bookPly / 2)}${typeof g.bookEval === 'number' ? `, and the engine rated the position ${fmtEval(g.bookEval)} for you at that point` : ''}.`
+      ? `Your preparation lasted until move ${Math.ceil(g.bookPly / 2)}${typeof g.bookEval === 'number' ? `, and the engine rated the position ${evalWords(g.bookEval, true)} at that point` : ''}.`
       : 'You left your preparation straight away.';
     const moments = this.grades
       .map((gr, i) => ({ gr, i }))
@@ -261,7 +267,7 @@ export class GameReview {
           shapes.push({ orig: bestUci.slice(0, 2), dest: bestUci.slice(2, 4), brush: 'green' });
         }
       }
-      text += ` Evaluation after the move: ${fmtEval(evalNow)}.`;
+      text += ` After it, the engine says: ${evalWords(evalNow)}.`;
     }
     this.el.explain.innerHTML = `<p class="note-title">${escapeHtml(title)}</p><p>${escapeHtml(text)}</p>`;
     this.board.showShapes(shapes);
