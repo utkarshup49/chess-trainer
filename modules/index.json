@@ -5,6 +5,21 @@
     "file": "modules/qg-traps.json"
   },
   {
+    "id": "london",
+    "type": "opening",
+    "file": "modules/london.json"
+  },
+  {
+    "id": "caro-kann",
+    "type": "opening",
+    "file": "modules/caro-kann.json"
+  },
+  {
+    "id": "sicilian-dragon",
+    "type": "opening",
+    "file": "modules/sicilian-dragon.json"
+  },
+  {
     "id": "kp-endgames",
     "type": "endgame",
     "file": "modules/kp-endgames.json"

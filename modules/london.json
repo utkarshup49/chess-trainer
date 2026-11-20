@@ -1,0 +1,363 @@
+{
+  "id": "london",
+  "type": "opening",
+  "title": "London System",
+  "description": "A White repertoire you can play against almost anything: Bf4, e3, c3, Nf3, Nbd2, Bd3, then break with e4.",
+  "source": "Built from the standard London set-up as taught by GothamChess and other popular coaches. Every one of your moves checked with Stockfish 17.1.",
+  "lines": [
+    {
+      "id": "london-main",
+      "name": "Main line: Black plays ...d5, ...e6 and ...Bd6",
+      "side": "white",
+      "moves": "d4 d5 Bf4 Nf6 e3 e6 Nf3 Bd6 Bg3 O-O Nbd2 c5 c3 Nc6 Bd3 b6 e4 dxe4 Nxe4 Nxe4 Bxe4 Bb7 Qa4",
+      "idea": "The London in one breath: bishop to f4 before e3, the c3-d4-e3 pawn pyramid, knight to d2, bishop to d3, then break with e4 once everything is out. If Black offers ...Bd6, step back to g3. If he loosens c6 with ...b6, hit it."
+    },
+    {
+      "id": "london-qb6",
+      "name": "Black hits d4 with ...c5 and b2 with ...Qb6",
+      "side": "white",
+      "moves": "d4 d5 Bf4 c5 e3 Nc6 c3 Qb6 Qb3 c4 Qc2 Nf6 Nd2 Bg4 Ngf3",
+      "idea": "Against ...c5 and ...Qb6, answer queen with queen: Qb3. If ...c4 kicks it, go to c2, which still guards b2 and eyes h7. Then Nd2, Ngf3 and get ready for e4."
+    },
+    {
+      "id": "london-qxb2",
+      "name": "Trap: Black grabs b2 too early",
+      "side": "white",
+      "moves": "d4 d5 Bf4 c5 e3 Qb6 Nc3 Qxb2 Nxd5 Nc6 Rb1 Qxa2 Nc7+ Kd8 Nxa8",
+      "idea": "When Black's queen grabs b2 before he develops, punish it with development. Nc3, then Nxd5 and Rb1, and the Nc7+ fork lands."
+    },
+    {
+      "id": "london-mirror",
+      "name": "Black copies you with ...Bf5",
+      "side": "white",
+      "moves": "d4 d5 Bf4 Nf6 e3 Bf5 c4 e6 Nc3 c6 Qb3 Qb6 c5 Qxb3 axb3 Nbd7 b4",
+      "idea": "When Black copies you with ...Bf5, b7 has lost its guard. Play c4 and Qb3. After a queen trade, your c5 and b4 pawns give you the queenside."
+    },
+    {
+      "id": "london-kid",
+      "name": "Black sets up a King's Indian with ...g6",
+      "side": "white",
+      "moves": "d4 Nf6 Bf4 g6 e3 Bg7 Nf3 O-O Be2 d6 h3 c5 c3 Nc6 O-O",
+      "idea": "Against the King's Indian set-up, keep it simple: Bf4, e3, Nf3, Be2, and h3 so the bishop can retreat to h2. Play c3 to hold d4, castle, then prepare e4."
+    },
+    {
+      "id": "london-e6-qb6",
+      "name": "1...Nf6 2...e6 with ...c5 and ...Qb6",
+      "side": "white",
+      "moves": "d4 Nf6 Bf4 e6 e3 c5 c3 Qb6 Qb3 Nc6 Nd2 d5 Ngf3 Be7 h3 O-O Qc2",
+      "idea": "Same recipe: Qb3 to guard b2 against ...Qb6, Nd2, Ngf3, and h3 for the bishop. Before Bd3, step the queen to c2 so ...c4 can't fork queen and bishop."
+    }
+  ],
+  "explain": {
+    "|d4": "Take the centre with the queen's pawn. It controls e5 and c5, and it opens the diagonal your c1 bishop will use to reach f4.",
+    "d4 d5|Bf4": "This is the London move. Get the dark-squared bishop out BEFORE playing e3, because e3 would shut it inside. From f4 it watches e5 and the whole diagonal down to b8, including c7.",
+    "d4 d5 Bf4 Nf6|e3": "Now e3. The pawn backs up d4 and opens the way for your other bishop to reach d3. Notice the order: bishop out first, then e3.",
+    "d4 d5 Bf4 Nf6 e3 e6|Nf3": "Develop the knight towards the centre. From f3 it guards d4 and controls e5, and it clears the way to castle.",
+    "d4 d5 Bf4 Nf6 e3 e6 Nf3 Bd6|Bg3": "Keep your bishop. If Black takes on g3, recapture hxg3: the h-file opens for your rook on h1, and the g3 pawn still guards f4 and h4.",
+    "d4 d5 Bf4 Nf6 e3 e6 Nf3 Bd6 Bg3 O-O|Nbd2": "In the London your queen's knight goes to d2, not c3. That keeps the c-pawn free to go to c3, and from d2 the knight supports a later e4.",
+    "d4 d5 Bf4 Nf6 e3 e6 Nf3 Bd6 Bg3 O-O Nbd2 c5|c3": "Build the pyramid: b2, c3, d4, e3. Now d4 is guarded by two pawns, so Black's pressure on it bounces off.",
+    "d4 d5 Bf4 Nf6 e3 e6 Nf3 Bd6 Bg3 O-O Nbd2 c5 c3 Nc6|Bd3": "The light-squared bishop's best square. From d3 it aims straight down the diagonal at h7, right next to Black's king.",
+    "d4 d5 Bf4 Nf6 e3 e6 Nf3 Bd6 Bg3 O-O Nbd2 c5 c3 Nc6 Bd3 b6|e4": "The London's main break. Every piece is developed, so now strike in the centre. e4 threatens e5, which would kick away the f6 knight, h7's best defender.",
+    "d4 d5 Bf4 Nf6 e3 e6 Nf3 Bd6 Bg3 O-O Nbd2 c5 c3 Nc6 Bd3 b6 e4 dxe4|Nxe4": "Recapture with the knight. It jumps to the centre and offers a trade on f6, the knight that guards h7.",
+    "d4 d5 Bf4 Nf6 e3 e6 Nf3 Bd6 Bg3 O-O Nbd2 c5 c3 Nc6 Bd3 b6 e4 dxe4 Nxe4 Nxe4|Bxe4": "Take back with the bishop. On e4 it hits the c6 knight, and behind it the a8 rook, while still pointing at h7.",
+    "d4 d5 Bf4 Nf6 e3 e6 Nf3 Bd6 Bg3 O-O Nbd2 c5 c3 Nc6 Bd3 b6 e4 dxe4 Nxe4 Nxe4 Bxe4 Bb7|Qa4": "Attack the c6 knight a second time. Your bishop and queen both hit it and only the b7 bishop defends it, so Black has to add another defender. And if the knight moves, Bxb7 wins Black's bishop.",
+    "d4 d5 Bf4 c5|e3": "Same plan as always. e3 holds d4 with a pawn and opens your light-squared bishop.",
+    "d4 d5 Bf4 c5 e3 Nc6|c3": "The pyramid again. With c3, d4 has two pawn guards, so Black's pieces can pile up on it all they like.",
+    "d4 d5 Bf4 c5 e3 Nc6 c3 Qb6|Qb3": "Meet the queen with your queen. Qb3 guards b2. If Black trades on b3, take back axb3: your rook on a1 gets an open a-file to use.",
+    "d4 d5 Bf4 c5 e3 Nc6 c3 Qb6 Qb3 c4|Qc2": "Step back to c2. The queen still guards b2, and she looks down the diagonal at h7. That means ...Bf5 would now just lose a bishop.",
+    "d4 d5 Bf4 c5 e3 Nc6 c3 Qb6 Qb3 c4 Qc2 Nf6|Nd2": "Knight to d2, as always in the London. It backs up e4, the break that will challenge Black's queenside grip.",
+    "d4 d5 Bf4 c5 e3 Nc6 c3 Qb6 Qb3 c4 Qc2 Nf6 Nd2 Bg4|Ngf3": "Finish your development. The knight guards d4 and e5. If Black trades on f3, take back with the d2 knight. Next: Be2, castle, and prepare e4.",
+    "d4 d5 Bf4 c5 e3 Qb6|Nc3": "Don't defend b2. Develop and set a trap. If the queen takes b2, your knight jumps to d5 and threatens Nc7+, forking the king and the a8 rook.",
+    "d4 d5 Bf4 c5 e3 Qb6 Nc3 Qxb2|Nxd5": "Grab the centre pawn. Now Nc7+ is threatened, hitting the king on e8 and the rook on a8 at the same time.",
+    "d4 d5 Bf4 c5 e3 Qb6 Nc3 Qxb2 Nxd5 Nc6|Rb1": "Chase the queen off b2. She has to keep running, and a2 is the only pawn she can grab.",
+    "d4 d5 Bf4 c5 e3 Qb6 Nc3 Qxb2 Nxd5 Nc6 Rb1 Qxa2|Nc7+": "The fork. It's check, and the knight also attacks the rook on a8.",
+    "d4 d5 Bf4 c5 e3 Qb6 Nc3 Qxb2 Nxd5 Nc6 Rb1 Qxa2 Nc7+ Kd8|Nxa8": "Take the rook. You have won a rook for a pawn, and Black's king is stuck in the middle.",
+    "d4 d5 Bf4 Nf6 e3 Bf5|c4": "Hit d5 from the side. With Black's bishop gone from c8, his queenside is weak, and c4 opens the way for Qb3 to attack b7.",
+    "d4 d5 Bf4 Nf6 e3 Bf5 c4 e6|Nc3": "Develop and add a third attacker on d5.",
+    "d4 d5 Bf4 Nf6 e3 Bf5 c4 e6 Nc3 c6|Qb3": "Now the queen hits b7, which nothing defends.",
+    "d4 d5 Bf4 Nf6 e3 Bf5 c4 e6 Nc3 c6 Qb3 Qb6|c5": "Kick the queen and grab space. The c5 pawn takes b6 and d6 away from Black's pieces and fixes his queenside.",
+    "d4 d5 Bf4 Nf6 e3 Bf5 c4 e6 Nc3 c6 Qb3 Qb6 c5 Qxb3|axb3": "Take back with the a-pawn. This opens the a-file for your rook on a1.",
+    "d4 d5 Bf4 Nf6 e3 Bf5 c4 e6 Nc3 c6 Qb3 Qb6 c5 Qxb3 axb3 Nbd7|b4": "Lock in your queenside space. b4 backs up c5, and later b5 can open lines on the side where you are stronger.",
+    "d4 Nf6|Bf4": "The same London bishop for the same reason: out before e3 shuts it in.",
+    "d4 Nf6 Bf4 g6|e3": "Back up d4 and open your light-squared bishop.",
+    "d4 Nf6 Bf4 g6 e3 Bg7|Nf3": "Develop. The knight guards d4 and controls e5, two squares the g7 bishop cares about.",
+    "d4 Nf6 Bf4 g6 e3 Bg7 Nf3 O-O|Be2": "Against the fianchetto, a modest Be2 is enough. On d3 the bishop would just stare at the g6 pawn. From e2 it lets you castle quickly.",
+    "d4 Nf6 Bf4 g6 e3 Bg7 Nf3 O-O Be2 d6|h3": "Give your bishop a hiding place. If Black chases it with ...Nh5, it drops back to h2 and stays on the same diagonal.",
+    "d4 Nf6 Bf4 g6 e3 Bg7 Nf3 O-O Be2 d6 h3 c5|c3": "The pyramid. With c3 and e3 both guarding it, d4 holds however hard Black presses.",
+    "d4 Nf6 Bf4 g6 e3 Bg7 Nf3 O-O Be2 d6 h3 c5 c3 Nc6|O-O": "Castle. Your set-up is complete. Next comes Nbd2, and an e4 break when the moment is right.",
+    "d4 Nf6 Bf4 e6|e3": "Hold d4 and open your light-squared bishop.",
+    "d4 Nf6 Bf4 e6 e3 c5|c3": "Pyramid: d4 now has two pawn guards.",
+    "d4 Nf6 Bf4 e6 e3 c5 c3 Qb6|Qb3": "Queen meets queen and guards b2. If Black trades on b3, axb3 opens the a-file for your rook.",
+    "d4 Nf6 Bf4 e6 e3 c5 c3 Qb6 Qb3 Nc6|Nd2": "Knight to d2, where it supports e4 and backs up your queen.",
+    "d4 Nf6 Bf4 e6 e3 c5 c3 Qb6 Qb3 Nc6 Nd2 d5|Ngf3": "Bring out your last minor piece. It guards d4 and e5.",
+    "d4 Nf6 Bf4 e6 e3 c5 c3 Qb6 Qb3 Nc6 Nd2 d5 Ngf3 Be7|h3": "Give your f4 bishop the h2 retreat before Black can harass it with ...Nh5.",
+    "d4 Nf6 Bf4 e6 e3 c5 c3 Qb6 Qb3 Nc6 Nd2 d5 Ngf3 Be7 h3 O-O|Qc2": "Move the queen off b3 before playing Bd3. Here Bd3 would run into ...c4, which forks your queen on b3 and your bishop on d3. From c2 the queen eyes h7 and is out of reach."
+  },
+  "replies": {
+    "d4|d5": "Black takes his share of the centre. His d5 pawn stops you from playing e4 for now.",
+    "d4 d5 Bf4|Nf6": "Black develops. The knight controls e4 and d5.",
+    "d4 d5 Bf4 Nf6 e3|e6": "Black frees his dark-squared bishop, but the e6 pawn now locks in his c8 bishop. That bishop is Black's problem piece for the rest of the opening.",
+    "d4 d5 Bf4 Nf6 e3 e6 Nf3|Bd6": "Black offers to trade his bishop for your London bishop, which is your best piece.",
+    "d4 d5 Bf4 Nf6 e3 e6 Nf3 Bd6 Bg3|O-O": "Black castles. His king is now on g8, and h7 is the square to keep an eye on.",
+    "d4 d5 Bf4 Nf6 e3 e6 Nf3 Bd6 Bg3 O-O Nbd2|c5": "Black's main counterattack: the c5 pawn hits d4 from the side.",
+    "d4 d5 Bf4 Nf6 e3 e6 Nf3 Bd6 Bg3 O-O Nbd2 c5 c3|Nc6": "Black piles more pressure on d4.",
+    "d4 d5 Bf4 Nf6 e3 e6 Nf3 Bd6 Bg3 O-O Nbd2 c5 c3 Nc6 Bd3|b6": "Black prepares ...Bb7 to get his problem bishop out. But it loosens his queenside: the knight on c6 now has no pawn guarding it.",
+    "d4 d5 Bf4 Nf6 e3 e6 Nf3 Bd6 Bg3 O-O Nbd2 c5 c3 Nc6 Bd3 b6 e4|dxe4": "Black releases the tension and takes.",
+    "d4 d5 Bf4 Nf6 e3 e6 Nf3 Bd6 Bg3 O-O Nbd2 c5 c3 Nc6 Bd3 b6 e4 dxe4 Nxe4|Nxe4": "Black trades knights.",
+    "d4 d5 Bf4 Nf6 e3 e6 Nf3 Bd6 Bg3 O-O Nbd2 c5 c3 Nc6 Bd3 b6 e4 dxe4 Nxe4 Nxe4 Bxe4|Bb7": "Black gets his bishop out at last and gives the c6 knight a defender.",
+    "d4 d5 Bf4|c5": "Black hits d4 straight away. This is the most testing reply to the London.",
+    "d4 d5 Bf4 c5 e3|Nc6": "Black adds a second attacker on d4.",
+    "d4 d5 Bf4 c5 e3 Nc6 c3|Qb6": "The famous London nuisance. Black's queen attacks b2, which nothing defends, now that your bishop has left c1.",
+    "d4 d5 Bf4 c5 e3 Nc6 c3 Qb6 Qb3|c4": "Black kicks your queen and grabs space on the queenside.",
+    "d4 d5 Bf4 c5 e3 Nc6 c3 Qb6 Qb3 c4 Qc2|Nf6": "Black develops and controls e4, so your e4 break has to wait.",
+    "d4 d5 Bf4 c5 e3 Nc6 c3 Qb6 Qb3 c4 Qc2 Nf6 Nd2|Bg4": "Black puts his bishop on an active square. It eyes f3, where your other knight wants to go.",
+    "d4 d5 Bf4 c5 e3|Qb6": "Black goes after b2 before developing anything.",
+    "d4 d5 Bf4 c5 e3 Qb6 Nc3|Qxb2": "Greedy. Black takes the pawn, but his queen is far from home and the d5 pawn has lost a defender.",
+    "d4 d5 Bf4 c5 e3 Qb6 Nc3 Qxb2 Nxd5|Nc6": "Black develops, but does nothing about c7.",
+    "d4 d5 Bf4 c5 e3 Qb6 Nc3 Qxb2 Nxd5 Nc6 Rb1|Qxa2": "Black takes another pawn, and still ignores c7.",
+    "d4 d5 Bf4 c5 e3 Qb6 Nc3 Qxb2 Nxd5 Nc6 Rb1 Qxa2 Nc7+|Kd8": "Black's king steps aside. He can no longer castle.",
+    "d4 d5 Bf4 Nf6 e3|Bf5": "The mirror. Black copies your bishop, but now his queenside is light: no bishop guards b7 any more.",
+    "d4 d5 Bf4 Nf6 e3 Bf5 c4|e6": "Black backs up d5 with a pawn.",
+    "d4 d5 Bf4 Nf6 e3 Bf5 c4 e6 Nc3|c6": "Black adds another defender of d5 and closes the long diagonal.",
+    "d4 d5 Bf4 Nf6 e3 Bf5 c4 e6 Nc3 c6 Qb3|Qb6": "Black defends b7 by offering a queen trade.",
+    "d4 d5 Bf4 Nf6 e3 Bf5 c4 e6 Nc3 c6 Qb3 Qb6 c5|Qxb3": "Black trades queens.",
+    "d4 d5 Bf4 Nf6 e3 Bf5 c4 e6 Nc3 c6 Qb3 Qb6 c5 Qxb3 axb3|Nbd7": "Black develops and gets ready to break your chain with ...b6 or ...e5.",
+    "d4|Nf6": "Flexible. Black keeps his pawn choices open and stops e4 for now.",
+    "d4 Nf6 Bf4|g6": "Black is going to fianchetto. His bishop will sit on g7 and aim down the long diagonal at your queenside.",
+    "d4 Nf6 Bf4 g6 e3|Bg7": "The bishop arrives on the long diagonal, eyeing d4 and b2.",
+    "d4 Nf6 Bf4 g6 e3 Bg7 Nf3|O-O": "Black castles.",
+    "d4 Nf6 Bf4 g6 e3 Bg7 Nf3 O-O Be2|d6": "Black gets ready for ...e5 or ...c5 to fight for the centre.",
+    "d4 Nf6 Bf4 g6 e3 Bg7 Nf3 O-O Be2 d6 h3|c5": "Black strikes at d4.",
+    "d4 Nf6 Bf4 g6 e3 Bg7 Nf3 O-O Be2 d6 h3 c5 c3|Nc6": "Black adds pressure on d4.",
+    "d4 Nf6 Bf4|e6": "Black opens his dark-squared bishop and keeps ...d5 or ...b6 in reserve.",
+    "d4 Nf6 Bf4 e6 e3|c5": "Black hits d4.",
+    "d4 Nf6 Bf4 e6 e3 c5 c3|Qb6": "The queen goes after b2.",
+    "d4 Nf6 Bf4 e6 e3 c5 c3 Qb6 Qb3|Nc6": "Black develops and leaves the queens facing each other.",
+    "d4 Nf6 Bf4 e6 e3 c5 c3 Qb6 Qb3 Nc6 Nd2|d5": "Black takes the centre.",
+    "d4 Nf6 Bf4 e6 e3 c5 c3 Qb6 Qb3 Nc6 Nd2 d5 Ngf3|Be7": "Black develops quietly. ...Bd6 would have lost a piece: after Bxd6 nothing can recapture on d6.",
+    "d4 Nf6 Bf4 e6 e3 c5 c3 Qb6 Qb3 Nc6 Nd2 d5 Ngf3 Be7 h3|O-O": "Black castles."
+  },
+  "shapes": {
+    "|d4": [
+      "Yd4e5",
+      "Yd4c5",
+      "Yc1f4"
+    ],
+    "d4|d5": [
+      "Rd5e4"
+    ],
+    "d4 d5|Bf4": [
+      "Yf4b8",
+      "Ye5"
+    ],
+    "d4 d5 Bf4|Nf6": [
+      "Rf6e4"
+    ],
+    "d4 d5 Bf4 Nf6|e3": [
+      "Ye3d4",
+      "Yf1d3"
+    ],
+    "d4 d5 Bf4 Nf6 e3|e6": [
+      "Rc8"
+    ],
+    "d4 d5 Bf4 Nf6 e3 e6|Nf3": [
+      "Yf3e5",
+      "Yf3d4"
+    ],
+    "d4 d5 Bf4 Nf6 e3 e6 Nf3|Bd6": [
+      "Rd6f4"
+    ],
+    "d4 d5 Bf4 Nf6 e3 e6 Nf3 Bd6|Bg3": [
+      "Yh1h7",
+      "Yf4g3"
+    ],
+    "d4 d5 Bf4 Nf6 e3 e6 Nf3 Bd6 Bg3 O-O|Nbd2": [
+      "Yd2e4",
+      "Yc3"
+    ],
+    "d4 d5 Bf4 Nf6 e3 e6 Nf3 Bd6 Bg3 O-O Nbd2|c5": [
+      "Rc5d4"
+    ],
+    "d4 d5 Bf4 Nf6 e3 e6 Nf3 Bd6 Bg3 O-O Nbd2 c5|c3": [
+      "Yc3d4",
+      "Ye3d4"
+    ],
+    "d4 d5 Bf4 Nf6 e3 e6 Nf3 Bd6 Bg3 O-O Nbd2 c5 c3|Nc6": [
+      "Rc6d4"
+    ],
+    "d4 d5 Bf4 Nf6 e3 e6 Nf3 Bd6 Bg3 O-O Nbd2 c5 c3 Nc6|Bd3": [
+      "Yd3h7"
+    ],
+    "d4 d5 Bf4 Nf6 e3 e6 Nf3 Bd6 Bg3 O-O Nbd2 c5 c3 Nc6 Bd3|b6": [
+      "Rc6"
+    ],
+    "d4 d5 Bf4 Nf6 e3 e6 Nf3 Bd6 Bg3 O-O Nbd2 c5 c3 Nc6 Bd3 b6|e4": [
+      "Ye4e5",
+      "Yd3h7",
+      "Rf6"
+    ],
+    "d4 d5 Bf4 Nf6 e3 e6 Nf3 Bd6 Bg3 O-O Nbd2 c5 c3 Nc6 Bd3 b6 e4 dxe4|Nxe4": [
+      "Ye4f6"
+    ],
+    "d4 d5 Bf4 Nf6 e3 e6 Nf3 Bd6 Bg3 O-O Nbd2 c5 c3 Nc6 Bd3 b6 e4 dxe4 Nxe4 Nxe4|Bxe4": [
+      "Ye4a8",
+      "Ye4h7"
+    ],
+    "d4 d5 Bf4 Nf6 e3 e6 Nf3 Bd6 Bg3 O-O Nbd2 c5 c3 Nc6 Bd3 b6 e4 dxe4 Nxe4 Nxe4 Bxe4 Bb7|Qa4": [
+      "Ya4c6",
+      "Ye4c6",
+      "Rb7"
+    ],
+    "d4 d5 Bf4|c5": [
+      "Rc5d4"
+    ],
+    "d4 d5 Bf4 c5|e3": [
+      "Ye3d4",
+      "Yf1d3"
+    ],
+    "d4 d5 Bf4 c5 e3|Nc6": [
+      "Rc6d4"
+    ],
+    "d4 d5 Bf4 c5 e3 Nc6|c3": [
+      "Yc3d4",
+      "Ye3d4"
+    ],
+    "d4 d5 Bf4 c5 e3 Nc6 c3|Qb6": [
+      "Rb6b2"
+    ],
+    "d4 d5 Bf4 c5 e3 Nc6 c3 Qb6|Qb3": [
+      "Yb3b6",
+      "Ya1a7"
+    ],
+    "d4 d5 Bf4 c5 e3 Nc6 c3 Qb6 Qb3|c4": [
+      "Rc4b3"
+    ],
+    "d4 d5 Bf4 c5 e3 Nc6 c3 Qb6 Qb3 c4|Qc2": [
+      "Yc2b2",
+      "Yc2h7"
+    ],
+    "d4 d5 Bf4 c5 e3 Nc6 c3 Qb6 Qb3 c4 Qc2|Nf6": [
+      "Rf6e4"
+    ],
+    "d4 d5 Bf4 c5 e3 Nc6 c3 Qb6 Qb3 c4 Qc2 Nf6|Nd2": [
+      "Yd2e4"
+    ],
+    "d4 d5 Bf4 c5 e3 Nc6 c3 Qb6 Qb3 c4 Qc2 Nf6 Nd2 Bg4|Ngf3": [
+      "Yf3e5",
+      "Yf3d4"
+    ],
+    "d4 d5 Bf4 c5 e3|Qb6": [
+      "Rb6b2"
+    ],
+    "d4 d5 Bf4 c5 e3 Qb6|Nc3": [
+      "Yc3d5",
+      "Rc7"
+    ],
+    "d4 d5 Bf4 c5 e3 Qb6 Nc3 Qxb2|Nxd5": [
+      "Yd5c7",
+      "Ra8",
+      "Re8"
+    ],
+    "d4 d5 Bf4 c5 e3 Qb6 Nc3 Qxb2 Nxd5 Nc6|Rb1": [
+      "Yb1b2"
+    ],
+    "d4 d5 Bf4 c5 e3 Qb6 Nc3 Qxb2 Nxd5 Nc6 Rb1 Qxa2|Nc7+": [
+      "Yc7e8",
+      "Yc7a8"
+    ],
+    "d4 d5 Bf4 c5 e3 Qb6 Nc3 Qxb2 Nxd5 Nc6 Rb1 Qxa2 Nc7+ Kd8|Nxa8": [
+      "Ya8"
+    ],
+    "d4 d5 Bf4 Nf6 e3|Bf5": [
+      "Rb7"
+    ],
+    "d4 d5 Bf4 Nf6 e3 Bf5|c4": [
+      "Yc4d5",
+      "Yd1b3",
+      "Rb7"
+    ],
+    "d4 d5 Bf4 Nf6 e3 Bf5 c4 e6|Nc3": [
+      "Yc3d5"
+    ],
+    "d4 d5 Bf4 Nf6 e3 Bf5 c4 e6 Nc3 c6|Qb3": [
+      "Yb3b7"
+    ],
+    "d4 d5 Bf4 Nf6 e3 Bf5 c4 e6 Nc3 c6 Qb3 Qb6|c5": [
+      "Yc5b6",
+      "Yc5d6"
+    ],
+    "d4 d5 Bf4 Nf6 e3 Bf5 c4 e6 Nc3 c6 Qb3 Qb6 c5 Qxb3|axb3": [
+      "Ya1a7"
+    ],
+    "d4 d5 Bf4 Nf6 e3 Bf5 c4 e6 Nc3 c6 Qb3 Qb6 c5 Qxb3 axb3 Nbd7|b4": [
+      "Yb4c5",
+      "Yb4b5"
+    ],
+    "d4|Nf6": [
+      "Rf6e4"
+    ],
+    "d4 Nf6|Bf4": [
+      "Yf4b8",
+      "Ye5"
+    ],
+    "d4 Nf6 Bf4|g6": [
+      "Rg7a1"
+    ],
+    "d4 Nf6 Bf4 g6|e3": [
+      "Ye3d4",
+      "Yf1e2"
+    ],
+    "d4 Nf6 Bf4 g6 e3|Bg7": [
+      "Rg7d4"
+    ],
+    "d4 Nf6 Bf4 g6 e3 Bg7|Nf3": [
+      "Yf3d4",
+      "Yf3e5"
+    ],
+    "d4 Nf6 Bf4 g6 e3 Bg7 Nf3 O-O Be2|d6": [
+      "Rd6e5"
+    ],
+    "d4 Nf6 Bf4 g6 e3 Bg7 Nf3 O-O Be2 d6|h3": [
+      "Yf4h2",
+      "Rf6h5"
+    ],
+    "d4 Nf6 Bf4 g6 e3 Bg7 Nf3 O-O Be2 d6 h3|c5": [
+      "Rc5d4"
+    ],
+    "d4 Nf6 Bf4 g6 e3 Bg7 Nf3 O-O Be2 d6 h3 c5|c3": [
+      "Yc3d4",
+      "Ye3d4"
+    ],
+    "d4 Nf6 Bf4 e6|e3": [
+      "Ye3d4",
+      "Yf1d3"
+    ],
+    "d4 Nf6 Bf4 e6 e3|c5": [
+      "Rc5d4"
+    ],
+    "d4 Nf6 Bf4 e6 e3 c5|c3": [
+      "Yc3d4"
+    ],
+    "d4 Nf6 Bf4 e6 e3 c5 c3|Qb6": [
+      "Rb6b2"
+    ],
+    "d4 Nf6 Bf4 e6 e3 c5 c3 Qb6|Qb3": [
+      "Yb3b6",
+      "Ya1a7"
+    ],
+    "d4 Nf6 Bf4 e6 e3 c5 c3 Qb6 Qb3 Nc6|Nd2": [
+      "Yd2e4"
+    ],
+    "d4 Nf6 Bf4 e6 e3 c5 c3 Qb6 Qb3 Nc6 Nd2 d5|Ngf3": [
+      "Yf3e5",
+      "Yf3d4"
+    ],
+    "d4 Nf6 Bf4 e6 e3 c5 c3 Qb6 Qb3 Nc6 Nd2 d5 Ngf3 Be7|h3": [
+      "Yf4h2"
+    ],
+    "d4 Nf6 Bf4 e6 e3 c5 c3 Qb6 Qb3 Nc6 Nd2 d5 Ngf3 Be7 h3 O-O|Qc2": [
+      "Yc2h7",
+      "Rc5c4"
+    ]
+  }
+}
