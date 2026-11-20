@@ -175,6 +175,7 @@ export class GameReview {
     const bookLine = g.bookPly
       ? `Your preparation lasted until move ${Math.ceil(g.bookPly / 2)}${typeof g.bookEval === 'number' ? `, and the engine rated the position ${evalWords(g.bookEval, true)} at that point` : ''}.`
       : 'You left your preparation straight away.';
+    const surprise = this.surpriseText();
     const moments = this.grades
       .map((gr, i) => ({ gr, i }))
       .filter(({ gr, i }) => i > 0 && this.isMine(i) && gr.grade && gr.grade.key !== 'inaccuracy');
@@ -184,9 +185,31 @@ export class GameReview {
         <tbody>${row('You', true)}${row('Bot', false)}</tbody>
       </table>
       <p class="meta">${bookLine}</p>
+      ${surprise}
       ${moments.length ? `<p class="label">Your turning points</p><div class="moments">${moments.map(({ gr, i }) =>
         `<button type="button" class="moment ${gr.grade.key}" data-ply="${i}">${this.moveLabel(i)}${gr.grade.mark}</button>`).join('')}</div>` : ''}`;
     this.el.summary.querySelectorAll('[data-ply]').forEach(b => { b.onclick = () => this.go(Number(b.dataset.ply)); });
+  }
+
+  // The surprise bot left the book: what it played, and how you answered.
+  surpriseText() {
+    const s = this.game.surprise;
+    if (!s || !this.positions[s.ply + 1]) return '';
+    const at = s.ply + 1;
+    const kind = { sound: 'a reasonable move', mistake: 'a mistake', blunder: 'a blunder' }[s.kind];
+    let text = `The bot left your lines with ${this.moveLabel(at)}: ${kind}` +
+      (s.kind === 'sound' ? '.' : `, giving away about ${(s.loss / 100).toFixed(1)} pawns.`);
+    const reply = this.positions[at + 1];
+    const bestUci = this.game.best[at];
+    if (reply && bestUci) {
+      const bestSan = new Chess(this.positions[at].fen).move({ from: bestUci.slice(0, 2), to: bestUci.slice(2, 4), promotion: bestUci[4] }).san;
+      const g = this.grades[at + 1];
+      if (bestSan === reply.move.san) text += ` You found the best answer, ${bestSan}.`;
+      else if (!g.grade) text += ` Your answer ${reply.move.san} was fine; the engine's choice was ${bestSan}.`;
+      else text += ` Your answer ${reply.move.san} was ${g.grade.label.toLowerCase() === 'inaccuracy' ? 'an inaccuracy' : 'a ' + g.grade.label.toLowerCase()}; ${s.kind === 'sound' ? 'better was' : 'the way to punish it was'} ${bestSan}.`;
+    }
+    return `<p class="note-title">The surprise</p><p>${escapeHtml(text)}</p>
+      <div class="moments"><button type="button" class="moment" data-ply="${at}">See the surprise</button>${reply ? `<button type="button" class="moment" data-ply="${at + 1}">See your answer</button>` : ''}</div>`;
   }
 
   moveLabel(ply) {
