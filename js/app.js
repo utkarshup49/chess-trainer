@@ -14,7 +14,7 @@ function escapeHtml(text) {
 
 async function loadJson(path) {
   if (!cache[path]) {
-    const res = await fetch(path);
+    const res = await fetch(path, { cache: 'no-cache' }); // revalidate, so new modules show up at once
     if (!res.ok) throw new Error('Could not load ' + path);
     cache[path] = await res.json();
   }

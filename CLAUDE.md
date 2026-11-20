@@ -64,7 +64,49 @@ print(len(missing), missing[:10])
 PY
 ```
 
+Optionally the module can also carry, keyed the same way:
+
+- `"replies"`: why the *opponent* plays each of their moves, shown in the
+  walkthrough when the bot or the line plays them.
+- `"shapes"`: arrows and circles drawn with a move in the walkthrough, as
+  compact codes: `"Yf4c7"` is a yellow arrow f4 to c7, `"Re5"` a red circle on
+  e5 (Y = what the move aims at, R = danger or weakness, G and B also exist).
+
+Write openings so the learner sees *why*: what the piece will see from its new
+square, what it stops, and how it helps later.
+
 Finally add the module to `modules/index.json`.
+
+### Engine-check every repertoire move
+
+A new repertoire is only shipped once every move the learner plays has been
+checked with a strong engine (Stockfish 17.1 was used for the London,
+Caro-Kann and Accelerated Dragon): each of the learner's moves within about
+0.4 pawns of the engine's best, unless the position is already winning. The
+sandbox can compile Stockfish from source and use python-chess from a git
+clone. Notes that state a fact ("nothing defends b7") must be checked on the
+board too.
+
+## Play the bot
+
+`#/play` lets the learner pick an opening module and a rating, then play a full
+game (`js/play.js`). While the moves are still in the module's lines the bot
+plays from them at random and explains its replies from `replies`; if the
+learner leaves the lines, the coach offers a takeback to the prepared move.
+When the lines end, the engine plays at the chosen rating.
+
+- `js/engine.js` runs Stockfish (stockfish.js lite single-threaded WASM, GPLv3)
+  from **unpkg** in a blob worker; the .wasm URL goes after `#` in the worker
+  URL. jsDelivr refuses this package (over its 150 MB limit).
+- `js/bot.js` holds the rating levels: depth, how many lines, a softmax
+  temperature and a chance of a random move. They are tuned offline so the
+  average centipawn loss matches the rule of thumb rating = 3100 * e^(-ACPL/100).
+  Retune if the picking rule changes.
+- `js/games.js` keeps finished games in localStorage; `js/review.js` analyses
+  a game (depth 11) and grades moves by the drop in winning chances
+  (Lichess's curve: 10 / 20 / 30 points for inaccuracy / mistake / blunder).
+- The play page summarises each line: games, score, and the engine's eval when
+  the preparation ran out, so the learner can see which lines suit them.
 
 ## Endgames
 
