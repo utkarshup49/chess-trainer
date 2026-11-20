@@ -1,0 +1,380 @@
+{
+  "id": "sicilian-dragon",
+  "type": "opening",
+  "title": "Sicilian: Accelerated Dragon",
+  "description": "A Sicilian for Black built on one set-up: ...c5, ...Nc6, ...g6 and ...Bg7, with a bishop that rakes the long diagonal. Includes answers to the Alapin, Smith-Morra, Grand Prix and Rossolimo.",
+  "source": "Standard Accelerated Dragon theory and the usual anti-Sicilian answers, as taught by popular coaches including GothamChess. Every one of your moves checked with Stockfish 17.1.",
+  "lines": [
+    {
+      "id": "sd-classical",
+      "name": "Open Sicilian: 5.Nc3 and Bc4",
+      "side": "black",
+      "moves": "e4 c5 Nf3 Nc6 d4 cxd4 Nxd4 g6 Nc3 Bg7 Be3 Nf6 Bc4 O-O Bb3 d6 f3 Bd7 Qd2 Nxd4 Bxd4 b5",
+      "idea": "In the Open Sicilian, the g7 bishop is your best piece and the queenside is your attacking side. Castle early, play ...d6 and ...Bd7, trade knights on d4, then go ...b5-b4."
+    },
+    {
+      "id": "sd-maroczy",
+      "name": "Maroczy Bind: 5.c4",
+      "side": "black",
+      "moves": "e4 c5 Nf3 Nc6 d4 cxd4 Nxd4 g6 c4 Bg7 Be3 Nf6 Nc3 O-O Be2 d6 O-O Bd7 Qd2 Nxd4 Bxd4 Bc6 f3 a5",
+      "idea": "Against the Maroczy Bind, don't fight the clamp head on. Trade pieces, starting with ...Nxd4, put your bishop on c6 against e4, play ...a5, and bring a knight to c5."
+    },
+    {
+      "id": "sd-exchange",
+      "name": "White trades with 5.Nxc6",
+      "side": "black",
+      "moves": "e4 c5 Nf3 Nc6 d4 cxd4 Nxd4 g6 Nxc6 bxc6 Qd4 Nf6 e5 Nd5 e6 f6 exd7+ Bxd7",
+      "idea": "When White trades on c6, take back towards the centre with ...bxc6. If the queen hits h8, block with ...Nf6, and meet e5-e6 with ...f6."
+    },
+    {
+      "id": "sd-alapin",
+      "name": "Alapin: 2.c3",
+      "side": "black",
+      "moves": "e4 c5 c3 Nf6 e5 Nd5 d4 cxd4 Nf3 Nc6 cxd4 d6 Bc4 Nb6 Bb5 dxe5 Nxe5 Bd7",
+      "idea": "Against the Alapin, hit e4 with ...Nf6. After e5 and d4, trade on d4, develop with ...Nc6, and break with ...d6. If the bishop pins with Bb5, step in with ...Bd7."
+    },
+    {
+      "id": "sd-morra",
+      "name": "Smith-Morra Gambit: 2.d4 cxd4 3.c3",
+      "side": "black",
+      "moves": "e4 c5 d4 cxd4 c3 Nf6 e5 Nd5 Nf3 Nc6 cxd4 d6 Bc4 Nb6 Bb5 dxe5 Nxe5 Bd7",
+      "idea": "Against the Smith-Morra, 3...Nf6 sidesteps the gambit and leads straight into the Alapin position. One plan covers both openings."
+    },
+    {
+      "id": "sd-grand-prix",
+      "name": "Grand Prix Attack: 2.Nc3 and f4",
+      "side": "black",
+      "moves": "e4 c5 Nc3 Nc6 f4 g6 Nf3 Bg7 Bc4 e6 O-O Nge7 d3 d5 Bb3 O-O",
+      "idea": "Against the Grand Prix: ...Nc6, ...g6, ...Bg7, then ...e6 to blunt the c4 bishop, ...Nge7 so e5 can't kick it, and ...d5 to take the centre."
+    },
+    {
+      "id": "sd-rossolimo",
+      "name": "Rossolimo: 3.Bb5",
+      "side": "black",
+      "moves": "e4 c5 Nf3 Nc6 Bb5 g6 O-O Bg7 c3 Nf6 Re1 O-O d4 cxd4 cxd4 d5 e5 Ne4",
+      "idea": "Against the Rossolimo, don't worry about your pawns being doubled. Fianchetto, castle, and when White takes the centre with d4, trade and hit e4 with ...d5."
+    }
+  ],
+  "explain": {
+    "e4|c5": "The Sicilian. Instead of copying with ...e5, you fight for d4 from the side. If White plays d4, you trade your c-pawn for his d-pawn and keep two centre pawns against his one.",
+    "e4 c5 Nf3|Nc6": "Develop and put a second guard on d4.",
+    "e4 c5 Nf3 Nc6 d4|cxd4": "Take. You swap a side pawn for a centre pawn, and you still have both your d and e pawns at home.",
+    "e4 c5 Nf3 Nc6 d4 cxd4 Nxd4|g6": "The Accelerated Dragon: fianchetto straight away. Your bishop on g7 will rake the long diagonal, and because your d-pawn is still on d7, you can sometimes play ...d5 in one move.",
+    "e4 c5 Nf3 Nc6 d4 cxd4 Nxd4 g6 Nc3|Bg7": "The bishop arrives. It hits the d4 knight and the long diagonal behind it.",
+    "e4 c5 Nf3 Nc6 d4 cxd4 Nxd4 g6 Nc3 Bg7 Be3|Nf6": "Develop and get ready to castle. The knight hits e4.",
+    "e4 c5 Nf3 Nc6 d4 cxd4 Nxd4 g6 Nc3 Bg7 Be3 Nf6 Bc4|O-O": "Castle. Your king hides behind the g7 bishop.",
+    "e4 c5 Nf3 Nc6 d4 cxd4 Nxd4 g6 Nc3 Bg7 Be3 Nf6 Bc4 O-O Bb3|d6": "Now ...d6. It covers e5 and opens the way for your c8 bishop.",
+    "e4 c5 Nf3 Nc6 d4 cxd4 Nxd4 g6 Nc3 Bg7 Be3 Nf6 Bc4 O-O Bb3 d6 f3|Bd7": "Develop the bishop and get ready for ...b5.",
+    "e4 c5 Nf3 Nc6 d4 cxd4 Nxd4 g6 Nc3 Bg7 Be3 Nf6 Bc4 O-O Bb3 d6 f3 Bd7 Qd2|Nxd4": "Trade knights. The d4 knight was White's best piece, and its partner on e3 has to come to d4, where your pieces can challenge it.",
+    "e4 c5 Nf3 Nc6 d4 cxd4 Nxd4 g6 Nc3 Bg7 Be3 Nf6 Bc4 O-O Bb3 d6 f3 Bd7 Qd2 Nxd4 Bxd4|b5": "Grab space on the queenside, where your attack lives. ...b4 is next, kicking the c3 knight, which guards e4.",
+    "e4 c5 Nf3 Nc6 d4 cxd4 Nxd4 g6 c4|Bg7": "The bishop on the long diagonal, hitting the d4 knight.",
+    "e4 c5 Nf3 Nc6 d4 cxd4 Nxd4 g6 c4 Bg7 Be3|Nf6": "Develop and hit e4.",
+    "e4 c5 Nf3 Nc6 d4 cxd4 Nxd4 g6 c4 Bg7 Be3 Nf6 Nc3|O-O": "Castle.",
+    "e4 c5 Nf3 Nc6 d4 cxd4 Nxd4 g6 c4 Bg7 Be3 Nf6 Nc3 O-O Be2|d6": "Cover e5 and open your c8 bishop.",
+    "e4 c5 Nf3 Nc6 d4 cxd4 Nxd4 g6 c4 Bg7 Be3 Nf6 Nc3 O-O Be2 d6 O-O|Bd7": "Develop. The bishop is heading for c6, where it will press on e4.",
+    "e4 c5 Nf3 Nc6 d4 cxd4 Nxd4 g6 c4 Bg7 Be3 Nf6 Nc3 O-O Be2 d6 O-O Bd7 Qd2|Nxd4": "Trade knights. You have less space, and swapping pieces is the cure for a cramped position.",
+    "e4 c5 Nf3 Nc6 d4 cxd4 Nxd4 g6 c4 Bg7 Be3 Nf6 Nc3 O-O Be2 d6 O-O Bd7 Qd2 Nxd4 Bxd4|Bc6": "The bishop lands on c6 and presses on e4.",
+    "e4 c5 Nf3 Nc6 d4 cxd4 Nxd4 g6 c4 Bg7 Be3 Nf6 Nc3 O-O Be2 d6 O-O Bd7 Qd2 Nxd4 Bxd4 Bc6 f3|a5": "Stop b4, so White can't grab any more queenside space. Later your knight can come to c5 via d7, and with b4 ruled out, no White pawn can kick it from there.",
+    "e4 c5 Nf3 Nc6 d4 cxd4 Nxd4 g6 Nxc6|bxc6": "Take back towards the centre. The b-pawn becomes a c-pawn that backs up ...d5, and the b-file opens for your rooks.",
+    "e4 c5 Nf3 Nc6 d4 cxd4 Nxd4 g6 Nxc6 bxc6 Qd4|Nf6": "Block the diagonal by developing the knight.",
+    "e4 c5 Nf3 Nc6 d4 cxd4 Nxd4 g6 Nxc6 bxc6 Qd4 Nf6 e5|Nd5": "Jump into the centre, where the knight is safe.",
+    "e4 c5 Nf3 Nc6 d4 cxd4 Nxd4 g6 Nxc6 bxc6 Qd4 Nf6 e5 Nd5 e6|f6": "Close the long diagonal with ...f6, so the queen no longer hits h8. If White takes on d7, you recapture with the bishop.",
+    "e4 c5 Nf3 Nc6 d4 cxd4 Nxd4 g6 Nxc6 bxc6 Qd4 Nf6 e5 Nd5 e6 f6 exd7+|Bxd7": "Recapture and develop at the same time. You have open lines for your rooks and a fine knight on d5.",
+    "e4 c5 c3|Nf6": "Hit e4 at once. White can't defend it with Nc3, because his pawn is on c3.",
+    "e4 c5 c3 Nf6 e5|Nd5": "Into the centre. From d5 the knight eyes c3, e3 and b4.",
+    "e4 c5 c3 Nf6 e5 Nd5 d4|cxd4": "Trade off White's d-pawn before it settles.",
+    "e4 c5 c3 Nf6 e5 Nd5 d4 cxd4 Nf3|Nc6": "Develop and add pressure on d4 and e5.",
+    "e4 c5 c3 Nf6 e5 Nd5 d4 cxd4 Nf3 Nc6 cxd4|d6": "Strike at e5, the front of White's chain. Opening the centre suits you, because White's king is still on e1.",
+    "e4 c5 c3 Nf6 e5 Nd5 d4 cxd4 Nf3 Nc6 cxd4 d6 Bc4|Nb6": "Retreat and attack the c4 bishop at the same time.",
+    "e4 c5 c3 Nf6 e5 Nd5 d4 cxd4 Nf3 Nc6 cxd4 d6 Bc4 Nb6 Bb5|dxe5": "Take the e5 pawn and open the centre while White's king is still in it.",
+    "e4 c5 c3 Nf6 e5 Nd5 d4 cxd4 Nf3 Nc6 cxd4 d6 Bc4 Nb6 Bb5 dxe5 Nxe5|Bd7": "Step in between. Now the pin is blocked, c6 is guarded twice, and you can carry on developing.",
+    "e4 c5 d4|cxd4": "Take. You can't let White have the whole centre for nothing.",
+    "e4 c5 d4 cxd4 c3|Nf6": "Decline it the clever way: hit e4. Taking on c3 is good too, but this leads to the Alapin position you already know.",
+    "e4 c5 d4 cxd4 c3 Nf6 e5|Nd5": "Into the centre, just as in the Alapin.",
+    "e4 c5 d4 cxd4 c3 Nf6 e5 Nd5 Nf3|Nc6": "Develop and pressure d4 and e5.",
+    "e4 c5 d4 cxd4 c3 Nf6 e5 Nd5 Nf3 Nc6 cxd4|d6": "Same plan as in the Alapin: hit e5.",
+    "e4 c5 d4 cxd4 c3 Nf6 e5 Nd5 Nf3 Nc6 cxd4 d6 Bc4|Nb6": "Retreat with a threat on the c4 bishop.",
+    "e4 c5 d4 cxd4 c3 Nf6 e5 Nd5 Nf3 Nc6 cxd4 d6 Bc4 Nb6 Bb5|dxe5": "Open the centre while White's king is still there.",
+    "e4 c5 d4 cxd4 c3 Nf6 e5 Nd5 Nf3 Nc6 cxd4 d6 Bc4 Nb6 Bb5 dxe5 Nxe5|Bd7": "Block the pin. Same position, same plan as the Alapin.",
+    "e4 c5 Nc3|Nc6": "Develop, controlling d4.",
+    "e4 c5 Nc3 Nc6 f4|g6": "Fianchetto, as always. Your g7 bishop will guard the long diagonal and d4.",
+    "e4 c5 Nc3 Nc6 f4 g6 Nf3|Bg7": "The bishop takes its diagonal.",
+    "e4 c5 Nc3 Nc6 f4 g6 Nf3 Bg7 Bc4|e6": "Block the bishop: ...e6 covers the diagonal to f7 and prepares ...d5 to kick it.",
+    "e4 c5 Nc3 Nc6 f4 g6 Nf3 Bg7 Bc4 e6 O-O|Nge7": "Knight to e7, not f6, so White's e5 push can't kick it. From e7 it backs up ...d5.",
+    "e4 c5 Nc3 Nc6 f4 g6 Nf3 Bg7 Bc4 e6 O-O Nge7 d3|d5": "Strike the centre and kick the bishop. Your d5 and e6 pawns now share the centre with White's.",
+    "e4 c5 Nc3 Nc6 f4 g6 Nf3 Bg7 Bc4 e6 O-O Nge7 d3 d5 Bb3|O-O": "Castle. You have a solid centre and your bishop on its best diagonal.",
+    "e4 c5 Nf3 Nc6 Bb5|g6": "Carry on with the fianchetto. If White takes on c6, you take back and keep both bishops.",
+    "e4 c5 Nf3 Nc6 Bb5 g6 O-O|Bg7": "The bishop takes its diagonal.",
+    "e4 c5 Nf3 Nc6 Bb5 g6 O-O Bg7 c3|Nf6": "Develop and hit e4.",
+    "e4 c5 Nf3 Nc6 Bb5 g6 O-O Bg7 c3 Nf6 Re1|O-O": "Castle.",
+    "e4 c5 Nf3 Nc6 Bb5 g6 O-O Bg7 c3 Nf6 Re1 O-O d4|cxd4": "Trade.",
+    "e4 c5 Nf3 Nc6 Bb5 g6 O-O Bg7 c3 Nf6 Re1 O-O d4 cxd4 cxd4|d5": "Hit e4.",
+    "e4 c5 Nf3 Nc6 Bb5 g6 O-O Bg7 c3 Nf6 Re1 O-O d4 cxd4 cxd4 d5 e5|Ne4": "Jump into e4. The d5 pawn supports it, and from e4 the knight eyes c3, d2 and f2, right in White's half of the board."
+  },
+  "replies": {
+    "|e4": "White opens with the king's pawn.",
+    "e4 c5|Nf3": "White's most common move: develop and get ready for d4.",
+    "e4 c5 Nf3 Nc6|d4": "White opens the centre.",
+    "e4 c5 Nf3 Nc6 d4 cxd4|Nxd4": "White's knight recaptures in the centre.",
+    "e4 c5 Nf3 Nc6 d4 cxd4 Nxd4 g6|Nc3": "White develops and guards e4.",
+    "e4 c5 Nf3 Nc6 d4 cxd4 Nxd4 g6 Nc3 Bg7|Be3": "White guards d4 with the bishop.",
+    "e4 c5 Nf3 Nc6 d4 cxd4 Nxd4 g6 Nc3 Bg7 Be3 Nf6|Bc4": "White's bishop aims at f7, next to where your king will live.",
+    "e4 c5 Nf3 Nc6 d4 cxd4 Nxd4 g6 Nc3 Bg7 Be3 Nf6 Bc4 O-O|Bb3": "White tucks the bishop away from tricks on e4 and keeps it aimed at your king.",
+    "e4 c5 Nf3 Nc6 d4 cxd4 Nxd4 g6 Nc3 Bg7 Be3 Nf6 Bc4 O-O Bb3 d6|f3": "White guards e4 and gets ready for Qd2 and Bh6, to trade off your best bishop.",
+    "e4 c5 Nf3 Nc6 d4 cxd4 Nxd4 g6 Nc3 Bg7 Be3 Nf6 Bc4 O-O Bb3 d6 f3 Bd7|Qd2": "White lines up the queen and bishop for Bh6.",
+    "e4 c5 Nf3 Nc6 d4 cxd4 Nxd4 g6 Nc3 Bg7 Be3 Nf6 Bc4 O-O Bb3 d6 f3 Bd7 Qd2 Nxd4|Bxd4": "White recaptures with the bishop.",
+    "e4 c5 Nf3 Nc6 d4 cxd4 Nxd4 g6|c4": "The Maroczy Bind. The c4 and e4 pawns clamp down on d5, so you can't free yourself with ...d5. It's White's most ambitious answer.",
+    "e4 c5 Nf3 Nc6 d4 cxd4 Nxd4 g6 c4 Bg7|Be3": "White guards d4.",
+    "e4 c5 Nf3 Nc6 d4 cxd4 Nxd4 g6 c4 Bg7 Be3 Nf6|Nc3": "White guards e4.",
+    "e4 c5 Nf3 Nc6 d4 cxd4 Nxd4 g6 c4 Bg7 Be3 Nf6 Nc3 O-O|Be2": "White develops.",
+    "e4 c5 Nf3 Nc6 d4 cxd4 Nxd4 g6 c4 Bg7 Be3 Nf6 Nc3 O-O Be2 d6|O-O": "White castles.",
+    "e4 c5 Nf3 Nc6 d4 cxd4 Nxd4 g6 c4 Bg7 Be3 Nf6 Nc3 O-O Be2 d6 O-O Bd7|Qd2": "White connects his rooks.",
+    "e4 c5 Nf3 Nc6 d4 cxd4 Nxd4 g6 c4 Bg7 Be3 Nf6 Nc3 O-O Be2 d6 O-O Bd7 Qd2 Nxd4|Bxd4": "White recaptures.",
+    "e4 c5 Nf3 Nc6 d4 cxd4 Nxd4 g6 c4 Bg7 Be3 Nf6 Nc3 O-O Be2 d6 O-O Bd7 Qd2 Nxd4 Bxd4 Bc6|f3": "White guards e4 with a pawn.",
+    "e4 c5 Nf3 Nc6 d4 cxd4 Nxd4 g6|Nxc6": "White trades knights to damage your pawns.",
+    "e4 c5 Nf3 Nc6 d4 cxd4 Nxd4 g6 Nxc6 bxc6|Qd4": "The queen attacks your rook on h8 down the long diagonal, because your bishop hasn't reached g7 yet.",
+    "e4 c5 Nf3 Nc6 d4 cxd4 Nxd4 g6 Nxc6 bxc6 Qd4 Nf6|e5": "White kicks the knight.",
+    "e4 c5 Nf3 Nc6 d4 cxd4 Nxd4 g6 Nxc6 bxc6 Qd4 Nf6 e5 Nd5|e6": "White throws in e6, hitting f7 and d7 to wreck your pawns.",
+    "e4 c5 Nf3 Nc6 d4 cxd4 Nxd4 g6 Nxc6 bxc6 Qd4 Nf6 e5 Nd5 e6 f6|exd7+": "White takes with check.",
+    "e4 c5|c3": "The Alapin. White prepares d4 so he can recapture with a pawn and keep two pawns in the centre.",
+    "e4 c5 c3 Nf6|e5": "White pushes and kicks your knight.",
+    "e4 c5 c3 Nf6 e5 Nd5|d4": "White builds his centre.",
+    "e4 c5 c3 Nf6 e5 Nd5 d4 cxd4|Nf3": "White develops first, planning to take back with the c-pawn.",
+    "e4 c5 c3 Nf6 e5 Nd5 d4 cxd4 Nf3 Nc6|cxd4": "White recaptures.",
+    "e4 c5 c3 Nf6 e5 Nd5 d4 cxd4 Nf3 Nc6 cxd4 d6|Bc4": "White hits your d5 knight.",
+    "e4 c5 c3 Nf6 e5 Nd5 d4 cxd4 Nf3 Nc6 cxd4 d6 Bc4 Nb6|Bb5": "The bishop pins your c6 knight to your king.",
+    "e4 c5 c3 Nf6 e5 Nd5 d4 cxd4 Nf3 Nc6 cxd4 d6 Bc4 Nb6 Bb5 dxe5|Nxe5": "White's knight recaptures and attacks your pinned c6 knight a second time.",
+    "e4 c5|d4": "The Smith-Morra. White wants to offer a pawn for fast development.",
+    "e4 c5 d4 cxd4|c3": "The gambit. If you take on c3, White recaptures with the knight and his pieces fly out.",
+    "e4 c5 d4 cxd4 c3 Nf6|e5": "White pushes and kicks the knight.",
+    "e4 c5 d4 cxd4 c3 Nf6 e5 Nd5|Nf3": "White develops.",
+    "e4 c5 d4 cxd4 c3 Nf6 e5 Nd5 Nf3 Nc6|cxd4": "White takes back on d4. This is now exactly the Alapin position.",
+    "e4 c5 d4 cxd4 c3 Nf6 e5 Nd5 Nf3 Nc6 cxd4 d6|Bc4": "White hits the knight.",
+    "e4 c5 d4 cxd4 c3 Nf6 e5 Nd5 Nf3 Nc6 cxd4 d6 Bc4 Nb6|Bb5": "White pins your c6 knight.",
+    "e4 c5 d4 cxd4 c3 Nf6 e5 Nd5 Nf3 Nc6 cxd4 d6 Bc4 Nb6 Bb5 dxe5|Nxe5": "White recaptures and hits c6 again.",
+    "e4 c5|Nc3": "White develops and gets ready for f4, the Grand Prix Attack.",
+    "e4 c5 Nc3 Nc6|f4": "White grabs space on the kingside and prepares to attack.",
+    "e4 c5 Nc3 Nc6 f4 g6|Nf3": "White develops.",
+    "e4 c5 Nc3 Nc6 f4 g6 Nf3 Bg7|Bc4": "White's bishop aims at f7.",
+    "e4 c5 Nc3 Nc6 f4 g6 Nf3 Bg7 Bc4 e6|O-O": "White castles.",
+    "e4 c5 Nc3 Nc6 f4 g6 Nf3 Bg7 Bc4 e6 O-O Nge7|d3": "White guards his e4 pawn.",
+    "e4 c5 Nc3 Nc6 f4 g6 Nf3 Bg7 Bc4 e6 O-O Nge7 d3 d5|Bb3": "The bishop retreats.",
+    "e4 c5 Nf3 Nc6|Bb5": "The Rossolimo. White threatens to take your c6 knight and double your pawns.",
+    "e4 c5 Nf3 Nc6 Bb5 g6|O-O": "White castles.",
+    "e4 c5 Nf3 Nc6 Bb5 g6 O-O Bg7|c3": "White gets ready for d4.",
+    "e4 c5 Nf3 Nc6 Bb5 g6 O-O Bg7 c3 Nf6|Re1": "The rook guards e4.",
+    "e4 c5 Nf3 Nc6 Bb5 g6 O-O Bg7 c3 Nf6 Re1 O-O|d4": "White opens the centre.",
+    "e4 c5 Nf3 Nc6 Bb5 g6 O-O Bg7 c3 Nf6 Re1 O-O d4 cxd4|cxd4": "White recaptures.",
+    "e4 c5 Nf3 Nc6 Bb5 g6 O-O Bg7 c3 Nf6 Re1 O-O d4 cxd4 cxd4 d5|e5": "White pushes past and kicks the knight."
+  },
+  "shapes": {
+    "|e4": [
+      "Re4d5"
+    ],
+    "e4|c5": [
+      "Yc5d4"
+    ],
+    "e4 c5|Nf3": [
+      "Rf3d4"
+    ],
+    "e4 c5 Nf3|Nc6": [
+      "Yc6d4"
+    ],
+    "e4 c5 Nf3 Nc6 d4|cxd4": [
+      "Yd7",
+      "Ye7"
+    ],
+    "e4 c5 Nf3 Nc6 d4 cxd4 Nxd4|g6": [
+      "Yg7d4",
+      "Yd7d5"
+    ],
+    "e4 c5 Nf3 Nc6 d4 cxd4 Nxd4 g6 Nc3|Bg7": [
+      "Yg7d4"
+    ],
+    "e4 c5 Nf3 Nc6 d4 cxd4 Nxd4 g6 Nc3 Bg7|Be3": [
+      "Re3d4"
+    ],
+    "e4 c5 Nf3 Nc6 d4 cxd4 Nxd4 g6 Nc3 Bg7 Be3|Nf6": [
+      "Yf6e4"
+    ],
+    "e4 c5 Nf3 Nc6 d4 cxd4 Nxd4 g6 Nc3 Bg7 Be3 Nf6|Bc4": [
+      "Rc4f7"
+    ],
+    "e4 c5 Nf3 Nc6 d4 cxd4 Nxd4 g6 Nc3 Bg7 Be3 Nf6 Bc4 O-O|Bb3": [
+      "Rb3g8"
+    ],
+    "e4 c5 Nf3 Nc6 d4 cxd4 Nxd4 g6 Nc3 Bg7 Be3 Nf6 Bc4 O-O Bb3|d6": [
+      "Yd6e5",
+      "Yc8g4"
+    ],
+    "e4 c5 Nf3 Nc6 d4 cxd4 Nxd4 g6 Nc3 Bg7 Be3 Nf6 Bc4 O-O Bb3 d6|f3": [
+      "Rh6"
+    ],
+    "e4 c5 Nf3 Nc6 d4 cxd4 Nxd4 g6 Nc3 Bg7 Be3 Nf6 Bc4 O-O Bb3 d6 f3|Bd7": [
+      "Yd7b5"
+    ],
+    "e4 c5 Nf3 Nc6 d4 cxd4 Nxd4 g6 Nc3 Bg7 Be3 Nf6 Bc4 O-O Bb3 d6 f3 Bd7 Qd2 Nxd4 Bxd4|b5": [
+      "Yb5b4",
+      "Yb4c3"
+    ],
+    "e4 c5 Nf3 Nc6 d4 cxd4 Nxd4 g6|c4": [
+      "Rc4d5",
+      "Re4d5"
+    ],
+    "e4 c5 Nf3 Nc6 d4 cxd4 Nxd4 g6 c4|Bg7": [
+      "Yg7d4"
+    ],
+    "e4 c5 Nf3 Nc6 d4 cxd4 Nxd4 g6 c4 Bg7 Be3|Nf6": [
+      "Yf6e4"
+    ],
+    "e4 c5 Nf3 Nc6 d4 cxd4 Nxd4 g6 c4 Bg7 Be3 Nf6 Nc3 O-O Be2|d6": [
+      "Yd6e5"
+    ],
+    "e4 c5 Nf3 Nc6 d4 cxd4 Nxd4 g6 c4 Bg7 Be3 Nf6 Nc3 O-O Be2 d6 O-O|Bd7": [
+      "Yd7c6",
+      "Yc6e4"
+    ],
+    "e4 c5 Nf3 Nc6 d4 cxd4 Nxd4 g6 c4 Bg7 Be3 Nf6 Nc3 O-O Be2 d6 O-O Bd7 Qd2 Nxd4 Bxd4|Bc6": [
+      "Yc6e4"
+    ],
+    "e4 c5 Nf3 Nc6 d4 cxd4 Nxd4 g6 c4 Bg7 Be3 Nf6 Nc3 O-O Be2 d6 O-O Bd7 Qd2 Nxd4 Bxd4 Bc6 f3|a5": [
+      "Ya5b4",
+      "Yc5"
+    ],
+    "e4 c5 Nf3 Nc6 d4 cxd4 Nxd4 g6 Nxc6|bxc6": [
+      "Yc6d5"
+    ],
+    "e4 c5 Nf3 Nc6 d4 cxd4 Nxd4 g6 Nxc6 bxc6|Qd4": [
+      "Rd4h8"
+    ],
+    "e4 c5 Nf3 Nc6 d4 cxd4 Nxd4 g6 Nxc6 bxc6 Qd4|Nf6": [
+      "Yf6"
+    ],
+    "e4 c5 Nf3 Nc6 d4 cxd4 Nxd4 g6 Nxc6 bxc6 Qd4 Nf6|e5": [
+      "Re5f6"
+    ],
+    "e4 c5 Nf3 Nc6 d4 cxd4 Nxd4 g6 Nxc6 bxc6 Qd4 Nf6 e5 Nd5|e6": [
+      "Re6d7",
+      "Re6f7"
+    ],
+    "e4 c5 Nf3 Nc6 d4 cxd4 Nxd4 g6 Nxc6 bxc6 Qd4 Nf6 e5 Nd5 e6|f6": [
+      "Yf6"
+    ],
+    "e4 c5|c3": [
+      "Rc3d4"
+    ],
+    "e4 c5 c3|Nf6": [
+      "Yf6e4"
+    ],
+    "e4 c5 c3 Nf6|e5": [
+      "Re5f6"
+    ],
+    "e4 c5 c3 Nf6 e5|Nd5": [
+      "Yd5c3",
+      "Yd5e3"
+    ],
+    "e4 c5 c3 Nf6 e5 Nd5 d4 cxd4 Nf3|Nc6": [
+      "Yc6d4",
+      "Yc6e5"
+    ],
+    "e4 c5 c3 Nf6 e5 Nd5 d4 cxd4 Nf3 Nc6 cxd4|d6": [
+      "Yd6e5"
+    ],
+    "e4 c5 c3 Nf6 e5 Nd5 d4 cxd4 Nf3 Nc6 cxd4 d6|Bc4": [
+      "Rc4d5"
+    ],
+    "e4 c5 c3 Nf6 e5 Nd5 d4 cxd4 Nf3 Nc6 cxd4 d6 Bc4|Nb6": [
+      "Yb6c4"
+    ],
+    "e4 c5 c3 Nf6 e5 Nd5 d4 cxd4 Nf3 Nc6 cxd4 d6 Bc4 Nb6|Bb5": [
+      "Rb5e8"
+    ],
+    "e4 c5 c3 Nf6 e5 Nd5 d4 cxd4 Nf3 Nc6 cxd4 d6 Bc4 Nb6 Bb5 dxe5|Nxe5": [
+      "Re5c6"
+    ],
+    "e4 c5 c3 Nf6 e5 Nd5 d4 cxd4 Nf3 Nc6 cxd4 d6 Bc4 Nb6 Bb5 dxe5 Nxe5|Bd7": [
+      "Yd7c6"
+    ],
+    "e4 c5 d4 cxd4|c3": [
+      "Rc3"
+    ],
+    "e4 c5 d4 cxd4 c3|Nf6": [
+      "Yf6e4"
+    ],
+    "e4 c5 d4 cxd4 c3 Nf6|e5": [
+      "Re5f6"
+    ],
+    "e4 c5 d4 cxd4 c3 Nf6 e5|Nd5": [
+      "Yd5c3"
+    ],
+    "e4 c5 d4 cxd4 c3 Nf6 e5 Nd5 Nf3|Nc6": [
+      "Yc6d4",
+      "Yc6e5"
+    ],
+    "e4 c5 d4 cxd4 c3 Nf6 e5 Nd5 Nf3 Nc6 cxd4|d6": [
+      "Yd6e5"
+    ],
+    "e4 c5 d4 cxd4 c3 Nf6 e5 Nd5 Nf3 Nc6 cxd4 d6|Bc4": [
+      "Rc4d5"
+    ],
+    "e4 c5 d4 cxd4 c3 Nf6 e5 Nd5 Nf3 Nc6 cxd4 d6 Bc4|Nb6": [
+      "Yb6c4"
+    ],
+    "e4 c5 d4 cxd4 c3 Nf6 e5 Nd5 Nf3 Nc6 cxd4 d6 Bc4 Nb6|Bb5": [
+      "Rb5e8"
+    ],
+    "e4 c5 d4 cxd4 c3 Nf6 e5 Nd5 Nf3 Nc6 cxd4 d6 Bc4 Nb6 Bb5 dxe5|Nxe5": [
+      "Re5c6"
+    ],
+    "e4 c5 d4 cxd4 c3 Nf6 e5 Nd5 Nf3 Nc6 cxd4 d6 Bc4 Nb6 Bb5 dxe5 Nxe5|Bd7": [
+      "Yd7c6"
+    ],
+    "e4 c5 Nc3|Nc6": [
+      "Yc6d4"
+    ],
+    "e4 c5 Nc3 Nc6|f4": [
+      "Rf4f5"
+    ],
+    "e4 c5 Nc3 Nc6 f4|g6": [
+      "Yg7d4"
+    ],
+    "e4 c5 Nc3 Nc6 f4 g6 Nf3|Bg7": [
+      "Yg7d4"
+    ],
+    "e4 c5 Nc3 Nc6 f4 g6 Nf3 Bg7|Bc4": [
+      "Rc4f7"
+    ],
+    "e4 c5 Nc3 Nc6 f4 g6 Nf3 Bg7 Bc4|e6": [
+      "Ye6d5"
+    ],
+    "e4 c5 Nc3 Nc6 f4 g6 Nf3 Bg7 Bc4 e6 O-O|Nge7": [
+      "Ye7d5"
+    ],
+    "e4 c5 Nc3 Nc6 f4 g6 Nf3 Bg7 Bc4 e6 O-O Nge7 d3|d5": [
+      "Yd5c4",
+      "Yd5e4"
+    ],
+    "e4 c5 Nf3 Nc6|Bb5": [
+      "Rb5c6"
+    ],
+    "e4 c5 Nf3 Nc6 Bb5|g6": [
+      "Yf8g7"
+    ],
+    "e4 c5 Nf3 Nc6 Bb5 g6 O-O|Bg7": [
+      "Yg7d4"
+    ],
+    "e4 c5 Nf3 Nc6 Bb5 g6 O-O Bg7 c3|Nf6": [
+      "Yf6e4"
+    ],
+    "e4 c5 Nf3 Nc6 Bb5 g6 O-O Bg7 c3 Nf6 Re1 O-O d4 cxd4 cxd4|d5": [
+      "Yd5e4"
+    ],
+    "e4 c5 Nf3 Nc6 Bb5 g6 O-O Bg7 c3 Nf6 Re1 O-O d4 cxd4 cxd4 d5|e5": [
+      "Re5f6"
+    ],
+    "e4 c5 Nf3 Nc6 Bb5 g6 O-O Bg7 c3 Nf6 Re1 O-O d4 cxd4 cxd4 d5 e5|Ne4": [
+      "Yd5e4",
+      "Ye4f2"
+    ]
+  }
+}
