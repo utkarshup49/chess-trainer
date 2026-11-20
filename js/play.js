@@ -200,6 +200,7 @@ export class BotGame {
 
   // ---------- Bookkeeping after every move ----------
   afterMove() {
+    this.board.clearArrows(); // a hint arrow is only for the move it was shown for
     this.renderMoves();
     const played = this.board.sanHistory();
     if (this.inBook) {
