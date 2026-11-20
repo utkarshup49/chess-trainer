@@ -260,8 +260,15 @@ export class OpeningTrainer {
       const sameSide = this.lines.filter(l => l.side === line.side);
       const idx = sameSide.findIndex(l => l.id === line.id);
       const next = sameSide[idx + 1];
-      buttons = `<button type="button" class="primary" id="btn-again">Play it again</button>` +
-        (next ? `<a class="button" href="#/m/${this.module.id}/practice/${next.id}">Next line</a>` : '') +
+      // The next line is learned first if you haven't walked through it yet.
+      const learned = next && ((getModuleProgress(this.module.id).lines[next.id] || {}).studied);
+      const nextButtons = !next ? ''
+        : learned
+          ? `<a class="button primary" href="#/m/${this.module.id}/practice/${next.id}">Test the next line</a>`
+          : `<a class="button primary" href="#/m/${this.module.id}/study/${next.id}">Learn the next line</a>` +
+            `<a class="button" href="#/m/${this.module.id}/practice/${next.id}">Test the next line</a>`;
+      buttons = nextButtons +
+        `<button type="button" class="${next ? '' : 'primary'}" id="btn-again">Test this line again</button>` +
         `<a class="button" href="#/m/${this.module.id}">All lines</a>`;
     } else {
       const stats = recordDrill(this.module.id, line.id, clean);

@@ -242,7 +242,7 @@ export class LineStudy {
     this.el.finish.innerHTML = `
       <div class="actions">
         <a class="button primary" href="#/m/${this.module.id}/practice/${this.line.id}">Now test me on it</a>
-        ${next ? `<a class="button" href="#/m/${this.module.id}/study/${next.id}">Next line</a>` : ''}
+        ${next ? `<a class="button" href="#/m/${this.module.id}/study/${next.id}">Learn the next line</a>` : ''}
         <a class="button" href="#/m/${this.module.id}">All lines</a>
       </div>`;
     this.el.finish.hidden = false;
