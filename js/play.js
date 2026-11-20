@@ -26,7 +26,7 @@ const LEAVE_AT = [4, 5, 6, 7, 8, 9, Infinity];
 // What kind of move it leaves with, how often, and how much it may lose
 // (centipawns compared with the best move).
 const SURPRISES = [
-  { kind: 'sound', weight: 0.4, min: 0, max: 60 },
+  { kind: 'sound', weight: 0.4, min: 0, max: 40 },
   { kind: 'mistake', weight: 0.35, min: 80, max: 250 },
   { kind: 'blunder', weight: 0.25, min: 251, max: 900 },
 ];
@@ -258,7 +258,7 @@ export class BotGame {
     this.inBook = false;
     this.bookPly = played.length;
     this.board.setLocked(true); // wait for the engine's verdict before you reply
-    await this.leaveBook(played.length, `Surprise! The bot played ${move.san}, which is not in your lines. ` +
+    await this.leaveBook(played.length, `The bot played ${move.san}, which is not in your lines. ` +
       'Before you reply, ask: what does this move attack, what did it leave undefended, and does it change your plan? ' +
       'It might be a good move or a bad one.', true);
     this.surprise.evalAfter = this.bookEval;
