@@ -329,7 +329,7 @@ async function renderPlayHome() {
         <h2>Your games</h2>
         ${games ? `<ol class="line-list">${games}</ol>` : '<p class="meta">No games yet. Your finished games appear here, with a full review.</p>'}
       </section>
-      <p class="meta">The bot and the review use Stockfish (stockfish.js, GPLv3), loaded from the jsDelivr CDN.</p>
+      <p class="meta">The bot and the review use Stockfish (stockfish.js, GPLv3), loaded from the unpkg CDN.</p>
     </section>`;
 
   const start = document.getElementById('start');

@@ -1,8 +1,9 @@
 // Stockfish in the browser, used by the practice bot and the game review.
 //
 // The engine is the "lite, single-threaded" WebAssembly build of Stockfish
-// (stockfish.js by Nathan Rugg, GPLv3), loaded from the jsDelivr CDN. It needs
-// no special server headers, so it runs on GitHub Pages.
+// (stockfish.js by Nathan Rugg, GPLv3), loaded from the unpkg CDN. jsDelivr
+// refuses this package because the whole npm package is over its 150 MB limit.
+// The lite build needs no special server headers, so it runs on GitHub Pages.
 //
 // A worker can't be started straight from another site's URL, so we start a
 // tiny worker of our own that imports the engine script. The engine looks for
@@ -10,8 +11,8 @@
 // address of the .wasm file there.
 
 const BUILDS = [
-  'https://cdn.jsdelivr.net/npm/stockfish@19.0.1/bin/stockfish-19-lite-single.js',
-  'https://cdn.jsdelivr.net/npm/stockfish@18.0.5/bin/stockfish-18-lite-single.js',
+  'https://unpkg.com/stockfish@19.0.1/bin/stockfish-19-lite-single.js',
+  'https://unpkg.com/stockfish@18.0.5/bin/stockfish-18-lite-single.js',
 ];
 const START_TIMEOUT_MS = 30000;
 
