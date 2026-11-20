@@ -6,6 +6,12 @@
 // the move you prepared and lets you take yours back. When the lines run out,
 // the coach shows the plan for the position and the engine takes over at the
 // rating you picked.
+//
+// Two bot styles:
+//   book      plays your lines for as long as they go.
+//   surprise  follows your lines for a few moves, then (at a random moment, or
+//             never) leaves them with a move of its own: sometimes a sound
+//             sideline, sometimes a mistake or a blunder you should punish.
 import { TrainingBoard } from './board.js';
 import { getEngine } from './engine.js';
 import { levelFor, chooseMove } from './bot.js';
@@ -15,15 +21,27 @@ const MIN_THINK_MS = 450;   // so the bot doesn't reply instantly
 const BOOK_REPLY_MS = 600;
 
 const escapeHtml = t => String(t).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+// When the surprise bot leaves the book: its 4th to 9th move, or never.
+const LEAVE_AT = [4, 5, 6, 7, 8, 9, Infinity];
+// What kind of move it leaves with, how often, and how much it may lose
+// (centipawns compared with the best move).
+const SURPRISES = [
+  { kind: 'sound', weight: 0.4, min: 0, max: 60 },
+  { kind: 'mistake', weight: 0.35, min: 80, max: 250 },
+  { kind: 'blunder', weight: 0.25, min: 251, max: 900 },
+];
 const sleep = ms => new Promise(r => setTimeout(r, ms));
 const pick = list => list[Math.floor(Math.random() * list.length)];
 const startsWith = (list, played) => played.length <= list.length && played.every((m, i) => list[i] === m);
 
 export class BotGame {
-  constructor(container, module, { side, rating }) {
+  constructor(container, module, { side, rating, mode }) {
     this.container = container;
     this.module = module;
     this.side = side;
+    this.mode = mode === 'surprise' ? 'surprise' : 'book';
+    this.leaveAt = this.mode === 'surprise' ? pick(LEAVE_AT) : Infinity;
+    this.surprise = null;    // { ply, san, kind, loss, evalAfter, reply }
     this.level = levelFor(rating);
     this.book = module.lines.filter(l => l.side === side).map(l => ({ ...l, list: l.moves.split(' ') }));
     this.inBook = true;
@@ -38,9 +56,11 @@ export class BotGame {
     this.renderShell();
     this.board = new TrainingBoard(this.el.board, side, m => this.onUserMove(m));
     this.loadEngine();
-    this.setCoach('Your repertoire', side === 'white'
+    const surpriseNote = this.mode === 'surprise'
+      ? ' Careful: this bot may leave your lines at any moment, with a good move or a bad one.' : '';
+    this.setCoach('Your repertoire', (side === 'white'
       ? 'You have White. Play your first move: the bot will answer from your repertoire.'
-      : 'You have Black. The bot opens with one of the moves your repertoire covers.');
+      : 'You have Black. The bot opens with one of the moves your repertoire covers.') + surpriseNote);
     this.renderMoves();
     if (this.board.sideToMove() !== side) this.botMove();
   }
@@ -52,7 +72,7 @@ export class BotGame {
         <div class="board-col"><div class="board-wrap" id="board"></div></div>
         <aside class="panel">
           <a class="crumb" href="#/play">← Play the bot</a>
-          <p class="eyebrow">You play ${sideName} · bot rated about ${this.level.rating}</p>
+          <p class="eyebrow">You play ${sideName} · ${this.mode === 'surprise' ? 'surprise' : 'book'} bot rated about ${this.level.rating}</p>
           <h1 class="line-title">${escapeHtml(this.module.title)}</h1>
           <div class="status" id="status" data-tone="neutral"></div>
           <div class="teach" id="coach"></div>
@@ -61,7 +81,7 @@ export class BotGame {
             <button type="button" id="btn-hint">Hint</button>
             <button type="button" id="btn-takeback">Take back</button>
             <button type="button" id="btn-resign">Resign</button>
-            <a class="button" href="#/play/${this.module.id}/${this.side}/${this.level.rating}?new=${Date.now()}" id="btn-new">New game</a>
+            <a class="button" href="#/play/${this.module.id}/${this.side}/${this.level.rating}/${this.mode}?new=${Date.now()}" id="btn-new">New game</a>
           </div>
           <div class="finish" id="finish" hidden></div>
           <div class="moves-box">
@@ -170,6 +190,9 @@ export class BotGame {
     const played = this.board.sanHistory();
     if (this.inBook) {
       const options = this.nextBookMoves(played);
+      if (options.length && this.botMovesSoFar() + 1 >= this.leaveAt && this.engine) {
+        return this.surpriseMove(options);
+      }
       if (options.length) {
         await sleep(BOOK_REPLY_MS);
         if (!this.alive || this.board.sanHistory().length !== played.length) return;
@@ -198,6 +221,78 @@ export class BotGame {
     this.afterMove();
   }
 
+  botMovesSoFar() {
+    const botIsWhite = this.side === 'black';
+    const plies = this.board.sanHistory().length;
+    return botIsWhite ? Math.ceil(plies / 2) : Math.floor(plies / 2);
+  }
+
+  // The surprise bot leaves your lines: a sound sideline, a mistake or a
+  // blunder, chosen from the engine's scores of (nearly) every legal move.
+  async surpriseMove(bookSans) {
+    const fen = this.board.game.fen();
+    const played = this.board.sanHistory();
+    const legal = this.board.game.moves({ verbose: true });
+    const bookUci = new Set(bookSans.map(san => {
+      const m = this.board.preview(san);
+      return m.from + m.to + (m.promotion || '');
+    }));
+    this.setStatus('The bot is thinking…');
+    const started = Date.now();
+    const lines = await this.engine.analyse(fen, { depth: 9, multipv: Math.min(legal.length, 40) });
+    const wait = MIN_THINK_MS - (Date.now() - started);
+    if (wait > 0) await sleep(wait);
+    if (!this.alive || this.board.game.fen() !== fen) return;
+
+    const best = lines.length ? lines[0].score : 0;
+    const offBook = lines.filter(l => !bookUci.has(l.move)).map(l => ({ ...l, loss: best - l.score }));
+    const buckets = SURPRISES
+      .map(t => ({ ...t, moves: offBook.filter(l => l.loss >= t.min && l.loss <= t.max) }))
+      .filter(t => t.moves.length);
+    if (!buckets.length) { this.leaveAt = Infinity; return this.botMove(); } // nothing sensible: stay in book
+    let r = Math.random() * buckets.reduce((a, t) => a + t.weight, 0);
+    const type = buckets.find(t => (r -= t.weight) <= 0) || buckets[0];
+    const choice = pick(type.moves);
+    const move = this.board.play({ from: choice.move.slice(0, 2), to: choice.move.slice(2, 4), promotion: choice.move[4] });
+    this.surprise = { ply: played.length, san: move.san, kind: type.kind, loss: choice.loss };
+    this.inBook = false;
+    this.bookPly = played.length;
+    this.board.setLocked(true); // wait for the engine's verdict before you reply
+    await this.leaveBook(played.length, `Surprise! The bot played ${move.san}, which is not in your lines. ` +
+      'Before you reply, ask: what does this move attack, what did it leave undefended, and does it change your plan? ' +
+      'It might be a good move or a bad one.', true);
+    this.surprise.evalAfter = this.bookEval;
+    if (!this.alive) return;
+    this.board.setLocked(false);
+    this.afterMove();
+  }
+
+  // After your answer to a surprise, say whether you made the most of it.
+  async judgeSurprise(fen, replySan) {
+    const s = this.surprise;
+    const { score } = await this.engine.evaluate(fen, 12);
+    const now = this.side === 'white' ? score : -score;
+    const pawns = cp => (cp > 0 ? '+' : '') + (cp / 100).toFixed(1);
+    const before = s.evalAfter;
+    s.reply = { san: replySan, eval: now };
+    if (typeof before !== 'number') return;
+    const kept = now >= before - 60;
+    s.punished = s.kind !== 'sound' && kept;
+    if (!this.alive) return;
+    let text;
+    if (s.kind === 'sound') {
+      text = `The bot's ${s.san} was a reasonable move, not a mistake. ` + (kept
+        ? `Your ${replySan} kept things in order (${pawns(now)} for you).`
+        : `Your ${replySan} gave a little away (${pawns(before)} became ${pawns(now)}). The review shows a better answer.`);
+    } else {
+      const what = s.kind === 'blunder' ? 'a blunder' : 'a mistake';
+      text = kept
+        ? `The bot's ${s.san} was ${what}, and ${replySan} punished it: you are ${pawns(now)}.`
+        : `The bot's ${s.san} was ${what}, and there was a stronger answer than ${replySan}: you could have been ${pawns(before)}, now it's ${pawns(now)}. The review shows the punishing move.`;
+    }
+    this.setCoach('How you handled the surprise', text);
+  }
+
   // ---------- Bookkeeping after every move ----------
   afterMove() {
     this.board.clearArrows(); // a hint arrow is only for the move it was shown for
@@ -215,6 +310,10 @@ export class BotGame {
         this.leaveBook(this.bookPly, 'The bot has left your repertoire. You are on your own now: use the ideas you learned.');
       }
     }
+    if (this.surprise && !this.surprise.reply && played.length === this.surprise.ply + 2 && this.engine) {
+      this.surprise.reply = { san: played[played.length - 1] }; // judged below
+      this.judgeSurprise(this.board.game.fen(), played[played.length - 1]);
+    }
     if (this.checkGameOver()) return;
     if (this.board.sideToMove() !== this.side) this.botMove();
     else this.setStatus(this.turnText());
@@ -225,11 +324,11 @@ export class BotGame {
     return [...new Set(next)];
   }
 
-  async leaveBook(plies, message) {
+  async leaveBook(plies, message, surprised = false) {
     this.inBook = false;
     this.bookPly = plies;
     this.board.clearArrows();
-    this.setCoach('Out of the book', message);
+    this.setCoach(surprised ? 'Surprise!' : 'Out of the book', message);
     // Note how good the position was when the preparation ran out.
     const fen = this.board.game.fen();
     const engine = this.engine || await getEngine().catch(() => null);
@@ -288,6 +387,8 @@ export class BotGame {
       moduleTitle: this.module.title,
       side: this.side,
       rating: this.level.rating,
+      mode: this.mode,
+      surprise: this.surprise,
       moves: g.history(),
       outcome,
       reason: why,
@@ -302,7 +403,7 @@ export class BotGame {
     this.el.finish.innerHTML = `
       <div class="actions">
         <a class="button primary" href="#/review/${record.id}">Review this game</a>
-        <a class="button" href="#/play/${this.module.id}/${this.side}/${this.level.rating}?new=${Date.now()}">Play again</a>
+        <a class="button" href="#/play/${this.module.id}/${this.side}/${this.level.rating}/${this.mode}?new=${Date.now()}">Play again</a>
       </div>`;
     this.el.finish.hidden = false;
   }
