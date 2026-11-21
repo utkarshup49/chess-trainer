@@ -5,10 +5,11 @@
 // refuses this package because the whole npm package is over its 150 MB limit.
 // The lite build needs no special server headers, so it runs on GitHub Pages.
 //
-// A worker can't be started straight from another site's URL, so we start a
-// tiny worker of our own that imports the engine script. The engine looks for
-// its .wasm file in the part of the worker's URL after '#', so we put the CDN
-// address of the .wasm file there.
+// A worker can't be started straight from another site's URL, so the page
+// fetches the engine's script and .wasm file itself (the service worker keeps
+// copies, so this works offline) and starts the worker from blob URLs. The
+// engine looks for its .wasm file in the part of the worker's URL after '#',
+// so the .wasm blob URL goes there.
 
 const BUILDS = [
   'https://unpkg.com/stockfish@19.0.1/bin/stockfish-19-lite-single.js',
@@ -34,7 +35,7 @@ export class Engine {
     let lastError;
     for (const js of BUILDS) {
       try {
-        const engine = new Engine(js);
+        const engine = await Engine.load(js);
         await engine.ready();
         return engine;
       } catch (e) {
@@ -44,11 +45,21 @@ export class Engine {
     throw new Error('The chess engine could not be loaded. Check your connection and try again. (' + (lastError && lastError.message) + ')');
   }
 
-  constructor(jsUrl) {
+  // The engine files are fetched by the page (so the service worker can keep
+  // them for offline use) and handed to the worker as blob URLs.
+  static async load(jsUrl) {
     const wasmUrl = jsUrl.replace(/\.js$/, '.wasm');
-    const code = `importScripts(${JSON.stringify(jsUrl)});`;
-    const blobUrl = URL.createObjectURL(new Blob([code], { type: 'application/javascript' }));
-    this.worker = new Worker(blobUrl + '#' + encodeURIComponent(wasmUrl));
+    const [code, wasm] = await Promise.all([
+      fetch(jsUrl).then(r => { if (!r.ok) throw new Error('engine script ' + r.status); return r.text(); }),
+      fetch(wasmUrl).then(r => { if (!r.ok) throw new Error('engine binary ' + r.status); return r.arrayBuffer(); }),
+    ]);
+    const jsBlob = URL.createObjectURL(new Blob([code], { type: 'application/javascript' }));
+    const wasmBlob = URL.createObjectURL(new Blob([wasm], { type: 'application/wasm' }));
+    return new Engine(jsBlob + '#' + encodeURIComponent(wasmBlob));
+  }
+
+  constructor(workerUrl) {
+    this.worker = new Worker(workerUrl);
     this.listeners = new Set();
     this.queue = Promise.resolve(); // one search at a time
     this.worker.onmessage = e => {
