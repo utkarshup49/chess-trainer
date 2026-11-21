@@ -120,6 +120,26 @@ for it (no middlegame yet).
 - The play page summarises each line: games, score, and the engine's eval when
   the preparation ran out, so the learner can see which lines suit them.
 
+## Installable and offline
+
+The site is a Progressive Web App: `manifest.webmanifest` plus `sw.js`, the
+service worker, registered from a small script in `index.html` (not from
+`app.js`, so it still registers if a library fails to load).
+
+- `sw.js` saves every file in `APP_FILES` and `CDN_FILES` at install time.
+  **When you add a JS, CSS or module file, add it to `APP_FILES`**, or it will
+  only work offline after it has been opened once online. If a CDN version
+  changes (chessground, chess.js, stockfish), update `CDN_FILES` too.
+- Own files are network-first (4 s timeout), so a push shows up on the next
+  online visit; CDN files are cache-first because their URLs are versioned.
+- Bump `CACHE` in `sw.js` only to throw away all saved files.
+- Offline, everything works except drills judged by the Lichess tablebase
+  (they show an offline note). The engine is fetched by the page and started
+  from blob URLs, so it too comes from the cache.
+- Test the service worker locally with Playwright against
+  `python3 -m http.server` (localhost counts as secure); the CDN part can only
+  be tested on the deployed site.
+
 ## Endgames
 
 `js/oracle.js` is the only way to ask who is winning: three pieces or fewer go

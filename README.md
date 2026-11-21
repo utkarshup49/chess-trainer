@@ -14,6 +14,10 @@ Live site: https://utkarshup49.github.io/chess-trainer/
 - `js/progress.js` saves progress in the browser (localStorage), so each device keeps its own.
 - `modules/index.json` lists the modules; each module is one JSON file.
 
+## Install it and use it offline
+
+Open the site in Chrome (phone or PC) and choose **Install app** (on a phone: menu, then *Add to Home screen* / *Install app*). After the first visit, the service worker (`sw.js`) has saved the site, the board, the rules and the Stockfish engine, so openings, the bot, game reviews and the King + Pawn drills work with no connection. Drills judged by the Lichess tablebase still need the internet.
+
 ## How endgame moves are judged
 
 A move counts if it keeps the result. Nothing is stored as a line, so nothing can be memorised.
