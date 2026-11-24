@@ -28,11 +28,15 @@ const APP_FILES = [
   'js/endgame.js', 'js/engine.js', 'js/games.js', 'js/kpgen.js', 'js/kpk.js',
   'js/opening.js', 'js/oracle.js', 'js/play.js', 'js/progress.js', 'js/race.js',
   'js/review.js', 'js/study.js', 'js/tbdrill.js', 'js/tbgen.js',
+  'js/srs.js', 'js/due.js', 'js/vision.js', 'js/traps.js', 'js/activity.js',
+  'js/handoff.js', 'js/analysis.js', 'js/mygames.js',
   'modules/index.json', 'modules/banks.json',
   'modules/qg-traps.json', 'modules/london.json', 'modules/caro-kann.json',
   'modules/sicilian-dragon.json', 'modules/kp-endgames.json',
   'modules/pawn-endgames-2.json', 'modules/rook-endgames.json',
   'modules/queen-vs-pawn.json', 'modules/fortresses.json',
+  'modules/traps/london.json', 'modules/traps/caro-kann.json',
+  'modules/traps/sicilian-dragon.json', 'modules/traps/qg-traps.json',
 ];
 
 const CDN_FILES = [

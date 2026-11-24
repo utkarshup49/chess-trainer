@@ -87,6 +87,35 @@ sandbox can compile Stockfish from source and use python-chess from a git
 clone. Notes that state a fact ("nothing defends b7") must be checked on the
 board too.
 
+## Remembering and using the openings
+
+- **Spaced repetition** (`js/srs.js`, `js/due.js`, route `#/due`): every
+  learner move of a line is a card, keyed like `explain`. A line's cards join
+  the reviews when its walkthrough or test is finished (lines learned before
+  reviews existed are adopted once, due at once). Remembered: 1, 3, then
+  interval x ease days; missed: back tomorrow, ease down 0.2. A review plays
+  each line from the start and stops only at due moves; misses get a second
+  pass at the end of the session.
+- **Punish their mistakes** (`js/traps.js`, route `#/traps/<module>`): puzzles
+  in `modules/traps/<module>.json`, named by the module's `"traps"` field.
+  They are generated offline with `tools/gen_traps.py` then
+  `tools/finish_traps.py`: an opponent move in (or one sound move off) a line,
+  within the first 8 moves, that a 1-ply look rates as fine but a depth-15
+  search says gives away 1.5 pawns, with one clear punishment (best move
+  1.2 pawns better than the next). Moves within half a pawn of the best are
+  accepted too. **Regenerate a module's puzzles whenever its lines change.**
+- **My games** (`js/mygames.js`, `#/mygames`): Lichess
+  (`/api/games/user/<name>`, ndjson, CORS-friendly) and Chess.com (public
+  monthly archives; sometimes blocked by CORS, so PGN paste is the fallback).
+  Each game is matched to the module whose lines it follows longest: you
+  left, they left, to the end, or not covered. Games stay in localStorage.
+- **Analysis board** (`js/analysis.js`, `#/analysis`): any page hands it moves
+  through `js/handoff.js` (sessionStorage), never through the URL.
+- **Board vision** (`js/vision.js`, `#/vision`): per-square time and misses,
+  separately for White's and Black's view; weak squares are drawn more often.
+- **Streak** (`js/activity.js`): call `markActive()` whenever a piece of
+  training is finished.
+
 ## Play the bot
 
 `#/play` lets the learner pick an opening module and a rating, then play a full

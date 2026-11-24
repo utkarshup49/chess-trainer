@@ -14,6 +14,13 @@ Live site: https://utkarshup49.github.io/chess-trainer/
 - `js/progress.js` saves progress in the browser (localStorage), so each device keeps its own.
 - `modules/index.json` lists the modules; each module is one JSON file.
 
+## Training tools
+
+- **Daily review**: spaced repetition for every move of your opening lines.
+- **Punish their mistakes**: engine-made puzzles where the opponent leaves your line with a natural-looking mistake (made with `tools/gen_traps.py`).
+- **My games**: fetch your Lichess or Chess.com games (or paste PGN) and see where you or your opponents left your repertoire.
+- **Analysis board**, **Board vision** trainer with a per-square heat map, and a daily streak.
+
 ## Install it and use it offline
 
 Open the site in Chrome (phone or PC) and choose **Install app** (on a phone: menu, then *Add to Home screen* / *Install app*). After the first visit, the service worker (`sw.js`) has saved the site, the board, the rules and the Stockfish engine, so openings, the bot, game reviews and the King + Pawn drills work with no connection. Drills judged by the Lichess tablebase still need the internet.
