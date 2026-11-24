@@ -1,0 +1,510 @@
+{
+ "module": "sicilian-dragon",
+ "puzzles": [
+  {
+   "id": "sicilian-dragon-1",
+   "side": "black",
+   "line": "Open Sicilian: 5.Nc3 and Bc4",
+   "moves": "e4 c5 Nf3 Nc6 d4 cxd4 Bb5",
+   "mistake": "Bb5",
+   "steps": [
+    {
+     "play": "Qa5+",
+     "accept": [
+      "Qa5+"
+     ],
+     "eval": 327,
+     "reply": "c3"
+    },
+    {
+     "play": "Qxb5",
+     "accept": [
+      "Qxb5"
+     ],
+     "eval": 345
+    }
+   ],
+   "theme": "Wins material"
+  },
+  {
+   "id": "sicilian-dragon-2",
+   "side": "black",
+   "line": "Maroczy Bind: 5.c4",
+   "moves": "e4 c5 Nf3 Nc6 d4 cxd4 Nxd4 g6 c4 Bg7 Be3 Nf6 Nc3 O-O Qe2",
+   "mistake": "Qe2",
+   "steps": [
+    {
+     "play": "Nxe4",
+     "accept": [
+      "Nxe4"
+     ],
+     "eval": 188
+    }
+   ],
+   "theme": "Clear advantage"
+  },
+  {
+   "id": "sicilian-dragon-3",
+   "side": "black",
+   "line": "Smith-Morra Gambit: 2.d4 cxd4 3.c3",
+   "moves": "e4 c5 d4 cxd4 Bb5",
+   "mistake": "Bb5",
+   "steps": [
+    {
+     "play": "Qa5+",
+     "accept": [
+      "Qa5+"
+     ],
+     "eval": 338,
+     "reply": "c3"
+    },
+    {
+     "play": "Qxb5",
+     "accept": [
+      "Qxb5"
+     ],
+     "eval": 350
+    }
+   ],
+   "theme": "Wins material"
+  },
+  {
+   "id": "sicilian-dragon-4",
+   "side": "black",
+   "line": "Grand Prix Attack: 2.Nc3 and f4",
+   "moves": "e4 c5 Nc3 Nc6 d4",
+   "mistake": "d4",
+   "steps": [
+    {
+     "play": "cxd4",
+     "accept": [
+      "cxd4"
+     ],
+     "eval": 190
+    }
+   ],
+   "theme": "Clear advantage"
+  },
+  {
+   "id": "sicilian-dragon-5",
+   "side": "black",
+   "line": "Grand Prix Attack: 2.Nc3 and f4",
+   "moves": "e4 c5 Nc3 Nc6 f4 g6 Nf3 Bg7 Bc4 e6 O-O Nge7 Nb5",
+   "mistake": "Nb5",
+   "steps": [
+    {
+     "play": "d5",
+     "accept": [
+      "d5"
+     ],
+     "eval": 214
+    }
+   ],
+   "theme": "Clear advantage"
+  },
+  {
+   "id": "sicilian-dragon-6",
+   "side": "black",
+   "line": "Open Sicilian: 5.Nc3 and Bc4 (sideline)",
+   "moves": "e4 c5 Nf3 Nc6 c3 d5 b4",
+   "mistake": "b4",
+   "steps": [
+    {
+     "play": "dxe4",
+     "accept": [
+      "dxe4"
+     ],
+     "eval": 214,
+     "reply": "b5"
+    },
+    {
+     "play": "Na5",
+     "accept": [
+      "Na5"
+     ],
+     "eval": 247
+    }
+   ],
+   "theme": "Clear advantage"
+  },
+  {
+   "id": "sicilian-dragon-7",
+   "side": "black",
+   "line": "White trades with 5.Nxc6 (sideline)",
+   "moves": "e4 c5 Nf3 Nc6 d4 cxd4 Nxd4 g6 Nxc6 bxc6 Qd4 Nf6 Nc3 d6 Bf4",
+   "mistake": "Bf4",
+   "steps": [
+    {
+     "play": "e5",
+     "accept": [
+      "e5"
+     ],
+     "eval": 379,
+     "reply": "Qa4"
+    },
+    {
+     "play": "exf4",
+     "accept": [
+      "exf4"
+     ],
+     "eval": 403,
+     "reply": "Qxc6+"
+    },
+    {
+     "play": "Bd7",
+     "accept": [
+      "Bd7"
+     ],
+     "eval": 426
+    }
+   ],
+   "theme": "Wins material"
+  },
+  {
+   "id": "sicilian-dragon-8",
+   "side": "black",
+   "line": "White trades with 5.Nxc6 (sideline)",
+   "moves": "e4 c5 Nf3 Nc6 d4 cxd4 Nxd4 g6 Nxc6 bxc6 Qd4 Nf6 Be2 Bg7 Bf4",
+   "mistake": "Bf4",
+   "steps": [
+    {
+     "play": "Nh5",
+     "accept": [
+      "Nh5"
+     ],
+     "eval": 354
+    }
+   ],
+   "theme": "Wins material"
+  },
+  {
+   "id": "sicilian-dragon-9",
+   "side": "black",
+   "line": "Alapin: 2.c3 (sideline)",
+   "moves": "e4 c5 c3 Nf6 e5 Nd5 d4 cxd4 Nf3 Nc6 Bc4 Nb6 Bxf7+",
+   "mistake": "Bxf7+",
+   "steps": [
+    {
+     "play": "Kxf7",
+     "accept": [
+      "Kxf7"
+     ],
+     "eval": 257
+    }
+   ],
+   "theme": "Wins material"
+  },
+  {
+   "id": "sicilian-dragon-10",
+   "side": "black",
+   "line": "Alapin: 2.c3 (sideline)",
+   "moves": "e4 c5 c3 Nf6 e5 Nd5 d4 cxd4 Nf3 Nc6 cxd4 d6 Bc4 Nb6 Bb3 dxe5 Ng5",
+   "mistake": "Ng5",
+   "steps": [
+    {
+     "play": "e6",
+     "accept": [
+      "e6"
+     ],
+     "eval": 179
+    }
+   ],
+   "theme": "Clear advantage"
+  },
+  {
+   "id": "sicilian-dragon-11",
+   "side": "black",
+   "line": "Alapin: 2.c3 (sideline)",
+   "moves": "e4 c5 c3 Nf6 e5 Nd5 d4 cxd4 Nf3 Nc6 cxd4 d6 Bc4 Nb6 Bb3 dxe5 Bxf7+",
+   "mistake": "Bxf7+",
+   "steps": [
+    {
+     "play": "Kxf7",
+     "accept": [
+      "Kxf7"
+     ],
+     "eval": 395
+    }
+   ],
+   "theme": "Wins material"
+  },
+  {
+   "id": "sicilian-dragon-12",
+   "side": "black",
+   "line": "Alapin: 2.c3 (sideline)",
+   "moves": "e4 c5 c3 Nf6 e5 Nd5 d4 cxd4 Nf3 Nc6 cxd4 d6 Bc4 Nb6 Na3 dxe5 Bxf7+",
+   "mistake": "Bxf7+",
+   "steps": [
+    {
+     "play": "Kxf7",
+     "accept": [
+      "Kxf7"
+     ],
+     "eval": 371
+    }
+   ],
+   "theme": "Wins material"
+  },
+  {
+   "id": "sicilian-dragon-13",
+   "side": "black",
+   "line": "Smith-Morra Gambit: 2.d4 cxd4 3.c3 (sideline)",
+   "moves": "e4 c5 d4 cxd4 Nf3 e5 Nxe5",
+   "mistake": "Nxe5",
+   "steps": [
+    {
+     "play": "Qa5+",
+     "accept": [
+      "Qa5+"
+     ],
+     "eval": 254
+    }
+   ],
+   "theme": "Wins material"
+  },
+  {
+   "id": "sicilian-dragon-14",
+   "side": "black",
+   "line": "Smith-Morra Gambit: 2.d4 cxd4 3.c3 (sideline)",
+   "moves": "e4 c5 d4 cxd4 c3 Nf6 e5 Nd5 Nf3 Nc6 cxd4 d6 Qb3 e6 Na3",
+   "mistake": "Na3",
+   "steps": [
+    {
+     "play": "dxe5",
+     "accept": [
+      "dxe5"
+     ],
+     "eval": 159
+    }
+   ],
+   "theme": "Clear advantage"
+  },
+  {
+   "id": "sicilian-dragon-15",
+   "side": "black",
+   "line": "Smith-Morra Gambit: 2.d4 cxd4 3.c3 (sideline)",
+   "moves": "e4 c5 d4 cxd4 c3 Nf6 e5 Nd5 Nf3 Nc6 cxd4 d6 Bc4 Nb6 Na3 e6 Bf4",
+   "mistake": "Bf4",
+   "steps": [
+    {
+     "play": "dxe5",
+     "accept": [
+      "dxe5"
+     ],
+     "eval": 215
+    }
+   ],
+   "theme": "Clear advantage"
+  },
+  {
+   "id": "sicilian-dragon-16",
+   "side": "black",
+   "line": "Smith-Morra Gambit: 2.d4 cxd4 3.c3 (sideline)",
+   "moves": "e4 c5 d4 cxd4 c3 Nf6 e5 Nd5 Nf3 Nc6 cxd4 d6 Bc4 Nb6 Na3 e6 Be3",
+   "mistake": "Be3",
+   "steps": [
+    {
+     "play": "dxe5",
+     "accept": [
+      "dxe5"
+     ],
+     "eval": 166
+    }
+   ],
+   "theme": "Clear advantage"
+  },
+  {
+   "id": "sicilian-dragon-17",
+   "side": "black",
+   "line": "Grand Prix Attack: 2.Nc3 and f4 (sideline)",
+   "moves": "e4 c5 Nc3 Nc6 f4 g6 Nf3 Bg7 Bb5 Nd4 g4",
+   "mistake": "g4",
+   "steps": [
+    {
+     "play": "Nxb5",
+     "accept": [
+      "Nxb5"
+     ],
+     "eval": 281
+    }
+   ],
+   "theme": "Wins material"
+  },
+  {
+   "id": "sicilian-dragon-18",
+   "side": "black",
+   "line": "Grand Prix Attack: 2.Nc3 and f4 (sideline)",
+   "moves": "e4 c5 Nc3 Nc6 f4 g6 Nf3 Bg7 Bc4 e6 O-O Nge7 Qe1 O-O Nb5",
+   "mistake": "Nb5",
+   "steps": [
+    {
+     "play": "d5",
+     "accept": [
+      "d5"
+     ],
+     "eval": 243,
+     "reply": "exd5"
+    },
+    {
+     "play": "exd5",
+     "accept": [
+      "exd5"
+     ],
+     "eval": 278
+    }
+   ],
+   "theme": "Wins material"
+  },
+  {
+   "id": "sicilian-dragon-19",
+   "side": "black",
+   "line": "Grand Prix Attack: 2.Nc3 and f4 (sideline)",
+   "moves": "e4 c5 Nc3 Nc6 f4 g6 Nf3 Bg7 Bc4 e6 O-O Nge7 Qe1 O-O Nd1",
+   "mistake": "Nd1",
+   "steps": [
+    {
+     "play": "d5",
+     "accept": [
+      "d5"
+     ],
+     "eval": 203
+    }
+   ],
+   "theme": "Clear advantage"
+  },
+  {
+   "id": "sicilian-dragon-20",
+   "side": "black",
+   "line": "Grand Prix Attack: 2.Nc3 and f4 (sideline)",
+   "moves": "e4 c5 Nc3 Nc6 f4 g6 Nf3 Bg7 Bc4 e6 O-O Nge7 d3 d5 Bb5 O-O Na4",
+   "mistake": "Na4",
+   "steps": [
+    {
+     "play": "Nd4",
+     "accept": [
+      "Nd4"
+     ],
+     "eval": 392
+    }
+   ],
+   "theme": "Wins material"
+  },
+  {
+   "id": "sicilian-dragon-21",
+   "side": "black",
+   "line": "Grand Prix Attack: 2.Nc3 and f4 (sideline)",
+   "moves": "e4 c5 Nc3 Nc6 f4 g6 Nf3 Bg7 Bc4 e6 O-O Nge7 d3 d5 Bb5 O-O Qe1",
+   "mistake": "Qe1",
+   "steps": [
+    {
+     "play": "Nd4",
+     "accept": [
+      "Nd4"
+     ],
+     "eval": 295
+    }
+   ],
+   "theme": "Wins material"
+  },
+  {
+   "id": "sicilian-dragon-22",
+   "side": "black",
+   "line": "Rossolimo: 3.Bb5 (sideline)",
+   "moves": "e4 c5 Nf3 Nc6 Bb5 g6 d3 Bg7 Ng5",
+   "mistake": "Ng5",
+   "steps": [
+    {
+     "play": "Qa5+",
+     "accept": [
+      "Qa5+"
+     ],
+     "eval": 352,
+     "reply": "Nc3"
+    },
+    {
+     "play": "Bxc3+",
+     "accept": [
+      "Bxc3+"
+     ],
+     "eval": 370,
+     "reply": "bxc3"
+    },
+    {
+     "play": "Qxb5",
+     "accept": [
+      "Qxb5"
+     ],
+     "eval": 358
+    }
+   ],
+   "theme": "Wins material"
+  },
+  {
+   "id": "sicilian-dragon-23",
+   "side": "black",
+   "line": "Rossolimo: 3.Bb5 (sideline)",
+   "moves": "e4 c5 Nf3 Nc6 Bb5 g6 d3 Bg7 Nh4",
+   "mistake": "Nh4",
+   "steps": [
+    {
+     "play": "Qa5+",
+     "accept": [
+      "Qa5+"
+     ],
+     "eval": 390,
+     "reply": "Nc3"
+    },
+    {
+     "play": "Bxc3+",
+     "accept": [
+      "Bxc3+"
+     ],
+     "eval": 391,
+     "reply": "bxc3"
+    },
+    {
+     "play": "Qxb5",
+     "accept": [
+      "Qxb5"
+     ],
+     "eval": 384
+    }
+   ],
+   "theme": "Wins material"
+  },
+  {
+   "id": "sicilian-dragon-24",
+   "side": "black",
+   "line": "Rossolimo: 3.Bb5 (sideline)",
+   "moves": "e4 c5 Nf3 Nc6 Bb5 g6 O-O Bg7 c3 Nf6 Bxc6 dxc6 Qe1",
+   "mistake": "Qe1",
+   "steps": [
+    {
+     "play": "Qd3",
+     "accept": [
+      "Qd3"
+     ],
+     "eval": 191
+    }
+   ],
+   "theme": "Clear advantage"
+  },
+  {
+   "id": "sicilian-dragon-25",
+   "side": "black",
+   "line": "Rossolimo: 3.Bb5 (sideline)",
+   "moves": "e4 c5 Nf3 Nc6 Bb5 g6 O-O Bg7 c3 Nf6 Re1 O-O a4 d6 Bc4",
+   "mistake": "Bc4",
+   "steps": [
+    {
+     "play": "Nxe4",
+     "accept": [
+      "Nxe4"
+     ],
+     "eval": 190
+    }
+   ],
+   "theme": "Clear advantage"
+  }
+ ]
+}

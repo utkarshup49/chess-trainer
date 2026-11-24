@@ -4,6 +4,7 @@
   "title": "Queen's Gambit Traps",
   "description": "Twelve trap lines from the Queen's Gambit, Accepted and Declined, for both colours.",
   "source": "Based on the Lichess study \"Queen's Gambit Traps\" by opdzs",
+  "traps": "modules/traps/qg-traps.json",
   "lines": [
     {
       "id": "qga-1",

@@ -1,0 +1,554 @@
+{
+ "module": "caro-kann",
+ "puzzles": [
+  {
+   "id": "caro-kann-1",
+   "side": "black",
+   "line": "Advance Variation: White castles and plays c3",
+   "moves": "e4 c6 d4 d5 e5 Bf5 Nf3 e6 Be2 c5 O-O Nc6 c3 cxd4 Qa4",
+   "mistake": "Qa4",
+   "steps": [
+    {
+     "play": "d3",
+     "accept": [
+      "d3"
+     ],
+     "eval": 179
+    }
+   ],
+   "theme": "Clear advantage"
+  },
+  {
+   "id": "caro-kann-2",
+   "side": "black",
+   "line": "Advance Variation: White castles and plays c3",
+   "moves": "e4 c6 d4 d5 e5 Bf5 Nf3 e6 Be2 c5 O-O Nc6 c3 cxd4 Nbd2",
+   "mistake": "Nbd2",
+   "steps": [
+    {
+     "play": "d3",
+     "accept": [
+      "d3"
+     ],
+     "eval": 472,
+     "reply": "Re1"
+    },
+    {
+     "play": "dxe2",
+     "accept": [
+      "dxe2"
+     ],
+     "eval": 480
+    }
+   ],
+   "theme": "Wins material"
+  },
+  {
+   "id": "caro-kann-3",
+   "side": "black",
+   "line": "Advance Variation: White castles and plays c3",
+   "moves": "e4 c6 d4 d5 e5 Bf5 Nf3 e6 Be2 c5 O-O Nc6 c3 cxd4 h3",
+   "mistake": "h3",
+   "steps": [
+    {
+     "play": "dxc3",
+     "accept": [],
+     "eval": 143
+    }
+   ],
+   "theme": "Clear advantage"
+  },
+  {
+   "id": "caro-kann-4",
+   "side": "black",
+   "line": "Advance Variation: White castles and plays c3",
+   "moves": "e4 c6 d4 d5 e5 Bf5 Nf3 e6 Be2 c5 O-O Nc6 c3 cxd4 a3",
+   "mistake": "a3",
+   "steps": [
+    {
+     "play": "dxc3",
+     "accept": [
+      "dxc3"
+     ],
+     "eval": 159
+    }
+   ],
+   "theme": "Clear advantage"
+  },
+  {
+   "id": "caro-kann-5",
+   "side": "black",
+   "line": "Exchange Variation",
+   "moves": "e4 c6 d4 d5 exd5 cxd5 Bd3 Nc6 g3",
+   "mistake": "g3",
+   "steps": [
+    {
+     "play": "Nxd4",
+     "accept": [
+      "Nxd4"
+     ],
+     "eval": 171
+    }
+   ],
+   "theme": "Clear advantage"
+  },
+  {
+   "id": "caro-kann-6",
+   "side": "black",
+   "line": "Exchange Variation",
+   "moves": "e4 c6 d4 d5 exd5 cxd5 Bd3 Nc6 f3",
+   "mistake": "f3",
+   "steps": [
+    {
+     "play": "Nxd4",
+     "accept": [
+      "Nxd4"
+     ],
+     "eval": 175
+    }
+   ],
+   "theme": "Clear advantage"
+  },
+  {
+   "id": "caro-kann-7",
+   "side": "black",
+   "line": "Classical: 3.Nc3 dxe4 4.Nxe4 Bf5",
+   "moves": "e4 c6 d4 d5 Nc3 dxe4 Nxe4 Bf5 Ng3 Bg6 Nh5",
+   "mistake": "Nh5",
+   "steps": [
+    {
+     "play": "Qa5+",
+     "accept": [
+      "Qa5+"
+     ],
+     "eval": 343,
+     "reply": "Bd2"
+    },
+    {
+     "play": "Qxh5",
+     "accept": [
+      "Qxh5"
+     ],
+     "eval": 352
+    }
+   ],
+   "theme": "Wins material"
+  },
+  {
+   "id": "caro-kann-8",
+   "side": "black",
+   "line": "Classical: 3.Nc3 dxe4 4.Nxe4 Bf5",
+   "moves": "e4 c6 d4 d5 Nc3 dxe4 Nxe4 Bf5 Ng3 Bg6 h4 h6 Nf3 Nd7 Ne5",
+   "mistake": "Ne5",
+   "steps": [
+    {
+     "play": "Nxe5",
+     "accept": [],
+     "eval": 147
+    }
+   ],
+   "theme": "Clear advantage"
+  },
+  {
+   "id": "caro-kann-9",
+   "side": "black",
+   "line": "Two Knights: 2.Nc3 and 3.Nf3",
+   "moves": "e4 c6 Nc3 d5 Nf3 Bg4 h3 Bxf3 Qxf3 e6 Qe3",
+   "mistake": "Qe3",
+   "steps": [
+    {
+     "play": "d4",
+     "accept": [
+      "d4"
+     ],
+     "eval": 277,
+     "reply": "Qf3"
+    },
+    {
+     "play": "dxc3",
+     "accept": [
+      "dxc3"
+     ],
+     "eval": 290
+    }
+   ],
+   "theme": "Wins material"
+  },
+  {
+   "id": "caro-kann-10",
+   "side": "black",
+   "line": "Advance Variation: the Short System (sideline)",
+   "moves": "e4 c6 d4 d5 e5 Bf5 g4 Bd7 e6",
+   "mistake": "e6",
+   "steps": [
+    {
+     "play": "Bxe6",
+     "accept": [
+      "Bxe6"
+     ],
+     "eval": 166
+    }
+   ],
+   "theme": "Clear advantage"
+  },
+  {
+   "id": "caro-kann-11",
+   "side": "black",
+   "line": "Exchange Variation (sideline)",
+   "moves": "e4 c6 d4 d5 exd5 cxd5 Bd3 Nc6 c3 Nf6 h3 e5 Nf3",
+   "mistake": "Nf3",
+   "steps": [
+    {
+     "play": "e4",
+     "accept": [
+      "e4"
+     ],
+     "eval": 371,
+     "reply": "Bc2"
+    },
+    {
+     "play": "exf3",
+     "accept": [
+      "exf3"
+     ],
+     "eval": 370
+    }
+   ],
+   "theme": "Wins material"
+  },
+  {
+   "id": "caro-kann-12",
+   "side": "black",
+   "line": "Exchange Variation (sideline)",
+   "moves": "e4 c6 d4 d5 exd5 cxd5 Bd3 Nc6 c3 Nf6 h3 e5 Qe2",
+   "mistake": "Qe2",
+   "steps": [
+    {
+     "play": "e4",
+     "accept": [
+      "e4"
+     ],
+     "eval": 165
+    }
+   ],
+   "theme": "Clear advantage"
+  },
+  {
+   "id": "caro-kann-13",
+   "side": "black",
+   "line": "Panov Attack: White plays c4 (sideline)",
+   "moves": "e4 c6 d4 d5 exd5 cxd5 c4 Nf6 Nc3 e6 Nf3 Be7 cxd5 Nxd5 Bb5+ Bd7 Ne5",
+   "mistake": "Ne5",
+   "steps": [
+    {
+     "play": "Bxb5",
+     "accept": [
+      "Bxb5"
+     ],
+     "eval": 222
+    }
+   ],
+   "theme": "Clear advantage"
+  },
+  {
+   "id": "caro-kann-14",
+   "side": "black",
+   "line": "Classical: 3.Nc3 dxe4 4.Nxe4 Bf5 (sideline)",
+   "moves": "e4 c6 d4 d5 Nc3 dxe4 Nxe4 Bf5 Qf3 e6 Qd3",
+   "mistake": "Qd3",
+   "steps": [
+    {
+     "play": "Qh4",
+     "accept": [
+      "Qh4"
+     ],
+     "eval": 275
+    }
+   ],
+   "theme": "Wins material"
+  },
+  {
+   "id": "caro-kann-15",
+   "side": "black",
+   "line": "Classical: 3.Nc3 dxe4 4.Nxe4 Bf5 (sideline)",
+   "moves": "e4 c6 d4 d5 Nc3 dxe4 Nxe4 Bf5 Qf3 e6 Bg5",
+   "mistake": "Bg5",
+   "steps": [
+    {
+     "play": "Bxe4",
+     "accept": [
+      "Bxe4"
+     ],
+     "eval": 493,
+     "reply": "Bxd8"
+    },
+    {
+     "play": "Bxf3",
+     "accept": [
+      "Bxf3"
+     ],
+     "eval": 456,
+     "reply": "Nxf3"
+    },
+    {
+     "play": "Kxd8",
+     "accept": [
+      "Kxd8"
+     ],
+     "eval": 473
+    }
+   ],
+   "theme": "Wins material"
+  },
+  {
+   "id": "caro-kann-16",
+   "side": "black",
+   "line": "Classical: 3.Nc3 dxe4 4.Nxe4 Bf5 (sideline)",
+   "moves": "e4 c6 d4 d5 Nc3 dxe4 Nxe4 Bf5 Qf3 e6 Bf4",
+   "mistake": "Bf4",
+   "steps": [
+    {
+     "play": "Qxd4",
+     "accept": [
+      "Qxd4"
+     ],
+     "eval": 203
+    }
+   ],
+   "theme": "Clear advantage"
+  },
+  {
+   "id": "caro-kann-17",
+   "side": "black",
+   "line": "Classical: 3.Nc3 dxe4 4.Nxe4 Bf5 (sideline)",
+   "moves": "e4 c6 d4 d5 Nc3 dxe4 Nxe4 Bf5 Qf3 e6 Bd2",
+   "mistake": "Bd2",
+   "steps": [
+    {
+     "play": "Qxd4",
+     "accept": [
+      "Qxd4"
+     ],
+     "eval": 231
+    }
+   ],
+   "theme": "Clear advantage"
+  },
+  {
+   "id": "caro-kann-18",
+   "side": "black",
+   "line": "Classical: 3.Nc3 dxe4 4.Nxe4 Bf5 (sideline)",
+   "moves": "e4 c6 d4 d5 Nc3 dxe4 Nxe4 Bf5 Ng3 Bg6 Bc4 e6 Bd3",
+   "mistake": "Bd3",
+   "steps": [
+    {
+     "play": "Qxd4",
+     "accept": [
+      "Qxd4"
+     ],
+     "eval": 178
+    }
+   ],
+   "theme": "Clear advantage"
+  },
+  {
+   "id": "caro-kann-19",
+   "side": "black",
+   "line": "Classical: 3.Nc3 dxe4 4.Nxe4 Bf5 (sideline)",
+   "moves": "e4 c6 d4 d5 Nc3 dxe4 Nxe4 Bf5 Ng3 Bg6 Bc4 e6 Nh5",
+   "mistake": "Nh5",
+   "steps": [
+    {
+     "play": "Qa5+",
+     "accept": [
+      "Qa5+"
+     ],
+     "eval": 355,
+     "reply": "Bd2"
+    },
+    {
+     "play": "Qxh5",
+     "accept": [
+      "Qxh5"
+     ],
+     "eval": 365,
+     "reply": "g4"
+    },
+    {
+     "play": "Qh4",
+     "accept": [
+      "Qh4"
+     ],
+     "eval": 379
+    }
+   ],
+   "theme": "Wins material"
+  },
+  {
+   "id": "caro-kann-20",
+   "side": "black",
+   "line": "Classical: 3.Nc3 dxe4 4.Nxe4 Bf5 (sideline)",
+   "moves": "e4 c6 d4 d5 Nc3 dxe4 Nxe4 Bf5 Ng3 Bg6 Bc4 e6 Bd2",
+   "mistake": "Bd2",
+   "steps": [
+    {
+     "play": "Qxd4",
+     "accept": [
+      "Qxd4"
+     ],
+     "eval": 197
+    }
+   ],
+   "theme": "Clear advantage"
+  },
+  {
+   "id": "caro-kann-21",
+   "side": "black",
+   "line": "Classical: 3.Nc3 dxe4 4.Nxe4 Bf5 (sideline)",
+   "moves": "e4 c6 d4 d5 Nc3 dxe4 Nxe4 Bf5 Ng3 Bg6 h4 h6 h5 Bh7 Qg4",
+   "mistake": "Qg4",
+   "steps": [
+    {
+     "play": "Bxc2",
+     "accept": [
+      "Bxc2"
+     ],
+     "eval": 195
+    }
+   ],
+   "theme": "Clear advantage"
+  },
+  {
+   "id": "caro-kann-22",
+   "side": "black",
+   "line": "Classical: 3.Nc3 dxe4 4.Nxe4 Bf5 (sideline)",
+   "moves": "e4 c6 d4 d5 Nc3 dxe4 Nxe4 Bf5 Ng3 Bg6 h4 h6 Nf3 Nd7 a3 Ngf6 Ne5",
+   "mistake": "Ne5",
+   "steps": [
+    {
+     "play": "Nxe5",
+     "accept": [
+      "Nxe5"
+     ],
+     "eval": 185
+    }
+   ],
+   "theme": "Clear advantage"
+  },
+  {
+   "id": "caro-kann-23",
+   "side": "black",
+   "line": "Two Knights: 2.Nc3 and 3.Nf3 (sideline)",
+   "moves": "e4 c6 Nc3 d5 Nf3 Bg4 d4 e6 Bg5",
+   "mistake": "Bg5",
+   "steps": [
+    {
+     "play": "Bxf3",
+     "accept": [
+      "Bxf3"
+     ],
+     "eval": 315,
+     "reply": "Qd2"
+    },
+    {
+     "play": "f6",
+     "accept": [
+      "f6"
+     ],
+     "eval": 307,
+     "reply": "gxf3"
+    },
+    {
+     "play": "fxg5",
+     "accept": [
+      "fxg5"
+     ],
+     "eval": 318
+    }
+   ],
+   "theme": "Wins material"
+  },
+  {
+   "id": "caro-kann-24",
+   "side": "black",
+   "line": "Two Knights: 2.Nc3 and 3.Nf3 (sideline)",
+   "moves": "e4 c6 Nc3 d5 Nf3 Bg4 h3 Bxf3 Qxf3 e6 g3 Nf6 Qe3",
+   "mistake": "Qe3",
+   "steps": [
+    {
+     "play": "d4",
+     "accept": [
+      "d4"
+     ],
+     "eval": 299,
+     "reply": "Qe2"
+    },
+    {
+     "play": "dxc3",
+     "accept": [
+      "dxc3"
+     ],
+     "eval": 291
+    }
+   ],
+   "theme": "Wins material"
+  },
+  {
+   "id": "caro-kann-25",
+   "side": "black",
+   "line": "Two Knights: 2.Nc3 and 3.Nf3 (sideline)",
+   "moves": "e4 c6 Nc3 d5 Nf3 Bg4 h3 Bxf3 Qxf3 e6 d4 Nf6 Qe3 Bb4 Be2",
+   "mistake": "Be2",
+   "steps": [
+    {
+     "play": "Nxe4",
+     "accept": [],
+     "eval": 137
+    }
+   ],
+   "theme": "Clear advantage"
+  },
+  {
+   "id": "caro-kann-26",
+   "side": "black",
+   "line": "Fantasy Variation: 3.f3 (sideline)",
+   "moves": "e4 c6 d4 d5 f3 e6 Nc3 Bb4 Bf4 Ne7 Qd3 b6 Qe3 c5 Nh3",
+   "mistake": "Nh3",
+   "steps": [
+    {
+     "play": "Nbc6",
+     "accept": [
+      "Nbc6"
+     ],
+     "eval": 285
+    }
+   ],
+   "theme": "Wins material"
+  },
+  {
+   "id": "caro-kann-27",
+   "side": "black",
+   "line": "Fantasy Variation: 3.f3 (sideline)",
+   "moves": "e4 c6 d4 d5 f3 e6 Nc3 Bb4 Bf4 Ne7 Qd3 b6 Qd2 c5 Be3",
+   "mistake": "Be3",
+   "steps": [
+    {
+     "play": "e5",
+     "accept": [
+      "e5"
+     ],
+     "eval": 202,
+     "reply": "dxe5"
+    },
+    {
+     "play": "d4",
+     "accept": [
+      "d4"
+     ],
+     "eval": 195
+    }
+   ],
+   "theme": "Clear advantage"
+  }
+ ]
+}

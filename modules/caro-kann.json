@@ -4,6 +4,7 @@
   "title": "Caro-Kann Defence",
   "description": "A solid Black repertoire against 1.e4. The bishop gets out before ...e6, you hit the centre with ...c5 or ...d5, and your position stays free of weaknesses.",
   "source": "Main lines as recommended by GothamChess and standard Caro-Kann theory. Every one of your moves checked with Stockfish 17.1.",
+  "traps": "modules/traps/caro-kann.json",
   "lines": [
     {
       "id": "ck-advance-short",

@@ -4,6 +4,7 @@
   "title": "London System",
   "description": "A White repertoire you can play against almost anything: Bf4, e3, c3, Nf3, Nbd2, Bd3, then break with e4.",
   "source": "Built from the standard London set-up as taught by GothamChess and other popular coaches. Every one of your moves checked with Stockfish 17.1.",
+  "traps": "modules/traps/london.json",
   "lines": [
     {
       "id": "london-main",

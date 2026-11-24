@@ -1,0 +1,771 @@
+{
+ "module": "qg-traps",
+ "puzzles": [
+  {
+   "id": "qg-traps-1",
+   "side": "white",
+   "line": "QGA Trap 1: ...a6 loses the rook",
+   "moves": "d4 d5 c4 dxc4 e3 b5 a4 c5",
+   "mistake": "c5",
+   "steps": [
+    {
+     "play": "Qf3",
+     "accept": [
+      "Qf3"
+     ],
+     "eval": 338
+    }
+   ],
+   "theme": "Wins material"
+  },
+  {
+   "id": "qg-traps-2",
+   "side": "white",
+   "line": "QGA Fianchetto Trap",
+   "moves": "d4 d5 c4 dxc4 e3 Nf6 Bxc4 Be6",
+   "mistake": "Be6",
+   "steps": [
+    {
+     "play": "Bxe6",
+     "accept": [
+      "Bxe6"
+     ],
+     "eval": 198
+    }
+   ],
+   "theme": "Clear advantage"
+  },
+  {
+   "id": "qg-traps-3",
+   "side": "white",
+   "line": "QGA Fianchetto Trap",
+   "moves": "d4 d5 c4 dxc4 e3 Nf6 Bxc4 g6 Nf3 Nbd7",
+   "mistake": "Nbd7",
+   "steps": [
+    {
+     "play": "Bxf7+",
+     "accept": [
+      "Bxf7+"
+     ],
+     "eval": 468,
+     "reply": "Kxf7"
+    },
+    {
+     "play": "Ng5+",
+     "accept": [
+      "Ng5+"
+     ],
+     "eval": 462,
+     "reply": "Ke8"
+    },
+    {
+     "play": "Ne6",
+     "accept": [
+      "Ne6"
+     ],
+     "eval": 443
+    }
+   ],
+   "theme": "Wins material"
+  },
+  {
+   "id": "qg-traps-4",
+   "side": "white",
+   "line": "QGA Fianchetto Trap",
+   "moves": "d4 d5 c4 dxc4 e3 Nf6 Bxc4 g6 Nf3 Nfd7",
+   "mistake": "Nfd7",
+   "steps": [
+    {
+     "play": "Bxf7+",
+     "accept": [
+      "Bxf7+"
+     ],
+     "eval": 486,
+     "reply": "Kxf7"
+    },
+    {
+     "play": "Ng5+",
+     "accept": [
+      "Ng5+"
+     ],
+     "eval": 480,
+     "reply": "Ke8"
+    },
+    {
+     "play": "Ne6",
+     "accept": [
+      "Ne6"
+     ],
+     "eval": 482
+    }
+   ],
+   "theme": "Wins material"
+  },
+  {
+   "id": "qg-traps-5",
+   "side": "white",
+   "line": "QGA Fianchetto Trap",
+   "moves": "d4 d5 c4 dxc4 e3 Nf6 Bxc4 g6 Nf3 Bg7 Qa4+ Qd7",
+   "mistake": "Qd7",
+   "steps": [
+    {
+     "play": "Bxf7+",
+     "accept": [
+      "Bxf7+"
+     ],
+     "eval": 229
+    }
+   ],
+   "theme": "Clear advantage"
+  },
+  {
+   "id": "qg-traps-6",
+   "side": "white",
+   "line": "QGA Fianchetto Trap",
+   "moves": "d4 d5 c4 dxc4 e3 Nf6 Bxc4 g6 Nf3 Bg7 Qa4+ Nbd7",
+   "mistake": "Nbd7",
+   "steps": [
+    {
+     "play": "Bxf7+",
+     "accept": [
+      "Bxf7+"
+     ],
+     "eval": 321
+    }
+   ],
+   "theme": "Wins material"
+  },
+  {
+   "id": "qg-traps-7",
+   "side": "white",
+   "line": "Stunning Mate: Bxd1?? Bxf7#",
+   "moves": "d4 d5 c4 dxc4 e3 Nf6 Bxc4 c5 Nf3 Bg4 Ne5 Qa5+",
+   "mistake": "Qa5+",
+   "steps": [
+    {
+     "play": "Bd2",
+     "accept": [
+      "Bd2"
+     ],
+     "eval": 482,
+     "reply": "Bxd1"
+    },
+    {
+     "play": "Bxf7+",
+     "accept": [
+      "Bxf7+"
+     ],
+     "eval": 480,
+     "reply": "Kd8"
+    },
+    {
+     "play": "Bxa5+",
+     "accept": [
+      "Bxa5+"
+     ],
+     "eval": 468
+    }
+   ],
+   "theme": "Wins material"
+  },
+  {
+   "id": "qg-traps-8",
+   "side": "white",
+   "line": "QGD Rubinstein Trap: 12...cxd5",
+   "moves": "d4 d5 c4 e6 Nc3 Nf6 cxd5 Bb4",
+   "mistake": "Bb4",
+   "steps": [
+    {
+     "play": "Qa4+",
+     "accept": [
+      "Qa4+"
+     ],
+     "eval": 436,
+     "reply": "Bd7"
+    },
+    {
+     "play": "Qxb4",
+     "accept": [
+      "Qxb4"
+     ],
+     "eval": 456
+    }
+   ],
+   "theme": "Wins material"
+  },
+  {
+   "id": "qg-traps-9",
+   "side": "white",
+   "line": "QGD Rubinstein Trap: 12...cxd5",
+   "moves": "d4 d5 c4 e6 Nc3 Nf6 cxd5 exd5 Bg5 Be7 e3 Bd7",
+   "mistake": "Bd7",
+   "steps": [
+    {
+     "play": "Bxf6",
+     "accept": [
+      "Bxf6"
+     ],
+     "eval": 170,
+     "reply": "Bxf6"
+    },
+    {
+     "play": "Nxd5",
+     "accept": [
+      "Nxd5"
+     ],
+     "eval": 184
+    }
+   ],
+   "theme": "Clear advantage"
+  },
+  {
+   "id": "qg-traps-10",
+   "side": "white",
+   "line": "QGD Rubinstein Trap: 12...cxd5",
+   "moves": "d4 d5 c4 e6 Nc3 Nf6 cxd5 exd5 Bg5 Be7 e3 O-O Bd3 Ng4",
+   "mistake": "Ng4",
+   "steps": [
+    {
+     "play": "Bxe7",
+     "accept": [
+      "Bxe7"
+     ],
+     "eval": 208,
+     "reply": "Qxe7"
+    },
+    {
+     "play": "Nxd5",
+     "accept": [
+      "Nxd5"
+     ],
+     "eval": 198
+    }
+   ],
+   "theme": "Clear advantage"
+  },
+  {
+   "id": "qg-traps-11",
+   "side": "white",
+   "line": "QGD Rubinstein Trap: 12...cxd5",
+   "moves": "d4 d5 c4 e6 Nc3 Nf6 cxd5 exd5 Bg5 Be7 e3 O-O Bd3 Ne4",
+   "mistake": "Ne4",
+   "steps": [
+    {
+     "play": "Bxe7",
+     "accept": [
+      "Bxe7"
+     ],
+     "eval": 391,
+     "reply": "Qxe7"
+    },
+    {
+     "play": "Nxd5",
+     "accept": [
+      "Nxd5"
+     ],
+     "eval": 389
+    }
+   ],
+   "theme": "Wins material"
+  },
+  {
+   "id": "qg-traps-12",
+   "side": "white",
+   "line": "QGD Rubinstein Trap: 12...cxd5",
+   "moves": "d4 d5 c4 e6 Nc3 Nf6 cxd5 exd5 Bg5 Be7 e3 O-O Bd3 c6 Qc2 Be6",
+   "mistake": "Be6",
+   "steps": [
+    {
+     "play": "Bxf6",
+     "accept": [
+      "Bxf6"
+     ],
+     "eval": 154,
+     "reply": "Bxf6"
+    },
+    {
+     "play": "Bxh7+",
+     "accept": [],
+     "eval": 146
+    }
+   ],
+   "theme": "Clear advantage"
+  },
+  {
+   "id": "qg-traps-13",
+   "side": "white",
+   "line": "QGD Rubinstein Trap: 12...cxd5",
+   "moves": "d4 d5 c4 e6 Nc3 Nf6 cxd5 exd5 Bg5 Be7 e3 O-O Bd3 c6 Qc2 Bd6",
+   "mistake": "Bd6",
+   "steps": [
+    {
+     "play": "Bxh7+",
+     "accept": [
+      "Bxh7+"
+     ],
+     "eval": 221
+    }
+   ],
+   "theme": "Clear advantage"
+  },
+  {
+   "id": "qg-traps-14",
+   "side": "white",
+   "line": "QGD Rubinstein Trap: 12...cxd5",
+   "moves": "d4 d5 c4 e6 Nc3 Nf6 cxd5 exd5 Bg5 Be7 e3 O-O Bd3 c6 Qc2 Bb4",
+   "mistake": "Bb4",
+   "steps": [
+    {
+     "play": "Bxh7+",
+     "accept": [
+      "Bxh7+"
+     ],
+     "eval": 240
+    }
+   ],
+   "theme": "Clear advantage"
+  },
+  {
+   "id": "qg-traps-15",
+   "side": "white",
+   "line": "QGD Rubinstein Trap: 12...cxd5",
+   "moves": "d4 d5 c4 e6 Nc3 Nf6 cxd5 exd5 Bg5 Be7 e3 O-O Bd3 c6 Qc2 a6",
+   "mistake": "a6",
+   "steps": [
+    {
+     "play": "Bxf6",
+     "accept": [
+      "Bxf6"
+     ],
+     "eval": 159,
+     "reply": "Bxf6"
+    },
+    {
+     "play": "Bxh7+",
+     "accept": [
+      "Bxh7+"
+     ],
+     "eval": 164
+    }
+   ],
+   "theme": "Clear advantage"
+  },
+  {
+   "id": "qg-traps-16",
+   "side": "white",
+   "line": "QGA Trap 1: ...a6 loses the rook (sideline)",
+   "moves": "d4 d5 c4 dxc4 e3 b5 a4 a6 axb5 Nf6 Qf3 e6",
+   "mistake": "e6",
+   "steps": [
+    {
+     "play": "Qxa8",
+     "accept": [
+      "Qxa8"
+     ],
+     "eval": 404
+    }
+   ],
+   "theme": "Wins material"
+  },
+  {
+   "id": "qg-traps-17",
+   "side": "white",
+   "line": "QGA Trap 1: ...a6 loses the rook (sideline)",
+   "moves": "d4 d5 c4 dxc4 e3 b5 a4 a6 axb5 axb5 Rxa8 Bf5 Nc3 b4",
+   "mistake": "b4",
+   "steps": [
+    {
+     "play": "Qa4+",
+     "accept": [
+      "Qa4+"
+     ],
+     "eval": 735,
+     "reply": "c6"
+    },
+    {
+     "play": "Qxb4",
+     "accept": [
+      "Qxb4"
+     ],
+     "eval": 749
+    }
+   ],
+   "theme": "Decisive advantage"
+  },
+  {
+   "id": "qg-traps-18",
+   "side": "white",
+   "line": "QGA Trap 3: Bxf7+ wins the queen (sideline)",
+   "moves": "d4 d5 c4 dxc4 Nf3 c5 e3 cxd4 Bxc4 Nf6 O-O dxe3",
+   "mistake": "dxe3",
+   "steps": [
+    {
+     "play": "Bxf7+",
+     "accept": [
+      "Bxf7+"
+     ],
+     "eval": 557,
+     "reply": "Kxf7"
+    },
+    {
+     "play": "Qxd8",
+     "accept": [
+      "Qxd8"
+     ],
+     "eval": 545
+    }
+   ],
+   "theme": "Wins material"
+  },
+  {
+   "id": "qg-traps-19",
+   "side": "white",
+   "line": "QGA Fianchetto Trap (sideline)",
+   "moves": "d4 d5 c4 dxc4 e3 Nf6 Bxc4 a6 Nf3 Nbd7",
+   "mistake": "Nbd7",
+   "steps": [
+    {
+     "play": "Bxf7+",
+     "accept": [
+      "Bxf7+"
+     ],
+     "eval": 453,
+     "reply": "Kxf7"
+    },
+    {
+     "play": "Ng5+",
+     "accept": [
+      "Ng5+"
+     ],
+     "eval": 452,
+     "reply": "Ke8"
+    },
+    {
+     "play": "Ne6",
+     "accept": [
+      "Ne6"
+     ],
+     "eval": 447
+    }
+   ],
+   "theme": "Wins material"
+  },
+  {
+   "id": "qg-traps-20",
+   "side": "white",
+   "line": "QGA Fianchetto Trap (sideline)",
+   "moves": "d4 d5 c4 dxc4 e3 Nf6 Bxc4 a6 Nf3 Nfd7",
+   "mistake": "Nfd7",
+   "steps": [
+    {
+     "play": "Bxf7+",
+     "accept": [
+      "Bxf7+"
+     ],
+     "eval": 464,
+     "reply": "Kxf7"
+    },
+    {
+     "play": "Ng5+",
+     "accept": [
+      "Ng5+"
+     ],
+     "eval": 483
+    }
+   ],
+   "theme": "Wins material"
+  },
+  {
+   "id": "qg-traps-21",
+   "side": "white",
+   "line": "QGA Fianchetto Trap (sideline)",
+   "moves": "d4 d5 c4 dxc4 e3 Nf6 Bxc4 g6 Nf3 Bg7 Qa4+ c6 Qb3 Qa5+",
+   "mistake": "Qa5+",
+   "steps": [
+    {
+     "play": "Bd2",
+     "accept": [
+      "Bd2"
+     ],
+     "eval": 269,
+     "reply": "Qb6"
+    },
+    {
+     "play": "Bxf7+",
+     "accept": [
+      "Bxf7+"
+     ],
+     "eval": 277
+    }
+   ],
+   "theme": "Wins material"
+  },
+  {
+   "id": "qg-traps-22",
+   "side": "white",
+   "line": "QGD Rubinstein Trap: 12...cxd5 (sideline)",
+   "moves": "d4 d5 c4 e6 Nc3 Nf6 cxd5 Nxd5 e4 Qe7",
+   "mistake": "Qe7",
+   "steps": [
+    {
+     "play": "exd5",
+     "accept": [
+      "exd5"
+     ],
+     "eval": 495
+    }
+   ],
+   "theme": "Wins material"
+  },
+  {
+   "id": "qg-traps-23",
+   "side": "white",
+   "line": "QGD Rubinstein Trap: 12...cxd5 (sideline)",
+   "moves": "d4 d5 c4 e6 Nc3 Nf6 cxd5 exd5 Bg5 Bb4 e3 b6",
+   "mistake": "b6",
+   "steps": [
+    {
+     "play": "Qa4+",
+     "accept": [
+      "Qa4+"
+     ],
+     "eval": 503
+    }
+   ],
+   "theme": "Wins material"
+  },
+  {
+   "id": "qg-traps-24",
+   "side": "white",
+   "line": "QGD Rubinstein Trap: 12...cxd5 (sideline)",
+   "moves": "d4 d5 c4 e6 Nc3 Nf6 cxd5 exd5 Bg5 Be7 e3 O-O Bd3 Nbd7 h3 Ne4",
+   "mistake": "Ne4",
+   "steps": [
+    {
+     "play": "Bxe7",
+     "accept": [
+      "Bxe7"
+     ],
+     "eval": 350,
+     "reply": "Qxe7"
+    },
+    {
+     "play": "Nxd5",
+     "accept": [
+      "Nxd5"
+     ],
+     "eval": 374
+    }
+   ],
+   "theme": "Wins material"
+  },
+  {
+   "id": "qg-traps-25",
+   "side": "white",
+   "line": "QGD Rubinstein Trap: 12...cxd5 (sideline)",
+   "moves": "d4 d5 c4 e6 Nc3 Nf6 cxd5 exd5 Bg5 Be7 e3 O-O Bd3 c6 Qc2 Re8 Rd1 Bf8",
+   "mistake": "Bf8",
+   "steps": [
+    {
+     "play": "Bxh7+",
+     "accept": [
+      "Bxh7+"
+     ],
+     "eval": 224
+    }
+   ],
+   "theme": "Clear advantage"
+  },
+  {
+   "id": "qg-traps-26",
+   "side": "white",
+   "line": "QGD Rubinstein Trap: 12...cxd5 (sideline)",
+   "moves": "d4 d5 c4 e6 Nc3 Nf6 cxd5 exd5 Bg5 Be7 e3 O-O Bd3 c6 Qc2 Re8 Rd1 Bd6",
+   "mistake": "Bd6",
+   "steps": [
+    {
+     "play": "Bxh7+",
+     "accept": [
+      "Bxh7+"
+     ],
+     "eval": 208
+    }
+   ],
+   "theme": "Clear advantage"
+  },
+  {
+   "id": "qg-traps-27",
+   "side": "black",
+   "line": "QGD Elephant Trap: 9.Qxb4 (sideline)",
+   "moves": "d4 d5 c4 e6 Nc3 Nf6 Nf3 c5 Rb1",
+   "mistake": "Rb1",
+   "steps": [
+    {
+     "play": "cxd4",
+     "accept": [
+      "cxd4"
+     ],
+     "eval": 239,
+     "reply": "Nxd4"
+    },
+    {
+     "play": "e5",
+     "accept": [
+      "e5"
+     ],
+     "eval": 231
+    }
+   ],
+   "theme": "Clear advantage"
+  },
+  {
+   "id": "qg-traps-28",
+   "side": "black",
+   "line": "QGD Elephant Trap: 9.Qxb4 (sideline)",
+   "moves": "d4 d5 c4 e6 Nc3 Nf6 Nf3 c5 h3",
+   "mistake": "h3",
+   "steps": [
+    {
+     "play": "cxd4",
+     "accept": [
+      "cxd4"
+     ],
+     "eval": 157,
+     "reply": "Nxd4"
+    },
+    {
+     "play": "e5",
+     "accept": [],
+     "eval": 145,
+     "reply": "Nc2"
+    },
+    {
+     "play": "d4",
+     "accept": [
+      "d4"
+     ],
+     "eval": 208
+    }
+   ],
+   "theme": "Clear advantage"
+  },
+  {
+   "id": "qg-traps-29",
+   "side": "black",
+   "line": "QGD Elephant Trap: 9.Qxb4 (sideline)",
+   "moves": "d4 d5 c4 e6 Nc3 Nf6 Nf3 c5 e4",
+   "mistake": "e4",
+   "steps": [
+    {
+     "play": "dxe4",
+     "accept": [
+      "dxe4"
+     ],
+     "eval": 216
+    }
+   ],
+   "theme": "Clear advantage"
+  },
+  {
+   "id": "qg-traps-30",
+   "side": "black",
+   "line": "QGD Cambridge Springs Trap (sideline)",
+   "moves": "d4 d5 c4 e6 Nc3 Nf6 Bg5 Nbd7 Nf3 c6 e3 Qa5 Rc1 Ne4 Nd2",
+   "mistake": "Nd2",
+   "steps": [
+    {
+     "play": "Nxg5",
+     "accept": [
+      "Nxg5"
+     ],
+     "eval": 408
+    }
+   ],
+   "theme": "Wins material"
+  },
+  {
+   "id": "qg-traps-31",
+   "side": "black",
+   "line": "QGD Cambridge Springs Trap (sideline)",
+   "moves": "d4 d5 c4 e6 Nc3 Nf6 Bg5 Nbd7 Nf3 c6 e3 Qa5 Rc1 Ne4 Bd3",
+   "mistake": "Bd3",
+   "steps": [
+    {
+     "play": "Nxg5",
+     "accept": [
+      "Nxg5"
+     ],
+     "eval": 266,
+     "reply": "Nxg5"
+    },
+    {
+     "play": "dxc4",
+     "accept": [
+      "dxc4"
+     ],
+     "eval": 287,
+     "reply": "Nxf7"
+    },
+    {
+     "play": "Kxf7",
+     "accept": [
+      "Kxf7"
+     ],
+     "eval": 294
+    }
+   ],
+   "theme": "Wins material"
+  },
+  {
+   "id": "qg-traps-32",
+   "side": "black",
+   "line": "Albin Countergambit: Lasker Trap (sideline)",
+   "moves": "d4 d5 c4 e5 dxe5 d4 e3 Bb4+ Ke2 Be6 Qa4+",
+   "mistake": "Qa4+",
+   "steps": [
+    {
+     "play": "Nc6",
+     "accept": [
+      "Nc6"
+     ],
+     "eval": 272
+    }
+   ],
+   "theme": "Wins material"
+  },
+  {
+   "id": "qg-traps-33",
+   "side": "black",
+   "line": "Albin Countergambit: Lasker Trap (sideline)",
+   "moves": "d4 d5 c4 e5 dxe5 d4 e3 Bb4+ Bd2 dxe3 Bxb4 exf2+ Kxf2 Qxd1 c5",
+   "mistake": "c5",
+   "steps": [
+    {
+     "play": "Qd4+",
+     "accept": [
+      "Qd4+"
+     ],
+     "eval": 798
+    }
+   ],
+   "theme": "Decisive advantage"
+  },
+  {
+   "id": "qg-traps-34",
+   "side": "black",
+   "line": "Albin Countergambit: Lasker Trap (sideline)",
+   "moves": "d4 d5 c4 e5 dxe5 d4 e3 Bb4+ Bd2 dxe3 Bxb4 exf2+ Kxf2 Qxd1 b3",
+   "mistake": "b3",
+   "steps": [
+    {
+     "play": "Qd4+",
+     "accept": [
+      "Qd4+"
+     ],
+     "eval": 759
+    }
+   ],
+   "theme": "Decisive advantage"
+  }
+ ]
+}

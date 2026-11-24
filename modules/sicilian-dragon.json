@@ -4,6 +4,7 @@
   "title": "Sicilian: Accelerated Dragon",
   "description": "A Sicilian for Black built on one set-up: ...c5, ...Nc6, ...g6 and ...Bg7, with a bishop that rakes the long diagonal. Includes answers to the Alapin, Smith-Morra, Grand Prix and Rossolimo.",
   "source": "Standard Accelerated Dragon theory and the usual anti-Sicilian answers, as taught by popular coaches including GothamChess. Every one of your moves checked with Stockfish 17.1.",
+  "traps": "modules/traps/sicilian-dragon.json",
   "lines": [
     {
       "id": "sd-classical",
