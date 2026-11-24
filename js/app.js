@@ -4,6 +4,8 @@ import { getModuleProgress, resetModule } from './progress.js';
 import { LEVELS } from './bot.js';
 import { listGames, lineSummary } from './games.js';
 import { summary as srsSummary, adoptExisting, resetDeck } from './srs.js';
+import { trapProgress } from './traps.js';
+import { streak } from './activity.js';
 
 const app = document.getElementById('app');
 const cache = {};
@@ -85,10 +87,12 @@ function dailyCard(modules) {
   const text = !cards
     ? 'Learn or test an opening line and its moves join your daily review.'
     : due ? `${due} opening move${due === 1 ? '' : 's'} due for review.` : 'All caught up. New reviews appear here as moves come due.';
+  const st = streak();
+  const streakText = st.days ? `${st.days}-day streak${st.today ? '' : ' (train today to keep it)'}` : 'Start a streak today';
   return `
       <section class="daily">
         <div>
-          <p class="eyebrow">Today</p>
+          <p class="eyebrow">Today · ${streakText}</p>
           <h2>Daily review</h2>
           <p>${text}</p>
         </div>
@@ -125,6 +129,12 @@ async function renderHome() {
       </header>
       ${dailyCard(modules)}
       <div class="section-grid">${cards}</div>
+      <nav class="tools" aria-label="Training tools">
+        <a href="#/mygames"><b>My games</b><span>Your Lichess and Chess.com games against your repertoire</span></a>
+        <a href="#/analysis"><b>Analysis board</b><span>Try any moves with the engine</span></a>
+        <a href="#/vision"><b>Board vision</b><span>Find squares fast; drills your slow ones</span></a>
+        <a href="#/due"><b>Daily review</b><span>Opening moves due today</span></a>
+      </nav>
       <a class="play-banner" href="#/play">
         <h2>Play the bot</h2>
         <p>Pick one of your openings and a bot rating from 800 to 2000. The bot can play your lines perfectly, or leave them by surprise so you learn to punish it.</p>
@@ -150,7 +160,7 @@ async function renderSection(key) {
 
 // ---------- Opening module ----------
 // Two ways in: learn the lines first, then be tested on them.
-function openingBody(m, progress) {
+function openingBody(m, progress, puzzles) {
   const studied = id => Boolean((progress.lines[id] || {}).studied);
   const tested = id => Boolean((progress.lines[id] || {}).done);
 
@@ -235,10 +245,11 @@ function openingBody(m, progress) {
       ${reviewBlock(m)}
       <p class="meta">Test record: ${d.played} played · ${d.clean} clean · best streak ${d.best}</p>
     </section>
+    ${trapsPortal(m, puzzles)}
 
     <section class="portal">
       <div class="portal-head">
-        <span class="step">3</span>
+        <span class="step">4</span>
         <div>
           <h2>Play it against the bot</h2>
           <p class="meta">A full game. The book bot plays your lines all the way. The surprise bot leaves them at a random moment, sometimes with a mistake you should punish. Bot rating ${lastRating()}; <a href="#/play">change it</a>.</p>
@@ -246,6 +257,28 @@ function openingBody(m, progress) {
       </div>
       <div class="actions">${playLinks}</div>
     </section>`;
+}
+
+// Puzzles where the opponent leaves your line with a mistake.
+function trapsPortal(m, puzzles) {
+  if (!puzzles || !puzzles.length) return '';
+  const p = trapProgress(puzzles);
+  return `
+    <section class="portal">
+      <div class="portal-head">
+        <span class="step">3</span>
+        <div>
+          <h2>Punish their mistakes</h2>
+          <p class="meta">${puzzles.length} puzzles from your own lines: the opponent leaves the book with a natural-looking move that loses, and you find the punishment. Every one engine-checked. ${p.solved} solved first time so far.</p>
+        </div>
+      </div>
+      <div class="actions"><a class="button primary" href="#/traps/${m.id}">Start the puzzles</a></div>
+    </section>`;
+}
+
+async function loadTraps(m) {
+  if (!m.traps) return [];
+  try { return (await loadJson(m.traps)).puzzles || []; } catch (e) { return []; }
 }
 
 // Spaced repetition for this opening.
@@ -315,6 +348,7 @@ async function renderModule(id) {
   const m = await loadModule(id);
   if (!m) return renderMissing();
   const progress = getModuleProgress(m.id);
+  const puzzles = isEndgame(m) ? [] : await loadTraps(m);
 
   app.innerHTML = `
     <section class="module">
@@ -325,7 +359,7 @@ async function renderModule(id) {
         <p class="lede">${escapeHtml(m.description)}</p>
         <p class="meta">${escapeHtml(m.source || '')}</p>
       </header>
-      ${isEndgame(m) ? endgameBody(m, progress) : openingBody(m, progress)}
+      ${isEndgame(m) ? endgameBody(m, progress) : openingBody(m, progress, puzzles)}
       <section class="stats">
         <button type="button" class="small-link" id="reset">Reset progress</button>
         <span id="reset-confirm" hidden>Delete all progress for this module?
@@ -527,6 +561,24 @@ async function route() {
   try {
     if (parts.length === 0) await renderHome();
     else if (parts.length === 1 && SECTIONS[parts[0]]) await renderSection(parts[0]);
+    else if (parts[0] === 'traps' && (parts.length === 2 || parts.length === 3)) {
+      const m = await loadModule(parts[1]);
+      const puzzles = m ? await loadTraps(m) : [];
+      if (!puzzles.length) return renderMissing();
+      const { TrapTrainer } = await import('./traps.js');
+      active = new TrapTrainer(app, m, puzzles, { puzzleId: parts[2] });
+    }
+    else if (parts[0] === 'analysis' && parts.length === 1) {
+      const { AnalysisBoard } = await import('./analysis.js');
+      active = new AnalysisBoard(app);
+    }
+    else if (parts[0] === 'mygames' && parts.length === 1) {
+      const openings = (await loadModules()).filter(m => m.type === 'opening');
+      const traps = {};
+      for (const m of openings) traps[m.id] = await loadTraps(m);
+      const { MyGames } = await import('./mygames.js');
+      active = new MyGames(app, openings, traps);
+    }
     else if (parts[0] === 'vision' && parts.length === 1) {
       const { VisionTrainer } = await import('./vision.js');
       active = new VisionTrainer(app);
