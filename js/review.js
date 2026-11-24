@@ -3,6 +3,7 @@
 import { TrainingBoard, Chess } from './board.js';
 import { getEngine } from './engine.js';
 import { getGame, updateGame } from './games.js';
+import { openInAnalysis } from './handoff.js';
 
 const DEPTH = 11;
 const escapeHtml = t => String(t).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
@@ -86,6 +87,7 @@ export class GameReview {
             <button type="button" id="btn-prev" aria-label="Back">‹ Back</button>
             <button type="button" class="primary" id="btn-next" aria-label="Next">Next ›</button>
             <button type="button" id="btn-last" aria-label="End">›|</button>
+            <button type="button" id="btn-analyse">Analyse from here</button>
           </div>
           <div class="moves-box">
             <p class="label">Moves: click any move</p>
@@ -99,6 +101,7 @@ export class GameReview {
     $('btn-prev').onclick = () => this.go(this.ply - 1);
     $('btn-next').onclick = () => this.go(this.ply + 1);
     $('btn-last').onclick = () => this.go(this.positions.length - 1);
+    $('btn-analyse').onclick = () => openInAnalysis(this.game.moves, this.game.side, this.ply);
     this.el.moves.onclick = e => {
       const t = e.target.closest('[data-ply]');
       if (t) this.go(Number(t.dataset.ply));
