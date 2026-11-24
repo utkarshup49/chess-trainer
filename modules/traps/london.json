@@ -1,0 +1,633 @@
+{
+ "module": "london",
+ "puzzles": [
+  {
+   "id": "london-1",
+   "side": "white",
+   "line": "Black hits d4 with ...c5 and b2 with ...Qb6",
+   "moves": "d4 d5 Bf4 c5 e3 Nc6 c3 Qb6 Qb3 Be6",
+   "mistake": "Be6",
+   "steps": [
+    {
+     "play": "dxc5",
+     "accept": [
+      "dxc5"
+     ],
+     "eval": 198,
+     "reply": "Qxb3"
+    },
+    {
+     "play": "axb3",
+     "accept": [
+      "axb3"
+     ],
+     "eval": 207
+    }
+   ],
+   "theme": "Clear advantage"
+  },
+  {
+   "id": "london-2",
+   "side": "white",
+   "line": "Black hits d4 with ...c5 and b2 with ...Qb6",
+   "moves": "d4 d5 Bf4 c5 e3 Nc6 c3 Qb6 Qb3 c4 Qc2 Nf6 Nd2 Bf5",
+   "mistake": "Bf5",
+   "steps": [
+    {
+     "play": "Qxf5",
+     "accept": [
+      "Qxf5"
+     ],
+     "eval": 191
+    }
+   ],
+   "theme": "Clear advantage"
+  },
+  {
+   "id": "london-3",
+   "side": "white",
+   "line": "Black hits d4 with ...c5 and b2 with ...Qb6",
+   "moves": "d4 d5 Bf4 c5 e3 Nc6 c3 Qb6 Qb3 c4 Qc2 Nf6 Nd2 g5",
+   "mistake": "g5",
+   "steps": [
+    {
+     "play": "Bxg5",
+     "accept": [
+      "Bxg5"
+     ],
+     "eval": 230
+    }
+   ],
+   "theme": "Clear advantage"
+  },
+  {
+   "id": "london-4",
+   "side": "white",
+   "line": "Black sets up a King's Indian with ...g6",
+   "moves": "d4 Nf6 Bf4 g6 e3 Bg7 Nf3 O-O Be2 d6 h3 c5 c3 e5",
+   "mistake": "e5",
+   "steps": [
+    {
+     "play": "dxe5",
+     "accept": [
+      "dxe5"
+     ],
+     "eval": 155
+    }
+   ],
+   "theme": "Clear advantage"
+  },
+  {
+   "id": "london-5",
+   "side": "white",
+   "line": "1...Nf6 2...e6 with ...c5 and ...Qb6",
+   "moves": "d4 Nf6 Bf4 e6 e3 c5 c3 Qb6 Qb3 Nc6 Nd2 Ne7",
+   "mistake": "Ne7",
+   "steps": [
+    {
+     "play": "Nc4",
+     "accept": [
+      "Nc4"
+     ],
+     "eval": 316,
+     "reply": "Qxb3"
+    },
+    {
+     "play": "Nd6+",
+     "accept": [
+      "Nd6+"
+     ],
+     "eval": 319
+    }
+   ],
+   "theme": "Wins material"
+  },
+  {
+   "id": "london-6",
+   "side": "white",
+   "line": "Main line: Black plays ...d5, ...e6 and ...Bd6 (sideline)",
+   "moves": "d4 d5 Bf4 Nf6 e3 c5 Nf3 Nh5",
+   "mistake": "Nh5",
+   "steps": [
+    {
+     "play": "Bxb8",
+     "accept": [
+      "Bxb8"
+     ],
+     "eval": 228,
+     "reply": "Rxb8"
+    },
+    {
+     "play": "Bb5+",
+     "accept": [
+      "Bb5+"
+     ],
+     "eval": 216,
+     "reply": "Bd7"
+    },
+    {
+     "play": "Bxd7+",
+     "accept": [
+      "Bxd7+"
+     ],
+     "eval": 213
+    }
+   ],
+   "theme": "Clear advantage"
+  },
+  {
+   "id": "london-7",
+   "side": "white",
+   "line": "Main line: Black plays ...d5, ...e6 and ...Bd6 (sideline)",
+   "moves": "d4 d5 Bf4 Nf6 e3 e6 Nf3 Bd6 Bg3 O-O Nbd2 c5 c3 b6 Bd3 Nh5",
+   "mistake": "Nh5",
+   "steps": [
+    {
+     "play": "Ng5",
+     "accept": [
+      "Ng5"
+     ],
+     "eval": 181
+    }
+   ],
+   "theme": "Clear advantage"
+  },
+  {
+   "id": "london-8",
+   "side": "white",
+   "line": "Main line: Black plays ...d5, ...e6 and ...Bd6 (sideline)",
+   "moves": "d4 d5 Bf4 Nf6 e3 e6 Nf3 Bd6 Bg3 O-O Nbd2 c5 c3 Nc6 Bd3 g6 Bb5 Qb6",
+   "mistake": "Qb6",
+   "steps": [
+    {
+     "play": "Bxd6",
+     "accept": [
+      "Bxd6"
+     ],
+     "eval": 234
+    }
+   ],
+   "theme": "Clear advantage"
+  },
+  {
+   "id": "london-9",
+   "side": "white",
+   "line": "Main line: Black plays ...d5, ...e6 and ...Bd6 (sideline)",
+   "moves": "d4 d5 Bf4 Nf6 e3 e6 Nf3 Bd6 Bg3 O-O Nbd2 c5 c3 Nc6 Bd3 g6 Bb5 Bd7",
+   "mistake": "Bd7",
+   "steps": [
+    {
+     "play": "Bxd6",
+     "accept": [
+      "Bxd6"
+     ],
+     "eval": 493
+    }
+   ],
+   "theme": "Wins material"
+  },
+  {
+   "id": "london-10",
+   "side": "white",
+   "line": "Main line: Black plays ...d5, ...e6 and ...Bd6 (sideline)",
+   "moves": "d4 d5 Bf4 Nf6 e3 e6 Nf3 Bd6 Bg3 O-O Nbd2 c5 c3 Nc6 Bd3 cxd4 exd4 Ne4",
+   "mistake": "Ne4",
+   "steps": [
+    {
+     "play": "Nxe4",
+     "accept": [
+      "Nxe4"
+     ],
+     "eval": 239
+    }
+   ],
+   "theme": "Clear advantage"
+  },
+  {
+   "id": "london-11",
+   "side": "white",
+   "line": "Black hits d4 with ...c5 and b2 with ...Qb6 (sideline)",
+   "moves": "d4 d5 Bf4 c5 e3 Nc6 c3 Nf6 Nd2 Ne4",
+   "mistake": "Ne4",
+   "steps": [
+    {
+     "play": "Nxe4",
+     "accept": [
+      "Nxe4"
+     ],
+     "eval": 210
+    }
+   ],
+   "theme": "Clear advantage"
+  },
+  {
+   "id": "london-12",
+   "side": "white",
+   "line": "Black hits d4 with ...c5 and b2 with ...Qb6 (sideline)",
+   "moves": "d4 d5 Bf4 c5 e3 Nc6 c3 Bf5 Qb3 a6",
+   "mistake": "a6",
+   "steps": [
+    {
+     "play": "Qxb7",
+     "accept": [
+      "Qxb7"
+     ],
+     "eval": 159,
+     "reply": "Na5"
+    },
+    {
+     "play": "Qc7",
+     "accept": [
+      "Qc7"
+     ],
+     "eval": 161,
+     "reply": "Qxc7"
+    },
+    {
+     "play": "Bxc7",
+     "accept": [],
+     "eval": 145
+    }
+   ],
+   "theme": "Clear advantage"
+  },
+  {
+   "id": "london-13",
+   "side": "white",
+   "line": "Black hits d4 with ...c5 and b2 with ...Qb6 (sideline)",
+   "moves": "d4 d5 Bf4 c5 e3 Nc6 c3 Qb6 Qb3 Nf6 Nd2 Be6",
+   "mistake": "Be6",
+   "steps": [
+    {
+     "play": "dxc5",
+     "accept": [
+      "dxc5"
+     ],
+     "eval": 210,
+     "reply": "Qxb3"
+    },
+    {
+     "play": "axb3",
+     "accept": [
+      "axb3"
+     ],
+     "eval": 219
+    }
+   ],
+   "theme": "Clear advantage"
+  },
+  {
+   "id": "london-14",
+   "side": "white",
+   "line": "Black hits d4 with ...c5 and b2 with ...Qb6 (sideline)",
+   "moves": "d4 d5 Bf4 c5 e3 Nc6 c3 Qb6 Qb3 c4 Qc2 Nf6 Nd2 Nh5 Ne2 f6",
+   "mistake": "f6",
+   "steps": [
+    {
+     "play": "e4",
+     "accept": [
+      "e4"
+     ],
+     "eval": 184
+    }
+   ],
+   "theme": "Clear advantage"
+  },
+  {
+   "id": "london-15",
+   "side": "white",
+   "line": "Trap: Black grabs b2 too early (sideline)",
+   "moves": "d4 d5 Bf4 c5 e3 Qb6 Nc3 Nf6 Nb5 Kd8",
+   "mistake": "Kd8",
+   "steps": [
+    {
+     "play": "Bc7+",
+     "accept": [
+      "Bc7+"
+     ],
+     "eval": 399,
+     "reply": "Qxc7"
+    },
+    {
+     "play": "Nxc7",
+     "accept": [
+      "Nxc7"
+     ],
+     "eval": 389
+    }
+   ],
+   "theme": "Wins material"
+  },
+  {
+   "id": "london-16",
+   "side": "white",
+   "line": "Trap: Black grabs b2 too early (sideline)",
+   "moves": "d4 d5 Bf4 c5 e3 Qb6 Nc3 Nf6 Nb5 Bd7",
+   "mistake": "Bd7",
+   "steps": [
+    {
+     "play": "Nc7+",
+     "accept": [
+      "Nc7+"
+     ],
+     "eval": 294
+    }
+   ],
+   "theme": "Wins material"
+  },
+  {
+   "id": "london-17",
+   "side": "white",
+   "line": "Trap: Black grabs b2 too early (sideline)",
+   "moves": "d4 d5 Bf4 c5 e3 Qb6 Nc3 Nf6 Nb5 Nc6",
+   "mistake": "Nc6",
+   "steps": [
+    {
+     "play": "Bc7",
+     "accept": [
+      "Bc7"
+     ],
+     "eval": 372,
+     "reply": "Qa6"
+    },
+    {
+     "play": "Nd6+",
+     "accept": [
+      "Nd6+"
+     ],
+     "eval": 370,
+     "reply": "exd6"
+    },
+    {
+     "play": "Bxa6",
+     "accept": [
+      "Bxa6"
+     ],
+     "eval": 370
+    }
+   ],
+   "theme": "Wins material"
+  },
+  {
+   "id": "london-18",
+   "side": "white",
+   "line": "Trap: Black grabs b2 too early (sideline)",
+   "moves": "d4 d5 Bf4 c5 e3 Qb6 Nc3 Nf6 Nb5 a6",
+   "mistake": "a6",
+   "steps": [
+    {
+     "play": "Nc7+",
+     "accept": [
+      "Nc7+"
+     ],
+     "eval": 446
+    }
+   ],
+   "theme": "Wins material"
+  },
+  {
+   "id": "london-19",
+   "side": "white",
+   "line": "Trap: Black grabs b2 too early (sideline)",
+   "moves": "d4 d5 Bf4 c5 e3 Qb6 Nc3 e6 Nb5 Bd7",
+   "mistake": "Bd7",
+   "steps": [
+    {
+     "play": "Nc7+",
+     "accept": [
+      "Nc7+"
+     ],
+     "eval": 373
+    }
+   ],
+   "theme": "Wins material"
+  },
+  {
+   "id": "london-20",
+   "side": "white",
+   "line": "Trap: Black grabs b2 too early (sideline)",
+   "moves": "d4 d5 Bf4 c5 e3 Qb6 Nc3 e6 Nb5 a6",
+   "mistake": "a6",
+   "steps": [
+    {
+     "play": "Nc7+",
+     "accept": [
+      "Nc7+"
+     ],
+     "eval": 457,
+     "reply": "Kd8"
+    },
+    {
+     "play": "Nxa8",
+     "accept": [
+      "Nxa8"
+     ],
+     "eval": 468
+    }
+   ],
+   "theme": "Wins material"
+  },
+  {
+   "id": "london-21",
+   "side": "white",
+   "line": "Black copies you with ...Bf5 (sideline)",
+   "moves": "d4 d5 Bf4 Nf6 e3 Bf5 c4 e6 Nc3 Bb4 Rc1 b6",
+   "mistake": "b6",
+   "steps": [
+    {
+     "play": "Qa4+",
+     "accept": [
+      "Qa4+"
+     ],
+     "eval": 467,
+     "reply": "Nfd7"
+    },
+    {
+     "play": "Qxb4",
+     "accept": [
+      "Qxb4"
+     ],
+     "eval": 475
+    }
+   ],
+   "theme": "Wins material"
+  },
+  {
+   "id": "london-22",
+   "side": "white",
+   "line": "Black copies you with ...Bf5 (sideline)",
+   "moves": "d4 d5 Bf4 Nf6 e3 Bf5 c4 e6 Nc3 c6 Qb3 Qc8 Nf3 Nfd7",
+   "mistake": "Nfd7",
+   "steps": [
+    {
+     "play": "cxd5",
+     "accept": [
+      "cxd5"
+     ],
+     "eval": 272
+    }
+   ],
+   "theme": "Wins material"
+  },
+  {
+   "id": "london-23",
+   "side": "white",
+   "line": "Black copies you with ...Bf5 (sideline)",
+   "moves": "d4 d5 Bf4 Nf6 e3 Bf5 c4 e6 Nc3 c6 Qb3 b6 cxd5 cxd5",
+   "mistake": "cxd5",
+   "steps": [
+    {
+     "play": "Nb5",
+     "accept": [
+      "Nb5"
+     ],
+     "eval": 341,
+     "reply": "Be7"
+    },
+    {
+     "play": "Nc7+",
+     "accept": [
+      "Nc7+"
+     ],
+     "eval": 365
+    }
+   ],
+   "theme": "Wins material"
+  },
+  {
+   "id": "london-24",
+   "side": "white",
+   "line": "Black copies you with ...Bf5 (sideline)",
+   "moves": "d4 d5 Bf4 Nf6 e3 Bf5 c4 e6 Nc3 c6 Qb3 Qb6 c5 Qxb3 axb3 a6 b4 b5",
+   "mistake": "b5",
+   "steps": [
+    {
+     "play": "Bxb8",
+     "accept": [
+      "Bxb8"
+     ],
+     "eval": 367
+    }
+   ],
+   "theme": "Wins material"
+  },
+  {
+   "id": "london-25",
+   "side": "white",
+   "line": "Black sets up a King's Indian with ...g6 (sideline)",
+   "moves": "d4 Nf6 Bf4 g6 e3 Bg7 Nf3 O-O Be2 d6 h3 Bf5 Nbd2 Nfd7",
+   "mistake": "Nfd7",
+   "steps": [
+    {
+     "play": "e4",
+     "accept": [
+      "e4"
+     ],
+     "eval": 282
+    }
+   ],
+   "theme": "Wins material"
+  },
+  {
+   "id": "london-26",
+   "side": "white",
+   "line": "Black sets up a King's Indian with ...g6 (sideline)",
+   "moves": "d4 Nf6 Bf4 g6 e3 Bg7 Nf3 O-O Be2 d6 h3 c5 c3 Qb6 Qc1 e5",
+   "mistake": "e5",
+   "steps": [
+    {
+     "play": "dxe5",
+     "accept": [
+      "dxe5"
+     ],
+     "eval": 169
+    }
+   ],
+   "theme": "Clear advantage"
+  },
+  {
+   "id": "london-27",
+   "side": "white",
+   "line": "1...Nf6 2...e6 with ...c5 and ...Qb6 (sideline)",
+   "moves": "d4 Nf6 Bf4 e6 e3 c5 c3 Qb6 Qb3 Nc6 Nd2 cxd4 exd4 Ne7",
+   "mistake": "Ne7",
+   "steps": [
+    {
+     "play": "Nc4",
+     "accept": [
+      "Nc4"
+     ],
+     "eval": 278,
+     "reply": "Qxb3"
+    },
+    {
+     "play": "Nd6+",
+     "accept": [
+      "Nd6+"
+     ],
+     "eval": 264
+    }
+   ],
+   "theme": "Wins material"
+  },
+  {
+   "id": "london-28",
+   "side": "white",
+   "line": "1...Nf6 2...e6 with ...c5 and ...Qb6 (sideline)",
+   "moves": "d4 Nf6 Bf4 e6 e3 c5 c3 Qb6 Qb3 Nc6 Nd2 d5 Ngf3 Qxb3 axb3 Ne4",
+   "mistake": "Ne4",
+   "steps": [
+    {
+     "play": "Nxe4",
+     "accept": [
+      "Nxe4"
+     ],
+     "eval": 256,
+     "reply": "dxe4"
+    },
+    {
+     "play": "Nd2",
+     "accept": [
+      "Nd2"
+     ],
+     "eval": 269
+    }
+   ],
+   "theme": "Wins material"
+  },
+  {
+   "id": "london-29",
+   "side": "white",
+   "line": "1...Nf6 2...e6 with ...c5 and ...Qb6 (sideline)",
+   "moves": "d4 Nf6 Bf4 e6 e3 c5 c3 Qb6 Qb3 Nc6 Nd2 d5 Ngf3 Be7 h3 Bd7 Qc2 Na5",
+   "mistake": "Na5",
+   "steps": [
+    {
+     "play": "dxc5",
+     "accept": [
+      "dxc5"
+     ],
+     "eval": 250
+    }
+   ],
+   "theme": "Wins material"
+  },
+  {
+   "id": "london-30",
+   "side": "white",
+   "line": "1...Nf6 2...e6 with ...c5 and ...Qb6 (sideline)",
+   "moves": "d4 Nf6 Bf4 e6 e3 c5 c3 Qb6 Qb3 Nc6 Nd2 d5 Ngf3 Be7 h3 h6 Qc2 Na5",
+   "mistake": "Na5",
+   "steps": [
+    {
+     "play": "dxc5",
+     "accept": [
+      "dxc5"
+     ],
+     "eval": 272
+    }
+   ],
+   "theme": "Wins material"
+  }
+ ]
+}
