@@ -3,6 +3,7 @@ import { OpeningTrainer } from './opening.js';
 import { getModuleProgress, resetModule } from './progress.js';
 import { LEVELS } from './bot.js';
 import { listGames, lineSummary } from './games.js';
+import { summary as srsSummary, adoptExisting, resetDeck } from './srs.js';
 
 const app = document.getElementById('app');
 const cache = {};
@@ -75,6 +76,26 @@ function moduleCard(m) {
       </a>`;
 }
 
+// Today's training: what spaced repetition says is due.
+function dailyCard(modules) {
+  const openings = modules.filter(m => m.type === 'opening');
+  openings.forEach(m => adoptExisting(m, getModuleProgress(m.id)));
+  const due = openings.reduce((n, m) => n + srsSummary(m.id).due, 0);
+  const cards = openings.reduce((n, m) => n + srsSummary(m.id).cards, 0);
+  const text = !cards
+    ? 'Learn or test an opening line and its moves join your daily review.'
+    : due ? `${due} opening move${due === 1 ? '' : 's'} due for review.` : 'All caught up. New reviews appear here as moves come due.';
+  return `
+      <section class="daily">
+        <div>
+          <p class="eyebrow">Today</p>
+          <h2>Daily review</h2>
+          <p>${text}</p>
+        </div>
+        ${due ? '<a class="button primary" href="#/due">Review now</a>' : ''}
+      </section>`;
+}
+
 async function renderHome() {
   const modules = await loadModules();
   const cards = Object.entries(SECTIONS).map(([key, sec]) => {
@@ -102,6 +123,7 @@ async function renderHome() {
         <h1>Chess Gym</h1>
         <p class="lede">Play the moves yourself. Wrong moves get explained, and the drills pick a different position every time.</p>
       </header>
+      ${dailyCard(modules)}
       <div class="section-grid">${cards}</div>
       <a class="play-banner" href="#/play">
         <h2>Play the bot</h2>
@@ -210,6 +232,7 @@ function openingBody(m, progress) {
       </div>
       <div class="groups">${testGroup('white', 'White')}${testGroup('black', 'Black')}</div>
       ${mixed}
+      ${reviewBlock(m)}
       <p class="meta">Test record: ${d.played} played · ${d.clean} clean · best streak ${d.best}</p>
     </section>
 
@@ -223,6 +246,22 @@ function openingBody(m, progress) {
       </div>
       <div class="actions">${playLinks}</div>
     </section>`;
+}
+
+// Spaced repetition for this opening.
+function reviewBlock(m) {
+  adoptExisting(m, getModuleProgress(m.id));
+  const s = srsSummary(m.id);
+  if (!s.cards) return '';
+  const next = s.next ? new Date(s.next + 'T00:00').toLocaleDateString(undefined, { day: 'numeric', month: 'short' }) : '';
+  return `
+      <section class="mixed">
+        <div>
+          <h2>Spaced review</h2>
+          <p class="meta">${s.cards} moves in your reviews. ${s.due ? `${s.due} due today.` : `Nothing due today${next ? `; next on ${next}` : ''}.`}</p>
+        </div>
+        ${s.due ? `<a class="button primary" href="#/due/${m.id}">Review ${s.due} due</a>` : ''}
+      </section>`;
 }
 
 // ---------- Endgame module ----------
@@ -298,7 +337,7 @@ async function renderModule(id) {
   const confirmBox = document.getElementById('reset-confirm');
   document.getElementById('reset').onclick = () => { confirmBox.hidden = false; };
   document.getElementById('reset-no').onclick = () => { confirmBox.hidden = true; };
-  document.getElementById('reset-yes').onclick = () => { resetModule(m.id); renderModule(m.id); };
+  document.getElementById('reset-yes').onclick = () => { resetModule(m.id); resetDeck(m.id); renderModule(m.id); };
 }
 
 // ---------- Play the bot ----------
@@ -488,6 +527,15 @@ async function route() {
   try {
     if (parts.length === 0) await renderHome();
     else if (parts.length === 1 && SECTIONS[parts[0]]) await renderSection(parts[0]);
+    else if (parts[0] === 'vision' && parts.length === 1) {
+      const { VisionTrainer } = await import('./vision.js');
+      active = new VisionTrainer(app);
+    }
+    else if (parts[0] === 'due' && parts.length <= 2) {
+      const { DueReview } = await import('./due.js');
+      const openings = (await loadModules()).filter(m => m.type === 'opening');
+      active = new DueReview(app, openings, { moduleId: parts[1] });
+    }
     else if (parts[0] === 'play' && parts.length === 1) await renderPlayHome();
     else if (parts[0] === 'play' && (parts.length === 4 || parts.length === 5)) await renderGame(parts[1], parts[2], parts[3], parts[4]);
     else if (parts[0] === 'review' && parts.length === 2) {
