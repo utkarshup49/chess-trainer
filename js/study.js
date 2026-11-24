@@ -5,6 +5,7 @@
 // shown here as the teaching point. You can also just play the move yourself.
 import { TrainingBoard } from './board.js';
 import { recordStudy } from './progress.js';
+import { addLine } from './srs.js';
 
 const AUTOPLAY_MS = 1500;
 const REPLY_MS = 550;
@@ -196,6 +197,8 @@ export class LineStudy {
       if (!this.recorded) {
         this.recorded = true;
         recordStudy(this.module.id, this.line.id);
+        // Opening lines join the spaced-repetition reviews (first one tomorrow).
+        if (!this.demo && this.module.type === 'opening') addLine(this.module.id, this.line);
       }
       return;
     }

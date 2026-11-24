@@ -1,6 +1,7 @@
 // Opening trainer: learn one line, or drill random lines from a move tree.
 import { TrainingBoard } from './board.js';
 import { recordLine, recordDrill, getModuleProgress } from './progress.js';
+import { addLine } from './srs.js';
 
 const OPPONENT_DELAY = 550;
 
@@ -254,6 +255,7 @@ export class OpeningTrainer {
     const clean = this.mistakes === 0 && !this.helped;
     const summary = clean ? 'No mistakes.' : this.mistakes + (this.mistakes === 1 ? ' mistake' : ' mistakes') + (this.helped ? ', with help.' : '.');
 
+    addLine(this.module.id, line); // a tested line joins the reviews too
     let buttons;
     if (this.mode === 'learn') {
       recordLine(this.module.id, line.id, clean);
