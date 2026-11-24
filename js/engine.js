@@ -71,6 +71,11 @@ export class Engine {
     });
   }
 
+  // Cut the current search short; it still answers with its best move so far.
+  stop() {
+    this.send('stop');
+  }
+
   send(cmd) {
     this.worker.postMessage(cmd);
   }
@@ -125,7 +130,7 @@ export class Engine {
       const value = Number(t[s + 2]);
       const mate = kind === 'mate' ? value : null;
       const score = kind === 'mate' ? (value > 0 ? 10000 - value : -10000 - value) : value;
-      lines.set(k, { move: t[at('pv') + 1], score, mate, depth: Number(t[at('depth') + 1]) });
+      lines.set(k, { move: t[at('pv') + 1], pv: t.slice(at('pv') + 1), score, mate, depth: Number(t[at('depth') + 1]) });
     };
     this.listeners.add(collect);
     this.send(`setoption name MultiPV value ${multipv}`);
