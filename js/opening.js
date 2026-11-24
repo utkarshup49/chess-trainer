@@ -2,6 +2,7 @@
 import { TrainingBoard } from './board.js';
 import { recordLine, recordDrill, getModuleProgress } from './progress.js';
 import { addLine } from './srs.js';
+import { markActive } from './activity.js';
 
 const OPPONENT_DELAY = 550;
 
@@ -256,6 +257,7 @@ export class OpeningTrainer {
     const summary = clean ? 'No mistakes.' : this.mistakes + (this.mistakes === 1 ? ' mistake' : ' mistakes') + (this.helped ? ', with help.' : '.');
 
     addLine(this.module.id, line); // a tested line joins the reviews too
+    markActive();
     let buttons;
     if (this.mode === 'learn') {
       recordLine(this.module.id, line.id, clean);

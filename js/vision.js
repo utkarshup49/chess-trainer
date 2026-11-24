@@ -5,6 +5,8 @@
 // miss or are slow on come up more often, and a heat map shows where you are
 // quick and where you hesitate.
 
+import { markActive } from './activity.js';
+
 const KEY = 'chess-gym-vision-v1';
 const ROUND_SECONDS = 30;
 const FILES = 'abcdefgh';
@@ -184,6 +186,7 @@ export class VisionTrainer {
     const ms = Math.round(performance.now() - this.shownAt);
     const right = square === this.current;
     record(this.view, this.current, ms, !right);
+    markActive();
     button.classList.add(right ? 'hit' : 'miss');
     setTimeout(() => button.classList.remove('hit', 'miss'), 350);
     if (right) this.score += 1;

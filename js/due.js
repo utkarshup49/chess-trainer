@@ -7,6 +7,7 @@
 // tomorrow, and once more at the end of this session.
 import { TrainingBoard } from './board.js';
 import { dueKeys, review, summary } from './srs.js';
+import { markActive } from './activity.js';
 
 const AUTO_MS = 380;
 const escapeHtml = t => String(t).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
@@ -150,6 +151,7 @@ export class DueReview {
     this.round.reviewedKeys.add(key);
     if (!this.round.relearn) {
       const card = review(module.id, key, !this.failed);
+      markActive();
       this.done += 1;
       if (!this.failed) this.remembered += 1;
       else this.missed.push({ module, key });

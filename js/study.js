@@ -6,6 +6,7 @@
 import { TrainingBoard } from './board.js';
 import { recordStudy } from './progress.js';
 import { addLine } from './srs.js';
+import { markActive } from './activity.js';
 
 const AUTOPLAY_MS = 1500;
 const REPLY_MS = 550;
@@ -197,6 +198,7 @@ export class LineStudy {
       if (!this.recorded) {
         this.recorded = true;
         recordStudy(this.module.id, this.line.id);
+        markActive();
         // Opening lines join the spaced-repetition reviews (first one tomorrow).
         if (!this.demo && this.module.type === 'opening') addLine(this.module.id, this.line);
       }
