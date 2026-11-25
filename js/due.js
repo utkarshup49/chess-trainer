@@ -47,7 +47,7 @@ export class DueReview {
     this.remembered = 0;
     this.missed = [];          // { module, key } to go over once more at the end
     this.renderShell();
-    this.backHref = moduleId ? `#/m/${moduleId}` : '#/';
+    this.backHref = '#/due'; // back to the list of openings
     this.el.back.href = this.backHref;
     if (!this.total) return this.finishSession(true);
     this.nextRound();

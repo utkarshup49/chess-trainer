@@ -89,7 +89,8 @@ board too.
 
 ## Remembering and using the openings
 
-- **Spaced repetition** (`js/srs.js`, `js/due.js`, route `#/due`): every
+- **Spaced repetition** (`js/srs.js`, `js/due.js`; `#/due` lists the openings
+  with their due counts, `#/due/<module>` or `#/due/all` runs a session): every
   learner move of a line is a card, keyed like `explain`. A line's cards join
   the reviews when its walkthrough or test is finished (lines learned before
   reviews existed are adopted once, due at once). Remembered: 1, 3, then
