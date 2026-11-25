@@ -10,7 +10,6 @@ const KEY = 'chess-gym-imports-v1';
 const MAX_KEEP = 200;
 const FETCH_GAMES = 40;
 const escapeHtml = t => String(t).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
-const moveNo = ply => `${Math.floor(ply / 2) + 1}${ply % 2 ? '…' : '.'}`;
 
 function load() {
   try { return JSON.parse(localStorage.getItem(KEY)) || { games: [], users: {} }; } catch (e) { return { games: [], users: {} }; }
@@ -142,17 +141,24 @@ export function checkGame(game, modules) {
   return best;
 }
 
+// "4.Nf3" for White's 4th move, "4...Nf6" for Black's.
+const withNo = (ply, san) => `${Math.floor(ply / 2) + 1}${ply % 2 ? '...' : '.'}${san}`;
+// "1.d4 d5 2.Bf4 c5 3.e3": the moves before a point in the game.
+function movesText(moves, upto) {
+  return moves.slice(0, upto).map((m, i) => (i % 2 === 0 ? `${i / 2 + 1}.${m}` : m)).join(' ');
+}
+
 function describe(c, game) {
-  const at = ply => moveNo(ply);
+  const yourSide = game.you === 'white' ? 'White' : 'Black';
   switch (c.status) {
-    case 'complete': return `Followed "${c.line.name}" to the end.`;
-    case 'short': return `Game ended while still in "${c.line.name}".`;
-    case 'you': return `You left "${c.line.name}" at ${at(c.ply)} ${c.played}; your line plays ${c.expected.join(' or ')}.`;
-    case 'them': return `Opponent left "${c.line.name}" at ${at(c.ply)} ${c.played}.`;
-    case 'other': return `You played ${at(c.ply)} ${game.moves[c.ply]}, which isn't in any of your repertoires.`;
-    case 'uncovered': return `Opponent played ${at(c.ply)} ${game.moves[c.ply]}: no ${game.you === 'white' ? 'White' : 'Black'} repertoire covers it yet.`;
-    case 'unknown': return 'Which side were you? Set your name above to match.';
-    default: return 'No repertoire for this colour yet.';
+    case 'complete': return `You both followed "${c.line.name}" to the end of your preparation.`;
+    case 'short': return `The game ended while you were still in "${c.line.name}".`;
+    case 'you': return `On move ${Math.floor(c.ply / 2) + 1} you played ${withNo(c.ply, c.played)}, but your line plays ${c.expected.map(e => withNo(c.ply, e)).join(' or ')}.`;
+    case 'them': return `On move ${Math.floor(c.ply / 2) + 1} your opponent played ${withNo(c.ply, c.played)}, a move your lines don't cover.`;
+    case 'other': return `You played ${withNo(c.ply, game.moves[c.ply])}, which isn't in any of your ${yourSide} repertoires.`;
+    case 'uncovered': return `Your opponent played ${withNo(c.ply, game.moves[c.ply])}: none of your ${yourSide} repertoires cover it yet.`;
+    case 'unknown': return 'Which side were you? Put your name in the box above so it matches the PGN.';
+    default: return `You have no ${yourSide} repertoire yet.`;
   }
 }
 
@@ -248,37 +254,63 @@ export class MyGames {
 
   reportHtml(checked) {
     const relevant = checked.filter(x => !['unknown', 'none'].includes(x.c.status));
-    // Per opening: how far you usually get.
+    const games = n => `${n} game${n === 1 ? '' : 's'}`;
+    const idxOf = x => this.checked.indexOf(x);
+
+    // One card per opening: how far your preparation carried you.
     const perModule = this.modules.map(m => {
       const rows = relevant.filter(x => x.c.module && x.c.module.id === m.id && !['other', 'uncovered'].includes(x.c.status));
       if (!rows.length) return '';
       const n = s => rows.filter(x => x.c.status === s).length;
       const avg = rows.reduce((a, x) => a + x.c.ply, 0) / rows.length / 2;
-      return `<tr><td>${escapeHtml(m.title)}</td><td>${rows.length}</td><td>${avg.toFixed(1)}</td><td>${n('you')}</td><td>${n('them')}</td><td>${n('complete') + n('short')}</td></tr>`;
+      return `
+        <article class="card">
+          <div class="card-head"><h3>${escapeHtml(m.title)}</h3><span class="chip">${games(rows.length)}</span></div>
+          <p class="meta">On average the game stayed in your prepared moves for <b>${avg.toFixed(1)} moves</b>.</p>
+          <div class="tiles">
+            <div class="tile bad"><b>${n('you')}</b><span>you left your moves first</span></div>
+            <div class="tile warn"><b>${n('them')}</b><span>your opponent left them first</span></div>
+            <div class="tile good"><b>${n('complete') + n('short')}</b><span>followed your line to the end</span></div>
+          </div>
+        </article>`;
     }).join('');
 
-    // Where YOU leave the lines, most common first.
+    // Your own slips, most frequent first.
     const yours = group(relevant.filter(x => x.c.status === 'you'), x => `${x.c.module.id}|${x.c.ply}|${x.c.played}`);
     const yourHtml = yours.map(list => {
-      const { c, g } = list[0];
-      const idx = this.checked.indexOf(list[0]);
-      return `<li><p><b>${moveNo(c.ply)} ${escapeHtml(c.played)}</b> instead of <b>${escapeHtml(c.expected.join(' or '))}</b> in ${escapeHtml(c.module.title)}: "${escapeHtml(c.line.name)}" · ${list.length} game${list.length > 1 ? 's' : ''}</p>
-        <div class="actions"><a class="button" href="#/m/${c.module.id}/study/${c.line.id}">Relearn the line</a><button type="button" data-analyse="${idx}" data-ply="${c.ply}">See the position</button></div></li>`;
+      const x = list[0];
+      const { c, g } = x;
+      const before = movesText(g.moves, c.ply);
+      return `
+        <article class="card">
+          <div class="card-head"><h3>Move ${Math.floor(c.ply / 2) + 1} as ${g.you === 'white' ? 'White' : 'Black'}</h3><span class="chip" data-tone="bad">${list.length === 1 ? 'once' : list.length + ' times'}</span></div>
+          <p>${before ? `After <span class="mono">${escapeHtml(before)}</span>, you` : 'You'} played <b class="mono">${escapeHtml(withNo(c.ply, c.played))}</b>. Your line plays <b class="mono">${escapeHtml(c.expected.map(e => withNo(c.ply, e)).join(' or '))}</b>.</p>
+          <p class="meta">${escapeHtml(c.module.title)} · ${escapeHtml(c.line.name)}</p>
+          <div class="actions"><a class="button primary" href="#/m/${c.module.id}/study/${c.line.id}">Relearn the line</a><button type="button" data-analyse="${idxOf(x)}" data-ply="${c.ply}">See the position</button></div>
+        </article>`;
     }).join('');
 
-    // Where opponents leave the lines.
+    // Where opponents leave your lines.
     const theirs = group(relevant.filter(x => x.c.status === 'them'), x => `${x.c.module.id}|${x.g.moves.slice(0, x.c.ply + 1).join(' ')}`);
     const theirHtml = theirs.map(list => {
-      const { c, g } = list[0];
-      const idx = this.checked.indexOf(list[0]);
+      const x = list[0];
+      const { c, g } = x;
+      const idx = idxOf(x);
+      const before = movesText(g.moves, c.ply);
       const prefix = g.moves.slice(0, c.ply + 1).join(' ');
       const puzzle = (this.traps[c.module.id] || []).find(p => p.moves === prefix);
-      return `<li><p><b>${moveNo(c.ply)} ${escapeHtml(c.played)}</b> in ${escapeHtml(c.module.title)}: "${escapeHtml(c.line.name)}" · ${list.length} game${list.length > 1 ? 's' : ''}</p>
-        <div class="actions">
-          ${puzzle ? `<a class="button primary" href="#/traps/${c.module.id}/${puzzle.id}">It's a known mistake: solve the puzzle</a>` : ''}
-          <button type="button" data-engine="${idx}">Was it a mistake? Did I punish it?</button>
-          <button type="button" data-analyse="${idx}" data-ply="${c.ply + 1}">See the position</button>
-        </div><p class="meta" id="engine-${idx}"></p></li>`;
+      return `
+        <article class="card">
+          <div class="card-head"><h3>Move ${Math.floor(c.ply / 2) + 1}: they played ${escapeHtml(c.played)}</h3><span class="chip" data-tone="warn">${list.length === 1 ? 'once' : list.length + ' times'}</span></div>
+          <p>${before ? `After <span class="mono">${escapeHtml(before)}</span>, your` : 'Your'} opponent played <b class="mono">${escapeHtml(withNo(c.ply, c.played))}</b>. Your lines expected <span class="mono">${escapeHtml(c.expected.map(e => withNo(c.ply, e)).join(' or '))}</span>.</p>
+          <p class="meta">${escapeHtml(c.module.title)} · ${escapeHtml(c.line.name)}</p>
+          <div class="actions">
+            ${puzzle ? `<a class="button primary" href="#/traps/${c.module.id}/${puzzle.id}">Known mistake: solve the puzzle</a>` : ''}
+            <button type="button" data-engine="${idx}">Was it a mistake? Did I punish it?</button>
+            <button type="button" data-analyse="${idx}" data-ply="${c.ply + 1}">See the position</button>
+          </div>
+          <p class="meta engine-out" id="engine-${idx}"></p>
+        </article>`;
     }).join('');
 
     // Openings you meet that your repertoire doesn't cover.
@@ -286,8 +318,11 @@ export class MyGames {
       x => `${x.g.you}|${x.c.status}|${x.g.moves.slice(0, x.c.ply + 1).join(' ')}`);
     const gapHtml = gaps.map(list => {
       const { c, g } = list[0];
-      const moves = g.moves.slice(0, c.ply + 1).map((m, i) => (i % 2 === 0 ? `${i / 2 + 1}.${m}` : m)).join(' ');
-      return `<li>${c.status === 'other' ? 'You played' : 'Facing'} <b>${escapeHtml(moves)}</b> as ${g.you === 'white' ? 'White' : 'Black'} · ${list.length} game${list.length > 1 ? 's' : ''}</li>`;
+      return `
+        <article class="card">
+          <div class="card-head"><h3 class="mono">${escapeHtml(movesText(g.moves, c.ply + 1))}</h3><span class="chip">${list.length === 1 ? 'once' : list.length + ' times'}</span></div>
+          <p class="meta">${c.status === 'other' ? 'You chose a different opening' : 'Your opponent chose an opening you have not prepared'} as ${g.you === 'white' ? 'White' : 'Black'}.</p>
+        </article>`;
     }).join('');
 
     const rows = checked.slice(0, 60).map((x, i) => {
@@ -298,23 +333,26 @@ export class MyGames {
       const lost = (g.result === '0-1' && g.you === 'white') || (g.result === '1-0' && g.you === 'black');
       const tone = won ? 'good' : lost ? 'bad' : 'idle';
       const ply = c.ply !== undefined ? c.ply : 0;
-      return `<li class="game-row">
-        <div><p><b>vs ${escapeHtml(opp)}</b> <span class="meta">${when} · ${escapeHtml(g.source)}${g.speed ? ' · ' + escapeHtml(g.speed) : ''}</span>
-          <span class="chip" data-tone="${tone}">${won ? 'Won' : lost ? 'Lost' : g.result === '½-½' ? 'Draw' : g.result}</span></p>
-          <p class="meta">${escapeHtml(describe(c, g))}</p></div>
-        <button type="button" data-analyse="${i}" data-ply="${Math.min(g.moves.length, ply + 1)}">Analyse</button>
-      </li>`;
+      return `
+        <article class="card game-card ${tone}">
+          <div class="card-head">
+            <h3>vs ${escapeHtml(opp)} <span class="meta">as ${g.you === 'white' ? 'White' : g.you === 'black' ? 'Black' : '?'}</span></h3>
+            <span class="chip" data-tone="${tone}">${won ? 'Won' : lost ? 'Lost' : g.result === '½-½' ? 'Draw' : escapeHtml(g.result)}</span>
+          </div>
+          <p class="meta">${when} · ${escapeHtml(g.source)}${g.speed ? ' · ' + escapeHtml(g.speed) : ''}${c.module && !['other', 'uncovered'].includes(c.status) ? ' · ' + escapeHtml(c.module.title) : ''}</p>
+          <p>${escapeHtml(describe(c, g))}</p>
+          <div class="actions"><button type="button" data-analyse="${i}" data-ply="${Math.min(g.moves.length, ply + 1)}">Analyse</button>${g.url ? `<a class="button" href="${escapeHtml(g.url)}" target="_blank" rel="noopener">Open on ${escapeHtml(g.source)}</a>` : ''}</div>
+        </article>`;
     }).join('');
 
     return `
-      ${perModule ? `<section class="portal"><h2>Your repertoire in real games</h2>
-        <div class="table-scroll"><table class="review-table">
-          <thead><tr><th>Opening</th><th>Games</th><th>Moves in book</th><th>You left it</th><th>They left it</th><th>To the end</th></tr></thead>
-          <tbody>${perModule}</tbody></table></div></section>` : ''}
-      ${yourHtml ? `<section class="portal"><h2>Where you leave your lines</h2><p class="meta">These are the moves to fix first.</p><ol class="insight-list">${yourHtml}</ol></section>` : ''}
-      ${theirHtml ? `<section class="portal"><h2>Where opponents leave your lines</h2><p class="meta">Check whether their move was a mistake, and whether you punished it.</p><ol class="insight-list">${theirHtml}</ol></section>` : ''}
-      ${gapHtml ? `<section class="portal"><h2>Openings your repertoire doesn't cover</h2><ol class="insight-list">${gapHtml}</ol></section>` : ''}
-      <section class="portal"><h2>Games</h2><ol class="line-list games-list">${rows}</ol>
+      ${perModule ? `<section class="portal"><h2>Your openings in real games</h2>
+        <p class="meta">Each game is followed move by move through your prepared lines until someone plays a move that isn't in them.</p>
+        <div class="cards">${perModule}</div></section>` : ''}
+      ${yourHtml ? `<section class="portal"><h2>Your slips</h2><p class="meta">Moves where you left your own preparation. Fix these first.</p><div class="cards">${yourHtml}</div></section>` : ''}
+      ${theirHtml ? `<section class="portal"><h2>Your opponents' surprises</h2><p class="meta">Moves where opponents left your lines. Check whether each was a mistake, and whether you punished it.</p><div class="cards">${theirHtml}</div></section>` : ''}
+      ${gapHtml ? `<section class="portal"><h2>Openings you haven't prepared</h2><div class="cards">${gapHtml}</div></section>` : ''}
+      <section class="portal"><h2>Games</h2><div class="cards">${rows}</div>
         <button type="button" class="small-link" id="btn-clear">Forget all saved games</button></section>`;
   }
 
