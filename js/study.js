@@ -59,7 +59,7 @@ export class LineStudy {
           <p class="eyebrow">Learn · you play ${this.side === 'white' ? 'White' : 'Black'}</p>
           <h1 class="line-title">${escapeHtml(this.line.name)}</h1>
           <div class="teach" id="teach"></div>
-          <div class="actions">
+          <div class="actions nav">
             <button type="button" id="btn-prev" title="Shortcut: left arrow">Back</button>
             <button type="button" class="primary" id="btn-next" title="Shortcut: right arrow">Next move</button>
             <button type="button" id="btn-auto">Play it through</button>
@@ -221,13 +221,13 @@ export class LineStudy {
         `<p class="note-title">Your move: ${escapeHtml(san)}</p>
          <p>${escapeHtml(note || 'Play the move shown on the board.')}</p>
          ${legend}
-         <p class="meta">Play it on the board, or press Next.</p>`;
+         <p class="meta hint-line">Play it on the board, or press Next.</p>`;
     } else {
       this.el.teach.innerHTML =
         `<p class="note-title">They reply ${escapeHtml(san)}</p>
          ${note ? `<p>${escapeHtml(note)}</p>` : ''}
          ${legend}
-         <p class="meta">Shown in blue. Press Next to play it.</p>`;
+         <p class="meta hint-line">Shown in blue. Press Next to play it.</p>`;
     }
   }
 

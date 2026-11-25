@@ -82,7 +82,7 @@ export class GameReview {
           <div class="status" id="status" data-tone="neutral">Analysing the game…</div>
           <div id="summary"></div>
           <div class="teach" id="explain"></div>
-          <div class="actions">
+          <div class="actions nav">
             <button type="button" id="btn-first" aria-label="Start">|‹</button>
             <button type="button" id="btn-prev" aria-label="Back">‹ Back</button>
             <button type="button" class="primary" id="btn-next" aria-label="Next">Next ›</button>

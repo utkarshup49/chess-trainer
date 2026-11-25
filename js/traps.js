@@ -63,7 +63,7 @@ export class TrapTrainer {
           <h1 class="line-title" id="title"></h1>
           <div class="status" id="status" data-tone="neutral"></div>
           <div class="teach" id="note" hidden></div>
-          <div class="actions">
+          <div class="actions nav">
             <button type="button" id="btn-hint">Hint</button>
             <button type="button" id="btn-show">Show solution</button>
             <button type="button" class="primary" id="btn-next">Next puzzle</button>

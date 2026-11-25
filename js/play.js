@@ -77,7 +77,7 @@ export class BotGame {
           <div class="status" id="status" data-tone="neutral"></div>
           <div class="teach" id="coach"></div>
           <div class="actions" id="choice" hidden></div>
-          <div class="actions">
+          <div class="actions nav">
             <button type="button" id="btn-hint">Hint</button>
             <button type="button" id="btn-takeback">Take back</button>
             <button type="button" id="btn-resign">Resign</button>

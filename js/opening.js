@@ -55,7 +55,7 @@ export class OpeningTrainer {
           <h1 class="line-title" id="title"></h1>
           <div class="status" id="status" data-tone="neutral"></div>
           <p class="note" id="note" hidden></p>
-          <div class="actions">
+          <div class="actions nav">
             <button type="button" id="btn-back" title="Shortcut: left arrow">Step back</button>
             <button type="button" id="btn-hint">Hint</button>
             <button type="button" id="btn-show">Show move</button>

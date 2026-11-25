@@ -63,7 +63,7 @@ export class DueReview {
           <h1 class="line-title" id="title">Opening review</h1>
           <div class="status" id="status" data-tone="neutral"></div>
           <div class="teach" id="note" hidden></div>
-          <div class="actions">
+          <div class="actions nav">
             <button type="button" id="btn-show">Show move</button>
           </div>
           <div class="finish" id="finish" hidden></div>
