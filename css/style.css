@@ -570,3 +570,66 @@ button:disabled:hover { border-color: var(--line); }
 }
 .tools a:hover { border-color: var(--accent); }
 .tools span { font-size: 13px; color: var(--muted); }
+
+/* Phones: keep the board, the status and the main buttons together, so you
+   don't have to scroll between pressing Next and seeing the board. */
+.panel-head { display: flex; flex-wrap: wrap; gap: 6px; align-items: baseline; }
+.panel-head .crumb { text-transform: none; letter-spacing: 0; font-weight: 500; }
+@media (max-width: 899px) {
+  .wrap { padding-block-start: max(10px, env(safe-area-inset-top)); }
+  .train { gap: 10px; }
+  .panel { gap: 8px; }
+  /* Right under the board: what's happening, the explanation, the buttons. */
+  /* Buttons first, so Next stays in the same place however long the note is. */
+  .panel > .nav { order: -3; }
+  .panel > .status { order: -2; }
+  .panel > .teach, .panel > .note { order: -1; }
+  .teach .hint-line { display: none; }
+  .card { font-size: 0.95rem; }
+  .panel .line-title { font-size: 1.15rem; }
+  .panel .crumb { font-size: 0.85rem; }
+  .panel .status { padding: 8px 10px; font-size: 0.92rem; }
+  .panel .teach { padding: 10px 12px; }
+  .panel button, .panel .button { min-height: 38px; padding: 0 12px; font-size: 0.9rem; }
+  .panel .nav { gap: 6px; }
+  .panel .nav button, .panel .nav .button { flex: 1 1 auto; min-width: 44px; padding: 0 8px; }
+  .evalbar { height: 18px; margin-bottom: 6px; }
+  .engine-lines { gap: 4px; }
+  .panel .engine-line { padding: 4px 8px; font-size: 12px; min-height: 0; }
+  .moves-box .moves { max-height: 140px; overflow-y: auto; }
+}
+
+/* Cards: raised blocks that are easy to tell apart at a glance */
+.cards { display: grid; gap: 12px; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); }
+.card {
+  display: grid; gap: 8px; align-content: start; padding: 14px 16px;
+  background: var(--surface); border: 1px solid var(--line); border-radius: 14px;
+  box-shadow: 0 1px 0 rgb(0 0 0 / 0.04), 0 8px 18px -10px rgb(0 0 0 / 0.45);
+}
+.card h3 { margin: 0; font-size: 1rem; font-weight: 700; }
+.card p { margin: 0; }
+.card .actions { gap: 6px; }
+.card .actions button, .card .actions .button { min-height: 36px; padding: 0 12px; font-size: 0.88rem; }
+.card-head { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+.mono { font-family: var(--font-mono); font-size: 0.92em; }
+.chip[data-tone="bad"] { color: var(--bad); background: var(--bad-bg); }
+.game-card { border-left: 4px solid var(--line); }
+.game-card.good { border-left-color: var(--good); }
+.game-card.bad { border-left-color: var(--bad); }
+.tiles { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.tile { display: grid; gap: 2px; padding: 8px; border-radius: 10px; background: var(--bg); text-align: center; }
+.tile b { font: 800 1.4rem/1 var(--font-display); }
+.tile span { font-size: 0.75rem; color: var(--muted); line-height: 1.25; }
+.tile.bad b { color: var(--bad); }
+.tile.warn b { color: var(--warn); }
+.tile.good b { color: var(--good); }
+.engine-out:empty { display: none; }
+@media (max-width: 899px) {
+  .module { gap: 16px; }
+  .module-head { gap: 6px; }
+  .module-head h1 { font-size: 1.6rem; }
+  .module-head .lede { font-size: 0.95rem; }
+  .portal { gap: 10px; }
+  .cards { grid-template-columns: minmax(0, 1fr); gap: 10px; }
+  .card { padding: 12px 14px; }
+}
