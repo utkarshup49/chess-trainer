@@ -509,17 +509,6 @@ button:disabled:hover { border-color: var(--line); }
 .daily h2 { margin: 0; }
 .daily p { margin: 4px 0 0; }
 
-/* Board vision trainer */
-.vision-target {
-  font: 800 clamp(2.6rem, 10vw, 4rem)/1 var(--font-display, inherit); text-align: center;
-  padding: 10px 0; letter-spacing: 0.02em;
-}
-.heat { display: grid; grid-template-columns: repeat(8, 1fr); gap: 2px; max-width: 320px; }
-.hsq {
-  aspect-ratio: 1; display: grid; place-items: center; border-radius: 3px;
-  font: 600 10px var(--font-mono); color: #fff; text-shadow: 0 1px 1px rgb(0 0 0 / 0.4);
-}
-
 /* Analysis board */
 .evalbar {
   position: relative; height: 22px; margin-bottom: 8px; border-radius: 6px; overflow: hidden;
@@ -624,6 +613,93 @@ button:disabled:hover { border-color: var(--line); }
   .card { padding: 12px 14px; }
 }
 .due-card.has-due { border-left: 4px solid var(--accent); }
-@media (max-width: 899px) {
-  .panel > .vision-target { order: -4; padding: 2px 0; font-size: 2.4rem; }
+
+/* ---------- Board vision ----------
+   Its own look: a focused drill station. The board is the stage, the square
+   name sits huge on top of it, a thin clock drains above it. */
+.vt { display: grid; gap: 14px; max-width: 1100px; margin: 0 auto; }
+.vt-top { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; }
+.vt-top h1 { font-size: 1.35rem; font-weight: 800; letter-spacing: -0.01em; }
+.vt-controls { display: flex; flex-wrap: wrap; gap: 8px; justify-content: space-between; }
+.seg {
+  display: inline-flex; padding: 3px; gap: 2px; border-radius: 999px;
+  background: var(--surface); border: 1px solid var(--line);
+}
+.seg button {
+  min-height: 34px; padding: 0 14px; border: 0; border-radius: 999px;
+  background: transparent; color: var(--muted); font-weight: 600; font-size: 0.9rem;
+}
+.seg button[aria-pressed="true"] { background: var(--ink); color: var(--bg); }
+.vt-stage { display: grid; gap: 10px; width: 100%; max-width: 560px; justify-self: center; }
+.vt-timer { height: 6px; border-radius: 3px; background: var(--line); overflow: hidden; }
+.vt-timer span { display: block; height: 100%; width: 100%; background: var(--accent); transition: width 0.1s linear; }
+.vt-timer span.low { background: var(--bad); }
+.vt-board { position: relative; }
+.vt-overlay {
+  position: absolute; inset: 0; display: grid; place-content: center; justify-items: center; gap: 6px;
+  pointer-events: none; text-align: center;
+}
+.vt-coord {
+  font: 800 clamp(5rem, 30vw, 11rem)/1 var(--font-display); letter-spacing: -0.04em;
+  color: #fff; opacity: 0.9;
+  text-shadow: 0 2px 0 rgb(0 0 0 / 0.25), 0 10px 40px rgb(0 0 0 / 0.45);
+  -webkit-text-stroke: 2px rgb(40 30 20 / 0.35);
+}
+.vt-overlay.pop .vt-coord { animation: vt-pop 0.18s ease-out; }
+@keyframes vt-pop { from { transform: scale(1.18); opacity: 0.4; } to { transform: scale(1); opacity: 0.9; } }
+.vt-hint {
+  padding: 8px 14px; border-radius: 999px; font-weight: 600; font-size: 0.95rem;
+  background: rgb(20 24 22 / 0.78); color: #f3f1ea;
+}
+.vt-result { font: 800 clamp(5rem, 28vw, 10rem)/1 var(--font-display); color: #fff; text-shadow: 0 10px 40px rgb(0 0 0 / 0.5); }
+.vt-overlay.done { background: rgb(20 24 22 / 0.35); }
+cg-board square.vt-hit { background: rgb(54 160 80 / 0.8); }
+cg-board square.vt-miss { background: rgb(200 60 45 / 0.8); }
+cg-board square.vt-answer { background: rgb(230 160 30 / 0.85); box-shadow: inset 0 0 0 4px rgb(255 255 255 / 0.7); }
+cg-board square.vt-target { background: rgb(230 160 30 / 0.85); box-shadow: inset 0 0 0 4px rgb(255 255 255 / 0.6); }
+.vt-choices { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+.vt-choices button { min-height: 54px; font: 800 1.5rem var(--font-display); border-radius: 12px; }
+.vt-choices button.hit { background: var(--good-bg); color: var(--good); border-color: var(--good); }
+.vt-choices button.miss { background: var(--bad-bg); color: var(--bad); border-color: var(--bad); }
+.vt-score { display: grid; grid-template-columns: repeat(3, 1fr); text-align: center; }
+.vt-score div { display: grid; }
+.vt-score b { font: 800 1.9rem/1.1 var(--font-display); font-variant-numeric: tabular-nums; }
+.vt-score span { color: var(--muted); font-size: 0.85rem; }
+.vt-actions { display: flex; gap: 8px; }
+.vt-actions button { flex: 1; }
+.vt-map { display: grid; gap: 12px; padding: 16px; border-radius: 16px; background: var(--surface); border: 1px solid var(--line); }
+.vt-map-head { display: grid; gap: 2px; }
+.vt-map-head h2 { font-size: 1.1rem; }
+.vt-map-body { display: grid; gap: 16px; grid-template-columns: minmax(0, 1fr); }
+.heat { display: grid; grid-template-columns: repeat(8, 1fr); width: 100%; max-width: 300px; border-radius: 6px; overflow: hidden; }
+.hsq {
+  aspect-ratio: 1; display: grid; place-items: center;
+  font: 600 9px var(--font-body); color: rgb(0 0 0 / 0.35);
+}
+.hsq.light { background: #f0d9b5; }
+.hsq.dark { background: #b58863; }
+.hsq.seen { color: #fff; text-shadow: 0 1px 1px rgb(0 0 0 / 0.4); }
+.vt-facts { display: grid; gap: 10px; align-content: start; }
+.vt-facts dl { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin: 0; }
+.vt-facts dl div { display: grid; gap: 2px; }
+.vt-facts dt { color: var(--muted); font-size: 0.8rem; }
+.vt-facts dd { margin: 0; font: 700 1.25rem var(--font-display); }
+.vt-weak { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; color: var(--muted); font-size: 0.9rem; }
+.sq-chip { padding: 2px 8px; border-radius: 6px; background: var(--bad-bg); color: var(--bad); font-weight: 700; }
+.vt-rounds { display: flex; align-items: flex-end; gap: 4px; height: 70px; }
+.vt-rounds span { flex: 1; position: relative; background: var(--accent); border-radius: 4px 4px 0 0; min-width: 8px; }
+.vt-rounds i { position: absolute; top: -16px; left: 0; right: 0; text-align: center; font-style: normal; font-size: 10px; color: var(--muted); }
+@media (min-width: 900px) {
+  .vt { grid-template-columns: minmax(0, 560px) minmax(280px, 1fr); align-items: start; column-gap: 28px; }
+  .vt-top, .vt-controls { grid-column: 1 / -1; }
+  .vt-controls { justify-content: flex-start; gap: 12px; }
+  .vt-stage { grid-column: 1; }
+  .vt-map { grid-column: 2; position: sticky; top: 20px; }
+}
+@media (min-width: 560px) and (max-width: 899px) {
+  .vt-map-body { grid-template-columns: 300px minmax(0, 1fr); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .vt-overlay.pop .vt-coord { animation: none; }
+  .vt-timer span { transition: none; }
 }
