@@ -112,8 +112,12 @@ board too.
   left, they left, to the end, or not covered. Games stay in localStorage.
 - **Analysis board** (`js/analysis.js`, `#/analysis`): any page hands it moves
   through `js/handoff.js` (sessionStorage), never through the URL.
-- **Board vision** (`js/vision.js`, `#/vision`): per-square time and misses,
-  separately for White's and Black's view; weak squares are drawn more often.
+- **Board vision** (`js/vision.js`, `#/vision`): two drills (find a named
+  square, or name a lit one from four), White / Black / Random side, 30 s
+  rounds or practice. Per-square time and misses are kept per drill and side;
+  weak squares are drawn more often. It uses an empty chessground board
+  (`blockTouchScroll` so a tap counts once) and has its own page style, as a
+  trial for a future redesign of the whole site.
 - **Streak** (`js/activity.js`): call `markActive()` whenever a piece of
   training is finished.
 
