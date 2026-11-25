@@ -5,6 +5,7 @@
 // miss or are slow on come up more often, and a heat map shows where you are
 // quick and where you hesitate.
 
+import { Chessground } from 'https://cdn.jsdelivr.net/npm/chessground@9.2.1/+esm';
 import { markActive } from './activity.js';
 
 const KEY = 'chess-gym-vision-v1';
@@ -67,13 +68,15 @@ export class VisionTrainer {
 
   destroy() {
     clearInterval(this.ticker);
+    clearTimeout(this.flashTimer);
+    if (this.cg) this.cg.destroy();
   }
 
   render() {
     this.container.innerHTML = `
       <section class="train">
         <div class="board-col">
-          <div class="vision-board" id="vboard" aria-label="Chess board without coordinates"></div>
+          <div class="board-wrap" id="vboard" aria-label="Chess board without coordinates"><div class="board-surface"></div></div>
         </div>
         <aside class="panel">
           <a class="crumb" href="#/">← Home</a>
@@ -86,7 +89,7 @@ export class VisionTrainer {
           </div>
           <div class="vision-target" id="target">–</div>
           <div class="status" id="status" data-tone="neutral">Press Start for a ${ROUND_SECONDS}-second round, or Practice to go at your own pace.</div>
-          <div class="actions">
+          <div class="actions nav">
             <button type="button" class="primary" id="btn-start">Start (${ROUND_SECONDS}s)</button>
             <button type="button" id="btn-practice">Practice</button>
           </div>
@@ -101,7 +104,10 @@ export class VisionTrainer {
     $('btn-practice').onclick = () => this.start(false);
     this.container.querySelectorAll('[data-view]').forEach(b => {
       b.onclick = () => {
-        if (this.running) return;
+        if (this.running && this.timed) return;  // finish the timed round first
+        this.running = false;                    // switching ends a practice run
+        this.el.target.textContent = '–';
+        this.setStatus('Press Start for a timed round, or Practice to go at your own pace.');
         this.view = b.dataset.view;
         this.container.querySelectorAll('[data-view]').forEach(x => x.classList.toggle('on', x === b));
         this.drawBoard();
@@ -119,15 +125,31 @@ export class VisionTrainer {
     return ranks.flatMap(r => files.map(f => f + r));
   }
 
+  // The same board as everywhere else, just empty and without coordinates.
   drawBoard() {
-    this.el.board.innerHTML = this.ordered().map(sq => {
-      const dark = (FILES.indexOf(sq[0]) + Number(sq[1])) % 2 === 1 ? 'dark' : 'light'; // a1 is dark
-      return `<button type="button" class="vsq ${dark}" data-sq="${sq}" aria-label="square"></button>`;
-    }).join('');
-    this.el.board.onclick = e => {
-      const b = e.target.closest('[data-sq]');
-      if (b) this.answer(b.dataset.sq, b);
-    };
+    if (!this.cg) {
+      this.cg = Chessground(this.el.board.querySelector('.board-surface'), {
+        fen: '8/8/8/8/8/8/8/8',
+        orientation: this.view,
+        coordinates: false,
+        highlight: { lastMove: false, check: false },
+        movable: { free: false, color: undefined },
+        draggable: { enabled: false },
+        premovable: { enabled: false },
+        drawable: { enabled: false },
+        blockTouchScroll: true, // a tap counts once (no extra emulated mouse click)
+        events: { select: sq => this.answer(sq) },
+      });
+    } else {
+      this.cg.set({ orientation: this.view });
+    }
+  }
+
+  // Briefly ring a square: green for a hit, red for a miss, yellow for the answer.
+  flash(shapes, ms) {
+    this.cg.setAutoShapes(shapes);
+    clearTimeout(this.flashTimer);
+    this.flashTimer = setTimeout(() => this.cg.setAutoShapes([]), ms);
   }
 
   drawHeat() {
@@ -181,20 +203,20 @@ export class VisionTrainer {
     if (!this.timed) this.setStatus(`${this.score} found${this.missedCount ? ` · ${this.missedCount} missed` : ''}. Press Start for a timed round.`);
   }
 
-  answer(square, button) {
+  answer(square) {
     if (!this.running) return;
+    // Guard against one tap arriving twice (touch, then mouse).
+    const now = performance.now();
+    if (now - (this.lastTap || 0) < 250) return;
+    this.lastTap = now;
     const ms = Math.round(performance.now() - this.shownAt);
     const right = square === this.current;
     record(this.view, this.current, ms, !right);
     markActive();
-    button.classList.add(right ? 'hit' : 'miss');
-    setTimeout(() => button.classList.remove('hit', 'miss'), 350);
-    if (right) this.score += 1;
+    if (right) { this.score += 1; this.flash([{ orig: square, brush: 'green' }], 350); }
     else {
       this.missedCount += 1;
-      const correct = this.el.board.querySelector(`[data-sq="${this.current}"]`);
-      correct.classList.add('show');
-      setTimeout(() => correct.classList.remove('show'), 700);
+      this.flash([{ orig: square, brush: 'red' }, { orig: this.current, brush: 'yellow' }], 800);
     }
     if (!this.timed) this.drawHeat();
     this.next();
