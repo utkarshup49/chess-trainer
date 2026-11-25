@@ -51,20 +51,18 @@ export class AnalysisBoard {
           <div class="board-wrap" id="board"></div>
         </div>
         <aside class="panel">
-          <a class="crumb" href="#/">← Home</a>
-          <p class="eyebrow">Analysis board</p>
-          <h1 class="line-title">Try any moves</h1>
-          <p class="meta">Move pieces for either side. The engine's best three lines update as you go; click a line to play its first move.</p>
+          <p class="eyebrow panel-head"><a class="crumb" href="#/">← Home</a> · Analysis board</p>
+          <p class="label">Engine lines <span class="meta">(tap one to play it)</span></p>
           <ol class="engine-lines" id="lines"><li class="meta">Loading the engine…</li></ol>
-          <div class="actions">
+          <div class="actions nav">
             <button type="button" id="btn-start" aria-label="Start">|‹</button>
-            <button type="button" id="btn-prev">‹ Back</button>
-            <button type="button" id="btn-next">Next ›</button>
+            <button type="button" id="btn-prev" aria-label="Back">‹</button>
+            <button type="button" class="primary" id="btn-next" aria-label="Next">›</button>
             <button type="button" id="btn-end" aria-label="End">›|</button>
             <button type="button" id="btn-flip">Flip</button>
           </div>
           <div class="moves-box">
-            <p class="label">Moves: click to jump</p>
+            <p class="label">Moves</p>
             <ol class="moves study-moves" id="moves"></ol>
           </div>
           <details class="line-picker">
