@@ -297,6 +297,43 @@ function reviewBlock(m) {
       </section>`;
 }
 
+// ---------- Daily review: choose an opening, or all ----------
+async function renderDuePicker() {
+  const openings = (await loadModules()).filter(m => m.type === 'opening');
+  openings.forEach(m => adoptExisting(m, getModuleProgress(m.id)));
+  const rows = openings.map(m => ({ m, s: srsSummary(m.id) }));
+  const totalDue = rows.reduce((n, r) => n + r.s.due, 0);
+  const day = d => new Date(d + 'T00:00').toLocaleDateString(undefined, { weekday: 'short', day: 'numeric', month: 'short' });
+  const cards = rows.map(({ m, s }) => {
+    const side = [...new Set(m.lines.map(l => l.side))].map(x => (x === 'white' ? 'White' : 'Black')).join(' & ');
+    const status = !s.cards ? 'Not started: learn or test a line first.'
+      : s.due ? `${s.cards} moves in your reviews` : `Nothing due. Next on ${day(s.next)}.`;
+    const action = s.due
+      ? `<a class="button primary" href="#/due/${m.id}">Review ${s.due}</a>`
+      : `<a class="button" href="#/m/${m.id}">Open</a>`;
+    return `
+      <article class="card due-card${s.due ? ' has-due' : ''}">
+        <div class="card-head">
+          <h3>${escapeHtml(m.title)} <span class="meta">· ${side}</span></h3>
+          <span class="chip" data-tone="${s.due ? 'warn' : 'idle'}">${s.due ? `${s.due} due` : s.cards ? 'up to date' : 'not started'}</span>
+        </div>
+        <p class="meta">${status}</p>
+        <div class="actions">${action}</div>
+      </article>`;
+  }).join('');
+  app.innerHTML = `
+    <section class="module">
+      <a class="crumb" href="#/">← Home</a>
+      <header class="module-head">
+        <p class="eyebrow">Daily review</p>
+        <h1>Which opening?</h1>
+        <p class="lede">${totalDue ? `${totalDue} moves due across your openings. Review one opening, or all of them together.` : 'Nothing is due today. Moves come back here when they are due.'}</p>
+      </header>
+      ${totalDue ? `<div class="actions"><a class="button primary" href="#/due/all">Review all ${totalDue}</a></div>` : ''}
+      <div class="cards">${cards}</div>
+    </section>`;
+}
+
 // ---------- Endgame module ----------
 function endgameBody(m, progress) {
   const cards = m.drills.map(d => {
@@ -583,10 +620,11 @@ async function route() {
       const { VisionTrainer } = await import('./vision.js');
       active = new VisionTrainer(app);
     }
-    else if (parts[0] === 'due' && parts.length <= 2) {
+    else if (parts[0] === 'due' && parts.length === 1) await renderDuePicker();
+    else if (parts[0] === 'due' && parts.length === 2) {
       const { DueReview } = await import('./due.js');
       const openings = (await loadModules()).filter(m => m.type === 'opening');
-      active = new DueReview(app, openings, { moduleId: parts[1] });
+      active = new DueReview(app, openings, { moduleId: parts[1] === 'all' ? null : parts[1] });
     }
     else if (parts[0] === 'play' && parts.length === 1) await renderPlayHome();
     else if (parts[0] === 'play' && (parts.length === 4 || parts.length === 5)) await renderGame(parts[1], parts[2], parts[3], parts[4]);

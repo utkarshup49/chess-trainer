@@ -633,3 +633,4 @@ button:disabled:hover { border-color: var(--line); }
   .cards { grid-template-columns: minmax(0, 1fr); gap: 10px; }
   .card { padding: 12px 14px; }
 }
+.due-card.has-due { border-left: 4px solid var(--accent); }
